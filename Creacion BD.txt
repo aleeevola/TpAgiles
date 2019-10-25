@@ -1,0 +1,30 @@
+
+CREATE TABLE UsuarioAdministrador(
+    usuario varchar(30) NOT NULL,
+    PRIMARY KEY (usuario)
+);
+
+
+CREATE TABLE Licencia(
+    id int NOT NULL,
+    clase int NOT NULL,
+    fecha_de_vencimiento date,
+    numero_de_copias date,
+
+    PRIMARY KEY (id),
+    FOREIGN KEY (emitidoPor) references UsuarioAdministrador(usuario)
+);
+
+CREATE TABLE Titular(
+    id int NOT NULL,
+    dni int NOT NULL,
+    apellido varchar(30) NOT NULL,
+    nombre  varchar(30) NOT NULL,
+    fecha_de_nacimiento date,
+    direccion varchar(40),
+    sangre varchar(2),
+    idFactorRH int,
+    donante_de_organos boolean,
+    PRIMARY KEY (id, dni),
+    FOREIGN KEY (id_licencia) references Licencia(id)
+);
