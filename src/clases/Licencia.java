@@ -30,6 +30,12 @@ public class Licencia {
 	@Column(name = "clase")
 	private Clase clase;
 	
+	//JOSE
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "emitidoPor")
+	private UsuarioAdministrador emitidoPor;
+	
+	//ALE
 	//@OneToOne(cascade = CascadeType.ALL)
 	//@JoinColumn(name="emitidoPor")
 	//private UsuarioAdministrador emitidoPor;
