@@ -6,25 +6,29 @@ CREATE TABLE UsuarioAdministrador(
 
 
 CREATE TABLE Licencia(
-    id int NOT NULL,
-    clase int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
+    clase varchar(1) NOT NULL,
     fecha_de_vencimiento date,
-    numero_de_copias date,
+    numero_de_copias int,
+    
+    titular_id int DEFAULT NULL,
+    emitidoPor varchar(30) DEFAULT NULL,
+
 
     PRIMARY KEY (id),
-    FOREIGN KEY (emitidoPor) references UsuarioAdministrador(usuario)
+    FOREIGN KEY (emitidoPor) REFERENCES UsuarioAdministrador(usuario),
+    FOREIGN KEY (titular_id) REFERENCES Titular(id)
 );
 
 CREATE TABLE Titular(
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     dni int NOT NULL,
     apellido varchar(30) NOT NULL,
     nombre  varchar(30) NOT NULL,
     fecha_de_nacimiento date,
     direccion varchar(40),
-    sangre varchar(2),
-    idFactorRH int,
+    sangre varchar(15),
     donante_de_organos boolean,
-    PRIMARY KEY (id, dni),
-    FOREIGN KEY (id_licencia) references Licencia(id)
+
+    PRIMARY KEY (id, dni)
 );
