@@ -35,8 +35,8 @@ public class Titular {
 	private Date fecha_de_nacimiento;
 	@Column(name = "direccion")
 	private String direccion;
-	@Column(name = "dondante_de_organos")
-	private Boolean dondante_de_organos;
+	@Column(name = "donante_de_organos")
+	private Boolean donante_de_organos;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "sangre")
@@ -45,8 +45,8 @@ public class Titular {
 	
 	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
 	@Fetch(value = FetchMode.SUBSELECT)
-	@JoinColumn(name = "id_licencia")
-	private List<Licencia> licencias=new ArrayList();
+	@JoinColumn(name = "titular_id")
+	private List<Licencia> licencias=new ArrayList<>();
 
 
 	public int getId() {
@@ -109,13 +109,13 @@ public class Titular {
 	}
 
 
-	public Boolean getDondante_de_organos() {
-		return dondante_de_organos;
+	public Boolean getDonante_de_organos() {
+		return donante_de_organos;
 	}
 
 
-	public void setDondante_de_organos(Boolean dondante_de_organos) {
-		this.dondante_de_organos = dondante_de_organos;
+	public void setDonante_de_organos(Boolean dondante_de_organos) {
+		this.donante_de_organos = dondante_de_organos;
 	}
 
 
@@ -136,6 +136,11 @@ public class Titular {
 
 	public void setLicencias(List<Licencia> licencias) {
 		this.licencias = licencias;
+	}
+	
+	public void addLicencia(Licencia licencia) {
+		this.licencias.add(licencia);
+		System.out.println("agregada");
 	}
 	
 }

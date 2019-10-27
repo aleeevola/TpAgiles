@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -20,37 +22,30 @@ public class test {
 		GestorBaseDeDatos bd=new GestorBaseDeDatos();
 		
 		Titular t=new Titular();
-		t.setApellido("carcox");
-		t.setDireccion("aaa");
-		t.setDni(45515);
-		t.setDondante_de_organos(false);
+		t.setApellido("Raviolo");
+		t.setDireccion("SANTOKIO");
+		t.setDni(40450769);
+		t.setDonante_de_organos(true);
 		
-		Date fn=new Date();
-		fn.setYear(1997);
-		fn.setMonth(6);
-		fn.setDate(7);
-		
+		Date fn = new GregorianCalendar(1997, Calendar.FEBRUARY, 3).getTime();
+				
 		t.setFecha_de_nacimiento(fn);
-		t.setNombre("Bruno");
+		t.setNombre("Josefina");
 		t.setSangre(Grupo_sanguineo.A_NEGATIVO);
 		
+		UsuarioAdministrador u=new UsuarioAdministrador();
+		u.setUsuario("aleeevola");
+		//ATENCION    ahre
+		//Si el usuario no esta cargado en la BD antes hay que agregarlo con el comando de abajo
+		//int oo=bd.guardarUsuarioAdministrador(u);
 		
 		Licencia l1 = new Licencia();
-		l1.setClase(Clase.A);
+		l1.setClase(Clase.D);
 		l1.setFecha_de_vencimiento(fn);
-		l1.setNumero_de_copias(0);
+		l1.setNumero_de_copias(3);
+		l1.setEmitidoPor(u);
 		
-		Licencia l2 = new Licencia();
-		l2.setClase(Clase.F);
-		l2.setFecha_de_vencimiento(fn);
-		l2.setNumero_de_copias(3);
-		
-		
-		List<Licencia> lista=new ArrayList();
-		lista.add(l2);
-		lista.add(l1);
-		t.setLicencias(lista);
-		
+		t.addLicencia(l1);
 		
 		int o=bd.guardarTitular(t);
 	}

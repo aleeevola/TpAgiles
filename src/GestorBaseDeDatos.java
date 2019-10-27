@@ -83,4 +83,24 @@ public class GestorBaseDeDatos {
 
 		return idt;
 	}
+	
+	public int guardarUsuarioAdministrador(UsuarioAdministrador t) {
+		// crear factory
+
+		SessionFactory sf = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(UsuarioAdministrador.class).buildSessionFactory();
+		// crear sesión
+		Session session = sf.openSession();
+
+		// usar el objeto session
+
+		session.beginTransaction();
+
+		session.save(t);
+
+		session.getTransaction().commit();
+		session.close();
+		sf.close();
+
+		return 1;
+	}
 }

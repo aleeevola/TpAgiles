@@ -19,7 +19,7 @@ import javax.persistence.OneToOne;
 public class Licencia {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_licencia")
+	@Column(name = "id")
 	private int id;
 	@Column(name = "fecha_de_vencimiento")
 	private Date fecha_de_vencimiento;
@@ -72,13 +72,13 @@ public class Licencia {
 		this.clase = clase;
 	}
 
-	/*public UsuarioAdministrador getEmitidoPor() {
+	public UsuarioAdministrador getEmitidoPor() {
 		return emitidoPor;
 	}
 
 	public void setEmitidoPor(UsuarioAdministrador emitidoPor) {
 		this.emitidoPor = emitidoPor;
-	}*/
+	}
 	
 	
 }
