@@ -22,16 +22,15 @@ public class test {
 		GestorBaseDeDatos bd=new GestorBaseDeDatos();
 		
 		Titular t=new Titular();
-		t.setApellido("Raviolo");
-		t.setDireccion("SANTOKIO");
+		t.setApellido("Vola");
+		t.setNombre("Alejandro");
+		t.setDireccion("Norte");
 		t.setDni(40450769);
+		t.setSangre(Grupo_sanguineo.A_NEGATIVO);
 		t.setDonante_de_organos(true);
 		
-		Date fn = new GregorianCalendar(1997, Calendar.FEBRUARY, 3).getTime();
-				
+		Date fn = new GregorianCalendar(1997, Calendar.FEBRUARY, 3).getTime();	
 		t.setFecha_de_nacimiento(fn);
-		t.setNombre("Josefina");
-		t.setSangre(Grupo_sanguineo.A_NEGATIVO);
 		
 		UsuarioAdministrador u=new UsuarioAdministrador();
 		u.setUsuario("aleeevola");
@@ -47,7 +46,7 @@ public class test {
 		
 		t.addLicencia(l1);
 		
-		int o=bd.guardarTitular(t);
+		//int o=bd.guardarTitular(t);
 	}
 
 }

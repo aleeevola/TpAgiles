@@ -8,7 +8,7 @@
 
         <!-- JDBC Database connection settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://127.0.0.1:3306/licencias</property>
+        <property name="connection.url">jdbc:mysql://127.0.0.1:3306/registrocivil</property>
         <property name="connection.username">root</property>
         <property name="connection.password">root</property>
 
@@ -25,10 +25,9 @@
 		<!-- Set the current session context -->
 		<property name="current_session_context_class">thread</property>
 		
-			
- 		<mapping class="clases.Titular"/>
- 		<mapping class="clases.Licencia"/>
- 		<mapping class="clases.UsuarioAdministrador"/>
+		
+ 		<mapping class="clases.Persona"/>
+ 
  		
     </session-factory>	
 

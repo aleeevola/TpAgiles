@@ -32,3 +32,15 @@ CREATE TABLE Titular(
 
     PRIMARY KEY (id, dni)
 );
+
+
+CREATE TABLE Personas(
+    id int NOT NULL AUTO_INCREMENT,
+    dni int NOT NULL,
+    apellido varchar(30) NOT NULL,
+    nombre  varchar(30) NOT NULL,
+    fecha_de_nacimiento date,
+    direccion varchar(40),
+
+    PRIMARY KEY (id, dni)
+);
