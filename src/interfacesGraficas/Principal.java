@@ -27,6 +27,7 @@ public class Principal {
 
 		PanelInicio inicio = new PanelInicio();
 		//PanelTareas tareas = new PanelTareas();
+		//PanelEmitirLicencia nueva = new PanelEmitirLicencia();
 		frame.setContentPane(inicio);
 
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
