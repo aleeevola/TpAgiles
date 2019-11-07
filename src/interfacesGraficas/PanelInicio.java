@@ -9,18 +9,20 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 public class PanelInicio extends JPanel {
 
 	private JLabel lblNombre;
 	private JLabel lblTitulo;
-	private JLabel lblNro;
+	private JLabel lblUsuario;
 	private JLabel lblPass;
-	private JTextField txtNro;
+	private JTextField txtUsuario;
 	private JPasswordField txtPass;
 	private JButton btnIniciar;
 	private JButton btnSalir;
@@ -48,14 +50,14 @@ public class PanelInicio extends JPanel {
 		gridConst.insets = new Insets(0, 5, 15, 5);
 		this.add(lblTitulo, gridConst);
 		
-		lblNro = new JLabel("Usuario");
+		lblUsuario = new JLabel("Usuario");
 		gridConst.gridy = 3;
-		this.add(lblNro, gridConst);
+		this.add(lblUsuario, gridConst);
 		
-		txtNro = new JTextField("");
-		txtNro.setColumns(10);
+		txtUsuario = new JTextField("");
+		txtUsuario.setColumns(10);
 		gridConst.gridy = 4;
-		this.add(txtNro, gridConst);
+		this.add(txtUsuario, gridConst);
 		
 		lblPass = new JLabel("Contraseña");
 		gridConst.gridy = 5;
@@ -69,22 +71,15 @@ public class PanelInicio extends JPanel {
 		btnIniciar = new JButton("Iniciar");
 		btnIniciar.setPreferredSize(new Dimension(70, 25));
 		btnIniciar.addActionListener(e -> {
-			
-			//Integer nroLegajo = Integer.valueOf(txtNro.getText());
-			//String password = String.valueOf(txtPass.getPassword());
-
-			
+			iniciarSesion();
 		});
 		gridConst.gridy = 7;
 		this.add(btnIniciar, gridConst);
 		
-		txtNro.addKeyListener(new KeyAdapter() {
+		txtUsuario.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                	
-                	//Integer nroLegajo = Integer.valueOf(txtNro.getText());
-        			//String password = String.valueOf(txtPass.getPassword());
-        			
+                	iniciarSesion();
                     e.consume();
                 }
             }
@@ -93,10 +88,7 @@ public class PanelInicio extends JPanel {
 		txtPass.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                	
-                	//Integer nroLegajo = Integer.valueOf(txtNro.getText());
-        			//String password = String.valueOf(txtPass.getPassword());
-        			
+                	iniciarSesion();
                     e.consume();
                 }
             }
@@ -105,10 +97,7 @@ public class PanelInicio extends JPanel {
 		btnIniciar.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                	
-                	//Integer nroLegajo = Integer.valueOf(txtNro.getText());
-        			//String password = String.valueOf(txtPass.getPassword());
-
+                	iniciarSesion();
                     e.consume();
                 }
             }
@@ -119,6 +108,19 @@ public class PanelInicio extends JPanel {
 		gridConst.gridy = 8;
 		btnSalir.addActionListener(e->System.exit(99));
 		this.add(btnSalir, gridConst);
+		
+	}
+	
+	public void iniciarSesion() {
+		
+		JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
+		this.setVisible(false);
+		
+		String usuario = String.valueOf(txtUsuario.getText());
+		String pass = String.valueOf(txtPass.getPassword());
+		
+		PanelTareas tareas = new PanelTareas();
+		frame.setContentPane(tareas);
 		
 	}
 }
