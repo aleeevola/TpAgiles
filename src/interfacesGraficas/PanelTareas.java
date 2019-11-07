@@ -1,15 +1,17 @@
 package interfacesGraficas;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 public class PanelTareas extends JPanel {
 	
@@ -47,6 +49,21 @@ public class PanelTareas extends JPanel {
 		gridConst.gridy = 1;
 		gridConst.insets = new Insets(0, 5, 15, 0);
 		this.add(btnNuevaLicencia, gridConst);
+		
+		btnNuevaLicencia.addActionListener(e -> {
+			
+			PanelEmitirLicencia panelEmitir = new PanelEmitirLicencia();
+			
+			JFrame newFrame = new JFrame();
+			newFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+			newFrame.setVisible(true);
+			newFrame.setSize(800, 800);
+			newFrame.setContentPane(panelEmitir);
+			
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+	        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
+	        
+		});
 		
 		btnRenovarLicencia = new JButton();
 		btnRenovarLicencia.setIcon(new ImageIcon("imagenes/btnRenovarLicencia.png"));

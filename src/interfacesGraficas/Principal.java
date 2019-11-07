@@ -23,7 +23,6 @@ public class Principal {
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setSize(800, 800);
-		frame.setTitle("Inicio de Sesión");
 
 		PanelInicio inicio = new PanelInicio();
 		//PanelTareas tareas = new PanelTareas();
