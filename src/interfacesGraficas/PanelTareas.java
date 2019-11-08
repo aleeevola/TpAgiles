@@ -57,7 +57,7 @@ public class PanelTareas extends JPanel {
 			JFrame newFrame = new JFrame();
 			newFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			newFrame.setVisible(true);
-			newFrame.setSize(800, 800);
+			newFrame.setSize(800, 900);
 			newFrame.setContentPane(panelEmitir);
 			
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
