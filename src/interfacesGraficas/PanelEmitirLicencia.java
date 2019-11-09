@@ -121,14 +121,25 @@ public class PanelEmitirLicencia extends JPanel {
 	
 //	Obtiene el parámetro de búsqueda, realiza la busqueda a traves del gestor de BD y por último actualiza la tabla
 	public void buscarContribuyentes() {
-		try {
+
+		//Validación para que el texto ingresado no sea vacío. Lo pongo acá por ahora, creo que hay que moverlo para que no esté en la interfaz. -- Facu
+		
+		if (this.txtDNI.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Ingrese algún DNI.", "Error", JOptionPane.OK_OPTION);
+			return;
+		}
+				
+		else try {
+			
 			int dni = Integer.valueOf(this.txtDNI.getText());
+			
 			List<Persona> resultados = gestorBD.getPersonas(dni);
 			this.setResultadoBusqueda(resultados, true);
-		}
+			}
+		
 		catch(Exception ex) {
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, "No se encontraron resultados", "Error", JOptionPane.OK_OPTION);
+			}
 		}
 	}
-}

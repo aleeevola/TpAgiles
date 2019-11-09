@@ -27,7 +27,8 @@ public class Principal {
 		PanelInicio inicio = new PanelInicio();
 		//PanelTareas tareas = new PanelTareas();
 		//PanelEmitirLicencia nueva = new PanelEmitirLicencia();
-		frame.setContentPane(inicio);
+		PanelDarAltaTitular altaTitular = new PanelDarAltaTitular();
+		frame.setContentPane(altaTitular);
 
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(dim.width/2- frame.getSize().width/2, dim.height/2- frame.getSize().height/2);
