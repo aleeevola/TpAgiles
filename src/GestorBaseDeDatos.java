@@ -148,4 +148,31 @@ public class GestorBaseDeDatos {
 		return (ArrayList<Persona>) personas;
 		
 		}
+	
+	public ArrayList<Titular> getTitular(int dni,String apellido, String nombre) {
+
+		// crear objeto factory
+		SessionFactory factory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Titular.class)
+				.buildSessionFactory();
+
+		// crear sesión
+
+		Session session = factory.getCurrentSession();
+
+		// usar el objeto session
+		session.beginTransaction();
+		
+		Query q = session.createQuery("select t from Titular t where t.dni = :dni t.apellido = :apellido t.nombre = :nombre");
+		q.setParameter("dni", dni);
+		q.setParameter("apellido", apellido);
+		q.setParameter("nombre", nombre);
+		List<Titular> titulares = q.list();
+		
+		session.getTransaction().commit();
+		session.close();
+
+		factory.close();
+		return (ArrayList<Titular>) titulares;
+		
+		}
 }
