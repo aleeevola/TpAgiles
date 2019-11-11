@@ -1,4 +1,5 @@
 package auxiliares;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -11,7 +12,7 @@ public class TablaContribuyentes extends AbstractTableModel{
 //	Los contribuyentes provienen de la base de datos externa al sistema y se representan como "Personas".
 	
 	
-	private List<Persona> contribuyentes;
+	private List<Persona> contribuyentes=new ArrayList();
 	private String[] columnas = {"DNI", "Nombre", "Apellido", "Fecha de Nacimiento", "Domicilio"};
 	
 //	Getters y Setters

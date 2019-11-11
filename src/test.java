@@ -1,13 +1,7 @@
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
+import auxiliares.GestorBaseDeDatos;
 import clases.Clase;
 import clases.Grupo_sanguineo;
 import clases.Licencia;

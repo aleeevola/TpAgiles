@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import auxiliares.GestorBaseDeDatos;
 import clases.Persona;
 
 public class testListarPersonas {

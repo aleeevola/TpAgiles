@@ -31,7 +31,7 @@ public class PanelEmitirLicencia extends JPanel {
 	private JTextField txtDNI;
 	private JButton btnBuscar;
 	private JTable tabla;
-	private TablaContribuyentes tablaContribuyentes;
+	private TablaContribuyentes tablaContribuyentes= new TablaContribuyentes();
 	private JLabel lblClase;
 	private JComboBox cmbClase;
 	private JButton btnSiguiente;
@@ -107,10 +107,17 @@ public class PanelEmitirLicencia extends JPanel {
 		gridConst.gridy = 5;
 		gridConst.gridx = 2;
 		gridConst.gridwidth = 1;
+		btnSiguiente.addActionListener(e -> {
+			this.emitirLicencia();
+		});
 		this.add(btnSiguiente, gridConst);		
 		
 	}
 	
+private void emitirLicencia() {
+		
+	}
+
 //	Setea el resultado de la búsqueda en la tabla
 	public void setResultadoBusqueda(List<Persona> listaResultado, boolean actualizar) {
 		this.tablaContribuyentes.setContribuyentes(listaResultado);

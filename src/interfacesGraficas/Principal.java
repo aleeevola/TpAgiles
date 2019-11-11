@@ -24,11 +24,11 @@ public class Principal {
 		frame.setVisible(true);
 		frame.setSize(800, 800);
 
-		PanelInicio inicio = new PanelInicio();
+		//PanelInicio inicio = new PanelInicio();
 		//PanelTareas tareas = new PanelTareas();
-		//PanelEmitirLicencia nueva = new PanelEmitirLicencia();
-		PanelDarAltaTitular altaTitular = new PanelDarAltaTitular();
-		frame.setContentPane(altaTitular);
+		PanelEmitirLicencia nueva = new PanelEmitirLicencia();
+		//PanelDarAltaTitular altaTitular = new PanelDarAltaTitular();
+		frame.setContentPane(nueva);
 
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(dim.width/2- frame.getSize().width/2, dim.height/2- frame.getSize().height/2);

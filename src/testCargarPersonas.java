@@ -2,6 +2,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import auxiliares.GestorBaseDeDatos;
 import clases.Persona;
 
 public class testCargarPersonas {
