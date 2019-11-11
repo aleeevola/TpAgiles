@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import auxiliares.GestorBaseDeDatos;
+import auxiliares.GestorDeLicencia;
 import auxiliares.TablaContribuyentes;
 import clases.Clase;
 import clases.Persona;
@@ -36,11 +39,14 @@ public class PanelEmitirLicencia extends JPanel {
 	private JComboBox cmbClase;
 	private JButton btnSiguiente;
 	private GestorBaseDeDatos gestorBD;
+	private GestorDeLicencia gestorLicencia;
+	private int seleccion = -1;
 
 	public PanelEmitirLicencia() {
 		this.setLayout(new GridBagLayout());
 		this.construir();
 		this.gestorBD = new GestorBaseDeDatos();
+		this.gestorLicencia = new GestorDeLicencia();
 	}
 
 	private void construir() {
@@ -89,7 +95,20 @@ public class PanelEmitirLicencia extends JPanel {
 		tabla.setRowSelectionAllowed(true);
 		tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scrollPane = new JScrollPane(tabla);
+		
+
 		this.add(scrollPane, gridConst);
+		
+		
+		tabla.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				int r = tabla.rowAtPoint(e.getPoint());
+				seleccion = r;
+
+			}
+
+		});
 		
 		lblClase = new JLabel("Clase:");
 		gridConst.gridy = 4;
@@ -115,7 +134,17 @@ public class PanelEmitirLicencia extends JPanel {
 	}
 	
 private void emitirLicencia() {
+	try {
 		
+	Persona persona = tablaContribuyentes.getContribuyentes().get(seleccion);
+	gestorLicencia.emitirLicencia((Clase)cmbClase.getSelectedItem(), persona.getDni(), persona.getFecha_de_nacimiento(), persona.getNombre(), persona.getApellido());
+	
+	}catch(Exception ex){
+		ex.printStackTrace();
+		JOptionPane.showMessageDialog(null, "No se selecciono ninguna persona", "Error", JOptionPane.OK_OPTION);
+	};
+	
+	
 	}
 
 //	Setea el resultado de la búsqueda en la tabla
