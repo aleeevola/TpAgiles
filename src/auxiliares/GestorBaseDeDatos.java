@@ -81,6 +81,26 @@ public class GestorBaseDeDatos {
 		return idt;
 	}
 	
+	public void updateTitular(Titular t) {
+		// crear factory
+
+		SessionFactory sf = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Titular.class).buildSessionFactory();
+		// crear sesión
+		Session session = sf.openSession();
+
+		// usar el objeto session
+
+		session.beginTransaction();
+
+		session.update(t);
+
+		session.getTransaction().commit();
+		session.close();
+		sf.close();
+
+	}
+	
+	
 	public int guardarUsuarioAdministrador(UsuarioAdministrador t) {
 		// crear factory
 
@@ -157,7 +177,8 @@ public class GestorBaseDeDatos {
 		// usar el objeto session
 		session.beginTransaction();
 		
-		Query q = session.createQuery("select t from Titular t where t.dni = :dni t.apellido = :apellido t.nombre = :nombre");
+		Query q = session.createQuery("select t from Titular t where t.dni = :dni and t.apellido = :apellido and t.nombre = :nombre");
+		//t.apellido = :apellido t.nombre = :nombre
 		q.setParameter("dni", dni);
 		q.setParameter("apellido", apellido);
 		q.setParameter("nombre", nombre);

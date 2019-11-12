@@ -43,7 +43,7 @@ public class Titular {
 	private Grupo_sanguineo sangre;
 	
 	
-	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@Fetch(value = FetchMode.SUBSELECT)
 	@JoinColumn(name = "titular_id")
 	private List<Licencia> licencias=new ArrayList<>();

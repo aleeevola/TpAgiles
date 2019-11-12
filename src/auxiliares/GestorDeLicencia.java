@@ -25,14 +25,16 @@ public class GestorDeLicencia {
 		
 		if (edad>=17) {
 		
+		
 		ArrayList<Titular> titulares=bd.getTitular(dni, apellido, nombre);
+		
 		Date fecha_de_vencimiento = new Date();
 		
 		if(titulares.isEmpty()) {
 			System.out.println("No existe");
 			
 			if(clase==Clase.A || clase==Clase.B || clase==Clase.G) {
-					fecha_de_vencimiento=this.calcularVigencia(fecha_de_nacimiento, null);
+					fecha_de_vencimiento=this.calcularVigencia(fecha_de_nacimiento, 0);
 					
 					Licencia licencia = new Licencia();
 					licencia.setClase(clase);
@@ -48,13 +50,20 @@ public class GestorDeLicencia {
 			
 		}
 		else {
+			
+			/*
+			 * falta esto
+			 * En caso de existir, se debe verificar que el tipo de licencia seleccionada 
+			 * sea válida para el mismo, teniendo en cuenta la edad (21 años < Clase C, D y E < 65 años;
+			 *  Clases restantes > 17 años) y licencias anteriores 
+			 *  (Clase C, D y E: tener licencia clase B de al menos 1 año). */
 			if((clase==Clase.C || clase==Clase.D || clase==Clase.E) && 16<edad && edad<66) {
 				
 			}
 			System.out.println("existe");
 			Titular titular=titulares.get(0);
-			
-			fecha_de_vencimiento=this.calcularVigencia(fecha_de_nacimiento, (ArrayList<Licencia>) titular.getLicencias());
+		
+			fecha_de_vencimiento=this.calcularVigencia(fecha_de_nacimiento, titular.getLicencias().size());
 			
 			Licencia licencia = new Licencia();
 			licencia.setClase(clase);
@@ -63,14 +72,14 @@ public class GestorDeLicencia {
 			
 			titular.addLicencia(licencia);
 			
-			bd.guardarTitular(titular);
+			bd.updateTitular(titular);
 			
 		}
 		} else return false;
 		return null;
 	}
 
-	public Date calcularVigencia(Date fechaNacimiento, ArrayList<Licencia> historialLicencias) {
+	public Date calcularVigencia(Date fechaNacimiento, int cantLicencias) {
 
 		Date fechaVencimiento;
 		GregorianCalendar fechaNacimientoCalendar = new GregorianCalendar();
@@ -81,7 +90,7 @@ public class GestorDeLicencia {
 		Integer edad = _calcularEdad(fechaNacimientoCalendar);
 
 		if (edad < 21) {
-			if (historialLicencias.isEmpty()) {
+			if (cantLicencias==0) {
 				/*
 				 * Menores de 21 años: si obtienen por primera vez, vigencia 1 año.
 				 */
