@@ -5,9 +5,14 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
 import clases.Clase;
 import clases.Licencia;
 import clases.Titular;
+import interfacesGraficas.PanelDarAltaTitular;
+import interfacesGraficas.PanelEmitirLicencia;
 
 public class GestorDeLicencia {
 
@@ -47,6 +52,13 @@ public class GestorDeLicencia {
 					/*
 					 * Aca debe llamar a H009-T01  para crear un titular y pasarle la licencia
 					 */
+					Titular titular = darDeAltaTitular(clase,dni,fecha_de_nacimiento,nombre,apellido);
+					/*
+					 * El metodo anterior debe devolver un objeto titular y 
+					 * aca abajo asignarle la licencia y guardarlo*/
+					titular.addLicencia(licencia);
+					bd.guardarTitular(titular);
+					
 					return true;
 			} else { 
 				/* No existe el titular en la base de datos, por lo que si solicitó licencia C/D/E no cumple el requisito "tener una licencia clase B de al menos un año" */
@@ -106,6 +118,25 @@ public class GestorDeLicencia {
 			return false;
 			//IMPRIMIR MENSAJE DE ERROR
 			}
+	}
+	
+	public Titular darDeAltaTitular(Clase clase,int dni, Date fecha_de_nacimiento, String nombre, String apellido) {
+		/*
+		 * Este metodo crea el panel de dar de alta el titular 
+		 * y debe devolver un objeto titular
+		 * Pero creo que solo se puede con JDialog
+		 */
+		
+		JFrame frame = new JFrame();
+
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		frame.setSize(800, 800);
+
+		
+		//PanelDarAltaTitular altaTitular = new PanelDarAltaTitular(clase,dni, fecha_de_nacimiento, nombre, apellido);
+		//frame.setContentPane(altaTitular);
+		return null;
 	}
 
 	public boolean _licenciaB1año(List<Licencia> licencias) {

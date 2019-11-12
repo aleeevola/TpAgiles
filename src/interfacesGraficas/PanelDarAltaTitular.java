@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -24,6 +25,7 @@ import auxiliares.TablaContribuyentes;
 import clases.Clase;
 import clases.Grupo_sanguineo;
 import clases.Persona;
+import clases.Titular;
 
 
 public class PanelDarAltaTitular extends JPanel {
@@ -53,10 +55,51 @@ public class PanelDarAltaTitular extends JPanel {
 	
 	private GestorBaseDeDatos gestorBD;
 	
+	private int dni;
+	private Date fdn;
+	private Titular titular;
+	
 	public PanelDarAltaTitular() {
 		this.setLayout(new GridBagLayout());
 		this.construir();
 		this.gestorBD = new GestorBaseDeDatos();
+	}
+	
+	public Titular PanelDarAltaTitular(Clase clase,int dni, Date fecha_de_nacimiento, String nombre, String apellido) {
+		this.setLayout(new GridBagLayout());
+		this.construir();
+		
+		this.dni=dni;
+		this.fdn=fecha_de_nacimiento;
+		
+		
+		this.txtNombreTitular.setText(nombre);
+		this.txtNombreTitular.setEnabled(false);
+		
+		this.txtApellido.setText(apellido);
+		this.txtApellido.setEnabled(false);
+		
+		this.txtDNI.setText(String.valueOf(dni));
+		this.txtDNI.setEnabled(false);
+		
+		//FALTA DARLE FORMATO
+		this.lblNacimiento.setText("Fecha de Nacimiento:"+fecha_de_nacimiento.toString());
+		
+		
+		this.cmbClase.setSelectedItem(clase);
+		this.cmbClase.setEditable(false);
+		
+		btnSiguiente.addActionListener(e -> {
+			/*
+			 * Cuando apreta el boton siguiente debe cerrarse y devolver el objeto titular
+			 * */
+			
+			this.titular=this._altaTitular();
+				
+			this.setVisible(false);
+		});
+		
+		return titular;
 	}
 	
 	private void construir() {
@@ -178,6 +221,21 @@ public class PanelDarAltaTitular extends JPanel {
 		gridConst.gridwidth = 1;
 		this.add(btnSiguiente, gridConst);		
 		
+	}
+	
+	public Titular _altaTitular() {
+		/*
+		 * Crea el objeto titular con los datos de la pantalla*/
+		
+		Titular titular =new Titular();
+		titular.setApellido(txtApellido.getText());
+		titular.setNombre(txtNombreTitular.getText());
+		titular.setDni(this.dni); 
+		titular.setFecha_de_nacimiento(fdn);
+		titular.setDonante_de_organos(chkDonante.isSelected());
+		titular.setSangre((Grupo_sanguineo) cmbGrupoSanguineo.getSelectedItem());
+		
+		return titular;
 	}
 	
 }

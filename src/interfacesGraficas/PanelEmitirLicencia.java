@@ -135,9 +135,15 @@ public class PanelEmitirLicencia extends JPanel {
 	
 private void emitirLicencia() {
 	try {
-		
+	Boolean seEmitioLaLicencia;
 	Persona persona = tablaContribuyentes.getContribuyentes().get(seleccion);
-	gestorLicencia.emitirLicencia((Clase)cmbClase.getSelectedItem(), persona.getDni(), persona.getFecha_de_nacimiento(), persona.getNombre(), persona.getApellido());
+	seEmitioLaLicencia = gestorLicencia.emitirLicencia((Clase)cmbClase.getSelectedItem(), persona.getDni(), persona.getFecha_de_nacimiento(), persona.getNombre(), persona.getApellido());
+	
+	if(seEmitioLaLicencia) {
+		JOptionPane.showMessageDialog(null, "Lisencia asignada", "Licencia Emitida", JOptionPane.OK_OPTION);
+	}else {
+		JOptionPane.showMessageDialog(null, "No se puede emitir una licencia", "Error", JOptionPane.OK_OPTION);
+	}
 	
 	}catch(Exception ex){
 		ex.printStackTrace();
