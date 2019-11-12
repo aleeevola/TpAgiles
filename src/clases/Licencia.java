@@ -25,6 +25,9 @@ public class Licencia {
 	private Date fecha_de_vencimiento;
 	@Column(name = "numero_de_copias")
 	private int numero_de_copias;
+	@Column(name = "fecha_de_emision")
+	private Date fecha_de_emision;
+	
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "clase")
@@ -54,6 +57,14 @@ public class Licencia {
 
 	public void setFecha_de_vencimiento(Date fecha_de_vencimiento) {
 		this.fecha_de_vencimiento = fecha_de_vencimiento;
+	}
+	
+	public Date getFecha_de_emision() {
+		return fecha_de_emision;
+	}
+
+	public void setFecha_de_emision(Date fecha_de_emision) {
+		this.fecha_de_emision = fecha_de_emision;
 	}
 
 	public int getNumero_de_copias() {

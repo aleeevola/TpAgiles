@@ -21,7 +21,7 @@ public class testVigencia {
 		fechaNacimiento = new GregorianCalendar(2001, Calendar.JULY, 17).getTime();
 		System.out.println("Fecha nacimiento: "+fechaNacimiento.toString());
 		
-		fev=gl.calcularVigencia(fechaNacimiento, historialLicencias);
+		fev=gl.calcularVigencia(fechaNacimiento, historialLicencias.size());
 		System.out.println("Fecha vencimiento:"+fev.toString());
 		
 		System.out.println("----- menor 21 con licencias-----");
@@ -30,7 +30,7 @@ public class testVigencia {
 		
 		historialLicencias.add(new Licencia());
 		
-		fev=gl.calcularVigencia(fechaNacimiento, historialLicencias);
+		fev=gl.calcularVigencia(fechaNacimiento, historialLicencias.size());
 		System.out.println("Fecha vencimiento:"+fev.toString());
 		
 		
@@ -38,28 +38,28 @@ public class testVigencia {
 		fechaNacimiento = new GregorianCalendar(1997, Calendar.JUNE, 7).getTime();
 		System.out.println("Fecha nacimiento: "+fechaNacimiento.toString());
 		
-		fev=gl.calcularVigencia(fechaNacimiento, historialLicencias);
+		fev=gl.calcularVigencia(fechaNacimiento, historialLicencias.size());
 		System.out.println("Fecha vencimiento:"+fev.toString());
 		
 		System.out.println("----- 60 anios -----");
 		fechaNacimiento = new GregorianCalendar(1959, Calendar.NOVEMBER, 1).getTime();
 		System.out.println("Fecha nacimiento: "+fechaNacimiento.toString());
 		
-		fev=gl.calcularVigencia(fechaNacimiento, historialLicencias);
+		fev=gl.calcularVigencia(fechaNacimiento, historialLicencias.size());
 		System.out.println("Fecha vencimiento:"+fev.toString());
 		
 		System.out.println("----- 70 anios -----");
 		fechaNacimiento = new GregorianCalendar(1949, Calendar.NOVEMBER, 1).getTime();
 		System.out.println("Fecha nacimiento: "+fechaNacimiento.toString());
 		
-		fev=gl.calcularVigencia(fechaNacimiento, historialLicencias);
+		fev=gl.calcularVigencia(fechaNacimiento, historialLicencias.size());
 		System.out.println("Fecha vencimiento:"+fev.toString());
 		
 		System.out.println("----- +70 anios -----");
 		fechaNacimiento = new GregorianCalendar(1900, Calendar.NOVEMBER, 1).getTime();
 		System.out.println("Fecha nacimiento: "+fechaNacimiento.toString());
 		
-		fev=gl.calcularVigencia(fechaNacimiento, historialLicencias);
+		fev=gl.calcularVigencia(fechaNacimiento, historialLicencias.size());
 		System.out.println("Fecha vencimiento:"+fev.toString());
 	}
 

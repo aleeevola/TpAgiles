@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import clases.Clase;
 import clases.Licencia;
@@ -18,6 +19,7 @@ public class GestorDeLicencia {
 	public Boolean emitirLicencia(Clase clase,int dni, Date fecha_de_nacimiento, String nombre, String apellido) {
 		GestorBaseDeDatos bd= new GestorBaseDeDatos();
 		
+		Date fechaActual = new Date();
 		GregorianCalendar CalendarFecha_de_nacimiento = new GregorianCalendar();
 		CalendarFecha_de_nacimiento.setTime(fecha_de_nacimiento);
 		
@@ -33,35 +35,57 @@ public class GestorDeLicencia {
 		if(titulares.isEmpty()) {
 			System.out.println("No existe");
 			
-			if(clase==Clase.A || clase==Clase.B || clase==Clase.G) {
+			if(clase==Clase.A || clase==Clase.B || clase==Clase.G) { //ACA NO HAY QUE AGREGAR TAMBIEN LA CLASE F??
 					fecha_de_vencimiento=this.calcularVigencia(fecha_de_nacimiento, 0);
 					
 					Licencia licencia = new Licencia();
 					licencia.setClase(clase);
 					licencia.setNumero_de_copias(0);
 					licencia.setFecha_de_vencimiento(fecha_de_vencimiento);
+					licencia.setFecha_de_emision(fechaActual);
 					
 					/*
 					 * Aca debe llamar a H009-T01  para crear un titular y pasarle la licencia
 					 */
 					return true;
-			} else return false;
+			} else { 
+				/* No existe el titular en la base de datos, por lo que si solicitó licencia C/D/E no cumple el requisito "tener una licencia clase B de al menos un año" */
+				//IMPRIMIR MENSAJE DE ERROR
+				return false;
+				} 
 			
 			
 		}
 		else {
-			
-			/*
-			 * falta esto
-			 * En caso de existir, se debe verificar que el tipo de licencia seleccionada 
-			 * sea válida para el mismo, teniendo en cuenta la edad (21 años < Clase C, D y E < 65 años;
-			 *  Clases restantes > 17 años) y licencias anteriores 
-			 *  (Clase C, D y E: tener licencia clase B de al menos 1 año). */
-			if((clase==Clase.C || clase==Clase.D || clase==Clase.E) && 16<edad && edad<66) {
-				
-			}
 			System.out.println("existe");
 			Titular titular=titulares.get(0);
+
+			if(clase==Clase.C || clase==Clase.D || clase==Clase.E){
+					if((20<edad && edad<66) && _licenciaB1año(titular.getLicencias())) {
+						fecha_de_vencimiento=this.calcularVigencia(fecha_de_nacimiento, titular.getLicencias().size());
+						
+						Licencia licencia = new Licencia();
+						licencia.setClase(clase);
+						licencia.setNumero_de_copias(0);
+						licencia.setFecha_de_vencimiento(fecha_de_vencimiento);
+						licencia.setFecha_de_emision(fechaActual);
+						
+						titular.addLicencia(licencia);
+						
+						bd.updateTitular(titular);
+						
+						return true;
+					}else { 
+						
+						/* Se solicito una clase C/D/E pero no cumple requisitos de edad y/o de licencias anteriores, retorna false */
+						//IMPRIMIR MENSAJE DE ERROR 
+						return false;
+					}
+				
+				
+			}else {
+				/* Se solicito licencia A/B/F/G/H y tiene al menos 17 años --> se emite la licencia */
+			
 		
 			fecha_de_vencimiento=this.calcularVigencia(fecha_de_nacimiento, titular.getLicencias().size());
 			
@@ -69,14 +93,35 @@ public class GestorDeLicencia {
 			licencia.setClase(clase);
 			licencia.setNumero_de_copias(0);
 			licencia.setFecha_de_vencimiento(fecha_de_vencimiento);
+			licencia.setFecha_de_emision(fechaActual);
 			
 			titular.addLicencia(licencia);
 			
 			bd.updateTitular(titular);
 			
+			return true;
+			}	
 		}
-		} else return false;
-		return null;
+		} else { /* Es menor de 17 años, no puede obtener ninguna licencia */
+			return false;
+			//IMPRIMIR MENSAJE DE ERROR
+			}
+	}
+
+	public boolean _licenciaB1año(List<Licencia> licencias) {
+		if(licencias.isEmpty()) { //NO SE SI ESTA VALIDACION ESTA BIEN, PORQUE SI EXISTE EL TITULAR NUNCA DEBERIA ESTAR VACIA LA LISTA PERO NO SE
+			return false;
+		}else {
+			Date fechaMin = new Date();
+			fechaMin.setYear(((new GregorianCalendar().get(Calendar.YEAR)) - 1901));
+			
+			for(Licencia l : licencias) {
+				if(l.getClase()==Clase.B && (l.getFecha_de_emision().before(fechaMin))) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public Date calcularVigencia(Date fechaNacimiento, int cantLicencias) {
