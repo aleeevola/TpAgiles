@@ -37,7 +37,7 @@ public class GestorDeLicencia {
 	 * 0 si se cargo correctamente
 	 * 1 para llamar al panel dar de alta y usar el metodo darDeAltaNuevoTitular
 	 **/
-	public int emitirLicencia(Clase clase,Persona persona) {
+	public int emitirLicencia(Clase clase, Persona persona) {
 		int dni=persona.getDni();
 		Date fecha_de_nacimiento=persona.getFecha_de_nacimiento();
 		String nombre=persona.getNombre();

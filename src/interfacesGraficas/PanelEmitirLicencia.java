@@ -8,7 +8,6 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -21,8 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.WindowConstants;
-
+import javax.swing.SwingUtilities;
 import auxiliares.GestorBaseDeDatos;
 import auxiliares.GestorDeLicencia;
 import auxiliares.TablaContribuyentes;
@@ -107,19 +105,15 @@ public class PanelEmitirLicencia extends JPanel {
 		tabla.setRowSelectionAllowed(true);
 		tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scrollPane = new JScrollPane(tabla);
-		
 
 		this.add(scrollPane, gridConst);
-		
 		
 		tabla.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				int r = tabla.rowAtPoint(e.getPoint());
 				seleccion = r;
-
 			}
-
 		});
 		
 		lblClase = new JLabel("Clase:");
@@ -148,20 +142,22 @@ public class PanelEmitirLicencia extends JPanel {
 		gridConst.gridx = 1;
 		gridConst.gridwidth = 1;
 		btnCancelar.addActionListener(e -> {
-			removerPanel();
+			JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
+			frame.dispose();
+//			removerPanel();
 		});
 		this.add(btnCancelar, gridConst);
 		
 	}
 	
 private void emitirLicencia() {
-	try {
-		
+	
+	try {	
 		Persona persona = tablaContribuyentes.getContribuyentes().get(seleccion);
 		int seEmitioLaLicencia = gestorLicencia.emitirLicencia((Clase)cmbClase.getSelectedItem(), persona);
 		
 		if(seEmitioLaLicencia==0) {
-			JOptionPane.showMessageDialog(null, "Lisencia asignada", "Licencia Emitida", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(null, "Licencia asignada", "Licencia Emitida", JOptionPane.OK_OPTION);
 		
 		}else if (seEmitioLaLicencia==-1){
 			JOptionPane.showMessageDialog(null, "No se puede emitir una licencia", "Error", JOptionPane.OK_OPTION);
@@ -207,8 +203,7 @@ private void _darDeAltaNuevoTitular(GestorDeLicencia gestorLicencia2, Persona pe
 		if (this.txtDNI.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, "Ingrese algún DNI.", "Error", JOptionPane.OK_OPTION);
 			return;
-		}
-				
+		}		
 		else try {
 			
 			int dni = Integer.valueOf(this.txtDNI.getText());
@@ -216,7 +211,6 @@ private void _darDeAltaNuevoTitular(GestorDeLicencia gestorLicencia2, Persona pe
 			List<Persona> resultados = gestorBD.getPersonas(dni);
 			this.setResultadoBusqueda(resultados, true);
 			}
-		
 		catch(Exception ex) {
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, "No se encontraron resultados", "Error", JOptionPane.OK_OPTION);
@@ -227,19 +221,18 @@ private void _darDeAltaNuevoTitular(GestorDeLicencia gestorLicencia2, Persona pe
 		this.padre = padre;
 	}
 
-	public void removerPanel() {
-		padre.remove(this);
-		padre.setContentPane(anterior);
-		padre.setBounds(boundsAnterior);
-		padre.setLocationRelativeTo(null);
-	}
+//	public void removerPanel() {
+//		padre.remove(this);
+//		padre.setContentPane(anterior);
+//		padre.setBounds(boundsAnterior);
+//		padre.setLocationRelativeTo(null);
+//	}
 
 	public void setAnterior(JPanel anterior) {
 		this.anterior = anterior;
 	}
 
 	public void setBoundsAnterior(Rectangle bounds) {
-		this.boundsAnterior=bounds;
-		
+		this.boundsAnterior=bounds;	
 	}
-	}
+}
