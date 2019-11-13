@@ -1,4 +1,5 @@
 package auxiliares;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -6,25 +7,45 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import clases.Clase;
 import clases.Licencia;
+import clases.Persona;
 import clases.Titular;
-import interfacesGraficas.PanelDarAltaTitular;
-import interfacesGraficas.PanelEmitirLicencia;
+
+
 
 public class GestorDeLicencia {
 
+	private JFrame frame;
+	private JPanel contentPane;
+	private GestorBaseDeDatos bd= new GestorBaseDeDatos();
+	
+	Date fechaActual = new Date();
+	
 	public GestorDeLicencia() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Boolean emitirLicencia(Clase clase,int dni, Date fecha_de_nacimiento, String nombre, String apellido) {
-		GestorBaseDeDatos bd= new GestorBaseDeDatos();
+	
+	/*
+	 * Este metodo devueve:
+	 * -1 si no se puede cargar la licencia
+	 * 0 si se cargo correctamente
+	 * 1 para llamar al panel dar de alta y usar el metodo darDeAltaNuevoTitular
+	 **/
+	public int emitirLicencia(Clase clase,Persona persona) {
+		int dni=persona.getDni();
+		Date fecha_de_nacimiento=persona.getFecha_de_nacimiento();
+		String nombre=persona.getNombre();
+		String apellido=persona.getApellido();
 		
-		Date fechaActual = new Date();
+		
+		
+		
 		GregorianCalendar CalendarFecha_de_nacimiento = new GregorianCalendar();
 		CalendarFecha_de_nacimiento.setTime(fecha_de_nacimiento);
 		
@@ -41,29 +62,15 @@ public class GestorDeLicencia {
 			System.out.println("No existe");
 			
 			if(clase==Clase.A || clase==Clase.B || clase==Clase.G) { //ACA NO HAY QUE AGREGAR TAMBIEN LA CLASE F??
-					fecha_de_vencimiento=this.calcularVigencia(fecha_de_nacimiento, 0);
 					
-					Licencia licencia = new Licencia();
-					licencia.setClase(clase);
-					licencia.setNumero_de_copias(0);
-					licencia.setFecha_de_vencimiento(fecha_de_vencimiento);
-					licencia.setFecha_de_emision(fechaActual);
 					
-					/*
-					 * Aca debe llamar a H009-T01  para crear un titular y pasarle la licencia
-					 */
-					Titular titular = darDeAltaTitular(clase,dni,fecha_de_nacimiento,nombre,apellido);
-					/*
-					 * El metodo anterior debe devolver un objeto titular y 
-					 * aca abajo asignarle la licencia y guardarlo*/
-					titular.addLicencia(licencia);
-					bd.guardarTitular(titular);
+					System.out.println("retorna 1");
 					
-					return true;
+					return 1;
 			} else { 
 				/* No existe el titular en la base de datos, por lo que si solicitó licencia C/D/E no cumple el requisito "tener una licencia clase B de al menos un año" */
 				//IMPRIMIR MENSAJE DE ERROR
-				return false;
+				return -1;
 				} 
 			
 			
@@ -86,12 +93,12 @@ public class GestorDeLicencia {
 						
 						bd.updateTitular(titular);
 						
-						return true;
+						return 0;
 					}else { 
 						
 						/* Se solicito una clase C/D/E pero no cumple requisitos de edad y/o de licencias anteriores, retorna false */
 						//IMPRIMIR MENSAJE DE ERROR 
-						return false;
+						return -1;
 					}
 				
 				
@@ -111,33 +118,16 @@ public class GestorDeLicencia {
 			
 			bd.updateTitular(titular);
 			
-			return true;
+			return 0;
 			}	
 		}
 		} else { /* Es menor de 17 años, no puede obtener ninguna licencia */
-			return false;
+			return -1;
 			//IMPRIMIR MENSAJE DE ERROR
 			}
 	}
 	
-	public Titular darDeAltaTitular(Clase clase,int dni, Date fecha_de_nacimiento, String nombre, String apellido) {
-		/*
-		 * Este metodo crea el panel de dar de alta el titular 
-		 * y debe devolver un objeto titular
-		 * Pero creo que solo se puede con JDialog
-		 */
-		
-		JFrame frame = new JFrame();
-
-		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		frame.setSize(800, 800);
-
-		
-		//PanelDarAltaTitular altaTitular = new PanelDarAltaTitular(clase,dni, fecha_de_nacimiento, nombre, apellido);
-		//frame.setContentPane(altaTitular);
-		return null;
-	}
+	
 
 	public boolean _licenciaB1año(List<Licencia> licencias) {
 		if(licencias.isEmpty()) { //NO SE SI ESTA VALIDACION ESTA BIEN, PORQUE SI EXISTE EL TITULAR NUNCA DEBERIA ESTAR VACIA LA LISTA PERO NO SE
@@ -235,4 +225,19 @@ public class GestorDeLicencia {
 	        return anio;
 	}
 
+	
+	public void darDeAltaNuevoTitular(Clase clase,Titular titular) {
+		
+		Date fecha_de_vencimiento=this.calcularVigencia(titular.getFecha_de_nacimiento(), 0);
+		
+		Licencia licencia = new Licencia();
+		licencia.setClase(clase);
+		licencia.setNumero_de_copias(0);
+		licencia.setFecha_de_vencimiento(fecha_de_vencimiento);
+		licencia.setFecha_de_emision(fechaActual);
+		
+		titular.addLicencia(licencia);
+		
+		bd.guardarTitular(titular);
+	}
 }

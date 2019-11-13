@@ -1,9 +1,11 @@
 package interfacesGraficas;
 
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
@@ -12,8 +14,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
 
-public class PanelTareas extends JPanel {
+
+
+public class PanelTareas extends JFrame {
 	
 	private JLabel lblUsuario;
 	private JButton btnNuevaLicencia;
@@ -22,13 +27,41 @@ public class PanelTareas extends JPanel {
 	private JButton btnBuscar;
 	private JButton btnSalir;
 	
+	private JFrame frame=this;
+	private JPanel contentPane;
+	private Dimension medidasPanel=new Dimension(500,800);
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					PanelTareas frame = new PanelTareas();
+					frame.setVisible(true);
+					// PARA QUE APAREZCA CENTRADO
+					frame.setLocationRelativeTo(null);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
 	public PanelTareas() {
+		contentPane = new JPanel();
+		//contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		this.setSize(medidasPanel);
+		
 		this.setLayout(new GridBagLayout());
 		this.construir();
 	}
 
 	private void construir() {
 		
+				
 		GridBagConstraints gridConst =  new GridBagConstraints();
 		
 		gridConst.anchor = GridBagConstraints.CENTER;
@@ -51,7 +84,7 @@ public class PanelTareas extends JPanel {
 		this.add(btnNuevaLicencia, gridConst);
 		
 		btnNuevaLicencia.addActionListener(e -> {
-			
+			/*
 			PanelEmitirLicencia panelEmitir = new PanelEmitirLicencia();
 			
 			JFrame newFrame = new JFrame();
@@ -62,7 +95,18 @@ public class PanelTareas extends JPanel {
 			
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 	        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
-	        
+	        */
+			this.setSize(800, 900);
+			PanelEmitirLicencia panelEmitir = new PanelEmitirLicencia();
+			panelEmitir.setSize(800, 900);
+			panelEmitir.setPadre(frame);
+			panelEmitir.setAnterior(contentPane);
+			panelEmitir.setBoundsAnterior(new Rectangle(0, 0, medidasPanel.width, medidasPanel.height));
+			setContentPane(panelEmitir);
+			setLocationRelativeTo(null);
+			//Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+			//panelEmitir.setLocation(dim.width/2- panelEmitir.getSize().width/2, dim.height/2- panelEmitir.getSize().height/2);
+			
 		});
 		
 		btnRenovarLicencia = new JButton();

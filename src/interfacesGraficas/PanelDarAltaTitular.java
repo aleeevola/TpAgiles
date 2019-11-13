@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import auxiliares.GestorBaseDeDatos;
+import auxiliares.GestorDeLicencia;
 import auxiliares.TablaContribuyentes;
 import clases.Clase;
 import clases.Grupo_sanguineo;
@@ -28,7 +31,7 @@ import clases.Persona;
 import clases.Titular;
 
 
-public class PanelDarAltaTitular extends JPanel {
+public class PanelDarAltaTitular extends JPanel{
 
 	private JLabel lblTitulo; 
 	private JLabel lblNombre;
@@ -50,27 +53,42 @@ public class PanelDarAltaTitular extends JPanel {
 	private JComboBox cmbGrupoSanguineo;
 	
 	private JButton btnSiguiente;
+	private JButton btnCancelar;
 	
 	private JCheckBox chkDonante;
 	
 	private GestorBaseDeDatos gestorBD;
+	private GestorDeLicencia gestorLicencia=new GestorDeLicencia();
 	
 	private int dni;
 	private Date fdn;
-	private Titular titular;
+	
+	private JPanel anterior;
+	private JFrame padre;
+	private Rectangle boundsAnterior;
+	
+	private Dimension medidasPanel=new Dimension(1000,600);
+	
 	
 	public PanelDarAltaTitular() {
+		this.setSize(medidasPanel);
+		
 		this.setLayout(new GridBagLayout());
 		this.construir();
 		this.gestorBD = new GestorBaseDeDatos();
 	}
 	
-	public Titular PanelDarAltaTitular(Clase clase,int dni, Date fecha_de_nacimiento, String nombre, String apellido) {
+	public PanelDarAltaTitular(Clase clase, Persona persona) {
+		this.setSize(medidasPanel);
+		
+		dni=persona.getDni();
+		Date fecha_de_nacimiento=persona.getFecha_de_nacimiento();
+		String nombre=persona.getNombre();
+		String apellido=persona.getApellido();
+		fdn=fecha_de_nacimiento;
+		
 		this.setLayout(new GridBagLayout());
 		this.construir();
-		
-		this.dni=dni;
-		this.fdn=fecha_de_nacimiento;
 		
 		
 		this.txtNombreTitular.setText(nombre);
@@ -85,21 +103,35 @@ public class PanelDarAltaTitular extends JPanel {
 		//FALTA DARLE FORMATO
 		this.lblNacimiento.setText("Fecha de Nacimiento:"+fecha_de_nacimiento.toString());
 		
-		
 		this.cmbClase.setSelectedItem(clase);
 		this.cmbClase.setEditable(false);
+		
+		txtDireccion.setText(persona.getDireccion());
+		txtDireccion.setEditable(false);
 		
 		btnSiguiente.addActionListener(e -> {
 			/*
 			 * Cuando apreta el boton siguiente debe cerrarse y devolver el objeto titular
 			 * */
-			
-			this.titular=this._altaTitular();
+			try {
 				
-			this.setVisible(false);
+				Titular titular = _altaTitular();
+				gestorLicencia.darDeAltaNuevoTitular(clase, titular);
+				removerPanel();
+				String Alerta="Se cargo con exito el titular "+titular.getApellido()+" "+titular.getNombre();
+				JOptionPane.showMessageDialog(null, Alerta, "Error", JOptionPane.OK_OPTION);
+				}
+			
+			catch(Exception ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(null, "No se pudo cargar el nuevo titular", "Error", JOptionPane.OK_OPTION);
+				}
+			
+			
 		});
 		
-		return titular;
+		
+		
 	}
 	
 	private void construir() {
@@ -219,23 +251,58 @@ public class PanelDarAltaTitular extends JPanel {
 		gridConst.gridy = 7;
 		gridConst.gridx = 3;
 		gridConst.gridwidth = 1;
-		this.add(btnSiguiente, gridConst);		
+		this.add(btnSiguiente, gridConst);
+		
+		btnCancelar = new JButton("Cancelar");
+		gridConst.gridy = 7;
+		gridConst.gridx = 2;
+		gridConst.gridwidth = 1;
+		btnCancelar.addActionListener(e -> {
+			removerPanel();
+		});
+		this.add(btnCancelar, gridConst);
 		
 	}
 	
 	public Titular _altaTitular() {
 		/*
-		 * Crea el objeto titular con los datos de la pantalla*/
+		 * Crea el objeto titular con los datos de la pantalla
+		 * */
 		
 		Titular titular =new Titular();
 		titular.setApellido(txtApellido.getText());
 		titular.setNombre(txtNombreTitular.getText());
 		titular.setDni(this.dni); 
 		titular.setFecha_de_nacimiento(fdn);
+		titular.setDireccion(txtDireccion.getText());
 		titular.setDonante_de_organos(chkDonante.isSelected());
 		titular.setSangre((Grupo_sanguineo) cmbGrupoSanguineo.getSelectedItem());
 		
 		return titular;
+	}
+	
+	public JFrame getPadre() {
+		return padre;
+	}
+
+	public void setPadre(JFrame padre) {
+		this.padre = padre;
+	}
+	
+	public void removerPanel() {
+		padre.remove(this);
+		padre.setContentPane(anterior);
+		padre.setBounds(boundsAnterior);
+		padre.setLocationRelativeTo(null);
+	}
+
+	public void setAnterior(JPanel anterior) {
+		this.anterior = anterior;
+	}
+
+	public void setBoundsAnterior(Rectangle bounds) {
+		this.boundsAnterior=bounds;
+		
 	}
 	
 }
