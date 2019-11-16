@@ -1,5 +1,6 @@
 package interfacesGraficas;
 
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -56,7 +57,6 @@ public class PanelEmitirLicencia extends JPanel {
 		this.construir();
 		this.gestorBD = new GestorBaseDeDatos();
 		this.gestorLicencia = new GestorDeLicencia();
-		
 	}
 
 	private void construir() {
@@ -157,10 +157,13 @@ private void emitirLicencia() {
 		int seEmitioLaLicencia = gestorLicencia.emitirLicencia((Clase)cmbClase.getSelectedItem(), persona);
 		
 		if(seEmitioLaLicencia==0) {
+			
 			JOptionPane.showMessageDialog(null, "Licencia asignada", "Licencia Emitida", JOptionPane.OK_OPTION);
 		
 		}else if (seEmitioLaLicencia==-1){
+			
 			JOptionPane.showMessageDialog(null, "No se puede emitir una licencia", "Error", JOptionPane.OK_OPTION);
+			
 		}else if (seEmitioLaLicencia==1) {
 			
 			_darDeAltaNuevoTitular(gestorLicencia,persona);
@@ -175,15 +178,24 @@ private void emitirLicencia() {
 	
 	}
 
-private void _darDeAltaNuevoTitular(GestorDeLicencia gestorLicencia2, Persona persona) {
-	//this.setSize(800, 900);
-	PanelDarAltaTitular panelAltaTitular = new PanelDarAltaTitular((Clase)cmbClase.getSelectedItem(), persona);
-	panelAltaTitular.setPadre(padre);
-	panelAltaTitular.setAnterior(panel);
-	panelAltaTitular.setBoundsAnterior(new Rectangle(0, 0, medidasPanel.width, medidasPanel.height));
-	padre.setContentPane(panelAltaTitular);
-	padre.setBounds(panelAltaTitular.getBounds());
-	padre.setLocationRelativeTo(null);	
+private void _darDeAltaNuevoTitular(GestorDeLicencia gestorLicencia, Persona persona) {
+	
+	EmitirLicencia panelCards = (EmitirLicencia) SwingUtilities.getAncestorOfClass(JPanel.class, this);
+	CardLayout cl = (CardLayout) panelCards.getLayout();
+	
+	cl.show(panelCards, EmitirLicencia.ALTAPANEL);
+	
+	panelCards.cardAlta.cargarDatos(persona, (Clase)cmbClase.getSelectedItem());
+	
+//	this.setSize(800, 900);
+//	PanelDarAltaTitular panelAltaTitular = new PanelDarAltaTitular((Clase)cmbClase.getSelectedItem(), persona);
+//	
+//	panelAltaTitular.setPadre(padre);
+//	panelAltaTitular.setAnterior(panel);
+//	panelAltaTitular.setBoundsAnterior(new Rectangle(0, 0, medidasPanel.width, medidasPanel.height));
+//	padre.setContentPane(panelAltaTitular);
+//	padre.setBounds(panelAltaTitular.getBounds());
+//	padre.setLocationRelativeTo(null);	
 	
 }
 
@@ -210,12 +222,12 @@ private void _darDeAltaNuevoTitular(GestorDeLicencia gestorLicencia2, Persona pe
 			
 			List<Persona> resultados = gestorBD.getPersonas(dni);
 			this.setResultadoBusqueda(resultados, true);
-			}
+		}
 		catch(Exception ex) {
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, "No se encontraron resultados", "Error", JOptionPane.OK_OPTION);
-			}
 		}
+	}
 	
 	public void setPadre(JFrame padre) {
 		this.padre = padre;

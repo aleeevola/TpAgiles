@@ -38,13 +38,11 @@ public class GestorDeLicencia {
 	 * 1 para llamar al panel dar de alta y usar el metodo darDeAltaNuevoTitular
 	 **/
 	public int emitirLicencia(Clase clase, Persona persona) {
+		
 		int dni=persona.getDni();
 		Date fecha_de_nacimiento=persona.getFecha_de_nacimiento();
 		String nombre=persona.getNombre();
 		String apellido=persona.getApellido();
-		
-		
-		
 		
 		GregorianCalendar CalendarFecha_de_nacimiento = new GregorianCalendar();
 		CalendarFecha_de_nacimiento.setTime(fecha_de_nacimiento);
@@ -52,7 +50,6 @@ public class GestorDeLicencia {
 		Integer edad=this._calcularEdad(CalendarFecha_de_nacimiento);
 		
 		if (edad>=17) {
-		
 		
 		ArrayList<Titular> titulares=bd.getTitular(dni, apellido, nombre);
 		

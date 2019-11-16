@@ -1,5 +1,6 @@
 package interfacesGraficas;
 
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -21,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 
 import auxiliares.GestorBaseDeDatos;
 import auxiliares.GestorDeLicencia;
@@ -58,7 +60,7 @@ public class PanelDarAltaTitular extends JPanel{
 	private JCheckBox chkDonante;
 	
 	private GestorBaseDeDatos gestorBD;
-	private GestorDeLicencia gestorLicencia=new GestorDeLicencia();
+	private GestorDeLicencia gestorLicencia = new GestorDeLicencia();
 	
 	private int dni;
 	private Date fdn;
@@ -71,68 +73,18 @@ public class PanelDarAltaTitular extends JPanel{
 	
 	
 	public PanelDarAltaTitular() {
-		this.setSize(medidasPanel);
-		
 		this.setLayout(new GridBagLayout());
 		this.construir();
 		this.gestorBD = new GestorBaseDeDatos();
 	}
-	
-	public PanelDarAltaTitular(Clase clase, Persona persona) {
-		this.setSize(medidasPanel);
-		
-		dni=persona.getDni();
-		Date fecha_de_nacimiento=persona.getFecha_de_nacimiento();
-		String nombre=persona.getNombre();
-		String apellido=persona.getApellido();
-		fdn=fecha_de_nacimiento;
-		
-		this.setLayout(new GridBagLayout());
-		this.construir();
-		
-		
-		this.txtNombreTitular.setText(nombre);
-		this.txtNombreTitular.setEnabled(false);
-		
-		this.txtApellido.setText(apellido);
-		this.txtApellido.setEnabled(false);
-		
-		this.txtDNI.setText(String.valueOf(dni));
-		this.txtDNI.setEnabled(false);
-		
-		//FALTA DARLE FORMATO
-		this.lblNacimiento.setText("Fecha de Nacimiento:"+fecha_de_nacimiento.toString());
-		
-		this.cmbClase.setSelectedItem(clase);
-		this.cmbClase.setEditable(false);
-		
-		txtDireccion.setText(persona.getDireccion());
-		txtDireccion.setEditable(false);
-		
-		btnSiguiente.addActionListener(e -> {
-			/*
-			 * Cuando apreta el boton siguiente debe cerrarse y devolver el objeto titular
-			 * */
-			try {
-				
-				Titular titular = _altaTitular();
-				gestorLicencia.darDeAltaNuevoTitular(clase, titular);
-				removerPanel();
-				String Alerta="Se cargo con exito el titular "+titular.getApellido()+" "+titular.getNombre();
-				JOptionPane.showMessageDialog(null, Alerta, "Error", JOptionPane.OK_OPTION);
-				}
-			
-			catch(Exception ex) {
-				ex.printStackTrace();
-				JOptionPane.showMessageDialog(null, "No se pudo cargar el nuevo titular", "Error", JOptionPane.OK_OPTION);
-				}
-			
-			
-		});
-		
-		
-		
-	}
+//	
+//	public PanelDarAltaTitular(Clase clase, Persona persona) {
+//		
+//		this.setSize(medidasPanel);
+//		this.setLayout(new GridBagLayout());
+//		this.construir();
+//		
+//	}
 	
 	private void construir() {
 		
@@ -149,6 +101,7 @@ public class PanelDarAltaTitular extends JPanel{
 		this.add(lblNombre, gridConst);
 		
 		gridConst.anchor = GridBagConstraints.LINE_START;
+		gridConst.fill = GridBagConstraints.BOTH;
 		
 		lblTitulo = new JLabel("Dar de Alta un Titular");
 		lblTitulo.setFont(new Font(Font.DIALOG, Font.BOLD, 16));
@@ -231,7 +184,6 @@ public class PanelDarAltaTitular extends JPanel{
 		gridConst.insets = new Insets(0, 5, 15, 5);
 		this.add(chkDonante, gridConst);
 		
-		
 		lblClaseSolicitada = new JLabel("ClaseSolicitada:");
 		gridConst.gridy = 6;
 		gridConst.gridx = 0;
@@ -253,12 +205,35 @@ public class PanelDarAltaTitular extends JPanel{
 		gridConst.gridwidth = 1;
 		this.add(btnSiguiente, gridConst);
 		
+		btnSiguiente.addActionListener(e -> {
+			/*
+			 * Cuando apreta el boton siguiente debe cerrarse y devolver el objeto titular
+			 * */
+			try {
+				Titular titular = _altaTitular();
+				gestorLicencia.darDeAltaNuevoTitular((Clase)cmbClase.getSelectedItem(), titular);
+				removerPanel();
+				String Alerta="Se cargo con exito el titular "+titular.getApellido()+" "+titular.getNombre();
+				JOptionPane.showMessageDialog(null, Alerta, "Error", JOptionPane.OK_OPTION);
+			}
+			
+			catch(Exception ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(null, "No se pudo cargar el nuevo titular", "Error", JOptionPane.OK_OPTION);
+			}
+		});
+		
 		btnCancelar = new JButton("Cancelar");
 		gridConst.gridy = 7;
 		gridConst.gridx = 2;
 		gridConst.gridwidth = 1;
 		btnCancelar.addActionListener(e -> {
-			removerPanel();
+			
+			EmitirLicencia panelCards = (EmitirLicencia) SwingUtilities.getAncestorOfClass(JPanel.class, this);
+			CardLayout cl = (CardLayout) panelCards.getLayout();
+			
+			cl.show(panelCards, EmitirLicencia.EMITIRPANEL);
+			
 		});
 		this.add(btnCancelar, gridConst);
 		
@@ -305,4 +280,27 @@ public class PanelDarAltaTitular extends JPanel{
 		
 	}
 	
+	public void cargarDatos(Persona contribuyente, Clase clase) {
+		
+		Date fecha_de_nacimiento = contribuyente.getFecha_de_nacimiento();
+		
+		this.txtNombreTitular.setText(contribuyente.getNombre());
+		this.txtNombreTitular.setEditable(false);
+		
+		this.txtApellido.setText(contribuyente.getApellido());
+		this.txtApellido.setEditable(false);
+		
+		this.txtDNI.setText(String.valueOf(contribuyente.getDni()));
+		this.txtDNI.setEditable(false);
+		
+		//FALTA DARLE FORMATO
+		this.lblNacimiento.setText("Fecha de Nacimiento:"+fecha_de_nacimiento.toString());
+		
+		this.cmbClase.setSelectedItem(clase);
+		this.cmbClase.setEditable(false);
+		
+		txtDireccion.setText(contribuyente.getDireccion());
+		txtDireccion.setEditable(false);
+		
+	}
 }

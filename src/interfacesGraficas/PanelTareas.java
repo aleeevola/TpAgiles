@@ -1,5 +1,6 @@
 package interfacesGraficas;
 
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
@@ -84,13 +85,15 @@ public class PanelTareas extends JPanel {
 		
 		btnNuevaLicencia.addActionListener(e -> {
 			
-			PanelEmitirLicencia panelEmitir = new PanelEmitirLicencia();
+			EmitirLicencia panelCards = new EmitirLicencia();
 			
 			JFrame newFrame = new JFrame();
+			
 			newFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			newFrame.setVisible(true);
 			newFrame.setSize(800, 900);
-			newFrame.setContentPane(panelEmitir);
+
+			newFrame.setContentPane(panelCards);
 			
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 	        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
