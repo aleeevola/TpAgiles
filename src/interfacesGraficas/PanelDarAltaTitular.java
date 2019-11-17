@@ -4,15 +4,25 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.image.ImageFilter;
+import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,6 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import auxiliares.GestorBaseDeDatos;
 import auxiliares.GestorDeLicencia;
@@ -63,13 +74,14 @@ public class PanelDarAltaTitular extends JPanel{
 	private int dni;
 	private Date fdn;
 	
-	private JPanel anterior;
-	private JFrame padre;
-	private Rectangle boundsAnterior;
-	
+
 	private Dimension medidasPanel=new Dimension(1000,600);
 	
 	
+	private JButton btnAgregarFoto;
+	private JLabel LabelFoto;
+	private File foto;
+	    
 	public PanelDarAltaTitular() {
 		this.setSize(medidasPanel);
 		
@@ -101,7 +113,8 @@ public class PanelDarAltaTitular extends JPanel{
 		this.txtDNI.setEnabled(false);
 		
 		//FALTA DARLE FORMATO
-		this.lblNacimiento.setText("Fecha de Nacimiento:"+fecha_de_nacimiento.toString());
+		this.lblNacimiento.setText("Fecha de Nacimiento:"+formatoFecha(fecha_de_nacimiento));
+		
 		
 		this.cmbClase.setSelectedItem(clase);
 		this.cmbClase.setEditable(false);
@@ -117,7 +130,7 @@ public class PanelDarAltaTitular extends JPanel{
 				
 				Titular titular = _altaTitular();
 				gestorLicencia.darDeAltaNuevoTitular(clase, titular);
-				removerPanel();
+				this.setVisible(false);
 				String Alerta="Se cargo con exito el titular "+titular.getApellido()+" "+titular.getNombre();
 				JOptionPane.showMessageDialog(null, Alerta, "Error", JOptionPane.OK_OPTION);
 				}
@@ -134,6 +147,13 @@ public class PanelDarAltaTitular extends JPanel{
 		
 	}
 	
+	private String formatoFecha(Date fecha_de_nacimiento) {
+		GregorianCalendar fecha=new GregorianCalendar();
+		fecha.setTime(fecha_de_nacimiento);
+		String formatoFecha=fecha.get(Calendar.DAY_OF_MONTH)+"/"+(fecha.get(Calendar.MONTH)+1)+"/"+fecha.get(Calendar.YEAR);
+		return formatoFecha;
+	}
+
 	private void construir() {
 		
 		GridBagConstraints gridConst =  new GridBagConstraints();
@@ -258,12 +278,64 @@ public class PanelDarAltaTitular extends JPanel{
 		gridConst.gridx = 2;
 		gridConst.gridwidth = 1;
 		btnCancelar.addActionListener(e -> {
-			removerPanel();
+			this.setVisible(false);
 		});
 		this.add(btnCancelar, gridConst);
 		
+		btnAgregarFoto = new JButton("Agregar Foto");
+		gridConst.gridy = 8;
+		gridConst.gridx = 1;
+		gridConst.gridwidth = 1;
+		btnAgregarFoto.addActionListener(e -> {
+			this.agregarFoto();
+		});
+		this.add(btnAgregarFoto, gridConst);
+	    
+		LabelFoto = new JLabel();
+	    LabelFoto.setBounds(10,10,670,250);
+	    gridConst.gridy = 9;
+		gridConst.gridx = 1;
+		gridConst.gridwidth = 1;
+	    add(LabelFoto, gridConst);
+		
 	}
 	
+	private void agregarFoto() {
+		
+		/*
+		 * Crea el explorador de archivos y solo deja seleccionar .jpg
+		 * Asigna el archivo a la variable global foto para pasarlo 
+		 * al constructor cuando lo agrega*/
+		 JFileChooser file = new JFileChooser();
+		 file.setCurrentDirectory(new File(System.getProperty("user.home")));
+         //filter the files
+		 FileNameExtensionFilter filter = new FileNameExtensionFilter("*.JPG", "jpg");
+         file.addChoosableFileFilter(filter);
+         file.setAcceptAllFileFilterUsed(false);
+         int result = file.showSaveDialog(null);
+          //if the user click on save in Jfilechooser
+         if(result == JFileChooser.APPROVE_OPTION){
+             this.foto = file.getSelectedFile();
+             String path = this.foto.getAbsolutePath();
+             LabelFoto.setIcon(reescalarImgaen(path));
+             
+         }
+          //if the user click on save in Jfilechooser
+
+         else if(result == JFileChooser.CANCEL_OPTION){
+             System.out.println("No File Select");
+         }
+		
+	}
+
+	private Icon reescalarImgaen(String path) {
+        ImageIcon MyImage = new ImageIcon(path);
+        Image img = MyImage.getImage();
+        Image newImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(newImg);
+        return image;
+	}
+
 	public Titular _altaTitular() {
 		/*
 		 * Crea el objeto titular con los datos de la pantalla
@@ -277,32 +349,11 @@ public class PanelDarAltaTitular extends JPanel{
 		titular.setDireccion(txtDireccion.getText());
 		titular.setDonante_de_organos(chkDonante.isSelected());
 		titular.setSangre((Grupo_sanguineo) cmbGrupoSanguineo.getSelectedItem());
+		titular.setFoto(foto);
 		
 		return titular;
 	}
 	
-	public JFrame getPadre() {
-		return padre;
-	}
 
-	public void setPadre(JFrame padre) {
-		this.padre = padre;
-	}
-	
-	public void removerPanel() {
-		padre.remove(this);
-		padre.setContentPane(anterior);
-		padre.setBounds(boundsAnterior);
-		padre.setLocationRelativeTo(null);
-	}
-
-	public void setAnterior(JPanel anterior) {
-		this.anterior = anterior;
-	}
-
-	public void setBoundsAnterior(Rectangle bounds) {
-		this.boundsAnterior=bounds;
-		
-	}
 	
 }

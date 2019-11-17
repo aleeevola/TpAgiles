@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -21,6 +22,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
+
 import auxiliares.GestorBaseDeDatos;
 import auxiliares.GestorDeLicencia;
 import auxiliares.TablaContribuyentes;
@@ -177,13 +180,26 @@ private void emitirLicencia() {
 
 private void _darDeAltaNuevoTitular(GestorDeLicencia gestorLicencia2, Persona persona) {
 	//this.setSize(800, 900);
+	/*
 	PanelDarAltaTitular panelAltaTitular = new PanelDarAltaTitular((Clase)cmbClase.getSelectedItem(), persona);
 	panelAltaTitular.setPadre(padre);
 	panelAltaTitular.setAnterior(panel);
 	panelAltaTitular.setBoundsAnterior(new Rectangle(0, 0, medidasPanel.width, medidasPanel.height));
 	padre.setContentPane(panelAltaTitular);
 	padre.setBounds(panelAltaTitular.getBounds());
-	padre.setLocationRelativeTo(null);	
+	padre.setLocationRelativeTo(null);	*/
+	
+	
+	PanelDarAltaTitular panelAltaTitular = new PanelDarAltaTitular((Clase)cmbClase.getSelectedItem(), persona);
+	
+	JFrame newFrame = new JFrame();
+	newFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	newFrame.setVisible(true);
+	newFrame.setSize(900, 600);
+	newFrame.setContentPane(panelAltaTitular);
+	
+	Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+    newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
 	
 }
 
