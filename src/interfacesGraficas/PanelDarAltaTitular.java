@@ -75,9 +75,6 @@ public class PanelDarAltaTitular extends JPanel{
 	private int dni;
 	private Date fdn;
 
-
-
-
 	private JButton btnAgregarFoto;
 	private JLabel LabelFoto;
 	private File foto;
@@ -100,7 +97,7 @@ public class PanelDarAltaTitular extends JPanel{
 
 		gridConst.anchor = GridBagConstraints.CENTER;
 
-		lblNombre = new JLabel("Sistema de Gestiï¿½n de Licencias de Conducir");
+		lblNombre = new JLabel("Sistema de Gestión de Licencias de Conducir");
 		lblNombre.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
 		gridConst.gridx = 0;
 		gridConst.gridy = 0;
@@ -174,7 +171,7 @@ public class PanelDarAltaTitular extends JPanel{
 		gridConst.insets = new Insets(0, 0, 15, 5);
 		this.add(txtDireccion, gridConst);
 
-		lblGrupoSanguineo = new JLabel("Grupo Sanguï¿½neo:");
+		lblGrupoSanguineo = new JLabel("Grupo Sanguíneo:");
 		gridConst.gridy = 5;
 		gridConst.gridx = 0;
 		gridConst.gridwidth = 1;
@@ -190,7 +187,7 @@ public class PanelDarAltaTitular extends JPanel{
 
 		gridConst.anchor = GridBagConstraints.LINE_END;
 
-		lblDonante = new JLabel("Donante de ï¿½rganos:");
+		lblDonante = new JLabel("Donante de órganos:");
 		gridConst.gridx = 2;
 		this.add(lblDonante, gridConst);
 
@@ -215,8 +212,24 @@ public class PanelDarAltaTitular extends JPanel{
 		gridConst.insets = new Insets(0, 0, 15, 5);
 		this.add(cmbClase, gridConst);
 
-		btnSiguiente = new JButton("Dar de alta");
+		btnAgregarFoto = new JButton("Agregar Foto");
 		gridConst.gridy = 7;
+		gridConst.gridx = 1;
+		gridConst.gridwidth = 1;
+		btnAgregarFoto.addActionListener(e -> {
+			this.agregarFoto();
+		});
+		this.add(btnAgregarFoto, gridConst);
+
+		LabelFoto = new JLabel();
+	    LabelFoto.setBounds(10,10,670,250);
+	    gridConst.gridy = 8;
+		gridConst.gridx = 1;
+		gridConst.gridwidth = 1;
+	    this.add(LabelFoto, gridConst);
+		
+		btnSiguiente = new JButton("Dar de alta");
+		gridConst.gridy = 9;
 		gridConst.gridx = 2;
 		gridConst.gridwidth = 1;
 		this.add(btnSiguiente, gridConst);
@@ -229,11 +242,11 @@ public class PanelDarAltaTitular extends JPanel{
 				Titular titular = _altaTitular();
 				gestorLicencia.darDeAltaNuevoTitular((Clase)cmbClase.getSelectedItem(), titular);
 
-				String Alerta="Se cargo con exito el titular "+titular.getApellido()+" "+titular.getNombre();
+				String Alerta="El titular "+titular.getApellido()+", "+titular.getNombre()+" fue creado con éxito";
 
-				JOptionPane.showMessageDialog(null, Alerta, "Operaciï¿½n Exitosa", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, Alerta, "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);
 
-				JOptionPane.showMessageDialog(null, "Licencia asignada con ï¿½xito", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Licencia asignada con éxito", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
 
 				JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
 				frame.dispose();
@@ -249,7 +262,6 @@ public class PanelDarAltaTitular extends JPanel{
 		gridConst.anchor = GridBagConstraints.LINE_END;
 
 		btnVolver = new JButton("Volver");
-		gridConst.gridy = 7;
 		gridConst.gridx = 1;
 		btnVolver.addActionListener(e -> {
 
@@ -260,22 +272,6 @@ public class PanelDarAltaTitular extends JPanel{
 
 		});
 		this.add(btnVolver, gridConst);
-
-		btnAgregarFoto = new JButton("Agregar Foto");
-		gridConst.gridy = 8;
-		gridConst.gridx = 1;
-		gridConst.gridwidth = 1;
-		btnAgregarFoto.addActionListener(e -> {
-			this.agregarFoto();
-		});
-		this.add(btnAgregarFoto, gridConst);
-
-		LabelFoto = new JLabel();
-	    LabelFoto.setBounds(10,10,670,250);
-	    gridConst.gridy = 9;
-		gridConst.gridx = 1;
-		gridConst.gridwidth = 1;
-	    add(LabelFoto, gridConst);
 
 	}
 
@@ -316,6 +312,7 @@ public class PanelDarAltaTitular extends JPanel{
 	}
 
 	public Titular _altaTitular() {
+		
 		/*
 		 * Crea el objeto titular con los datos de la pantalla
 		 * */

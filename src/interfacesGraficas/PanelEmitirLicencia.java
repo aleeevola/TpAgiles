@@ -6,10 +6,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -25,8 +23,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
-
 import auxiliares.GestorBaseDeDatos;
 import auxiliares.GestorDeLicencia;
 import auxiliares.TablaContribuyentes;
@@ -63,7 +59,7 @@ public class PanelEmitirLicencia extends JPanel {
 
 		gridConst.anchor = GridBagConstraints.CENTER;
 
-		lblNombre = new JLabel("Sistema de Gestiï¿½n de Licencias de Conducir");
+		lblNombre = new JLabel("Sistema de Gestión de Licencias de Conducir");
 		lblNombre.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
 		gridConst.gridx = 0;
 		gridConst.gridy = 0;
@@ -89,7 +85,7 @@ public class PanelEmitirLicencia extends JPanel {
 
 		gridConst.anchor = GridBagConstraints.LINE_START;
 
-		txtDNI = new JTextField(9);
+		txtDNI = new JTextField(10);
 		gridConst.gridx = 1;
 		gridConst.insets = new Insets(0, 5, 15, 5);
 		this.add(txtDNI, gridConst);
@@ -170,12 +166,13 @@ public class PanelEmitirLicencia extends JPanel {
 	private void emitirLicencia() {
 
 		try {
+			
 			Persona persona = tablaContribuyentes.getContribuyentes().get(seleccion);
 			int seEmitioLaLicencia = gestorLicencia.emitirLicencia((Clase)cmbClase.getSelectedItem(), persona);
 
 			if(seEmitioLaLicencia==0) {
 
-				JOptionPane.showMessageDialog(null, "Licencia asignada con ï¿½xito", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Licencia asignada con éxito", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
 
 			}else if (seEmitioLaLicencia==-1){
 
@@ -189,7 +186,7 @@ public class PanelEmitirLicencia extends JPanel {
 
 		}catch(Exception ex){
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(null, "No se selecciono ninguna persona", "Error", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(null, "No se seleccionó ninguna persona", "Error", JOptionPane.OK_OPTION);
 		};
 	}
 
@@ -204,7 +201,7 @@ public class PanelEmitirLicencia extends JPanel {
 
 	}
 
-//	Setea el resultado de la bï¿½squeda en la tabla
+//	Setea el resultado de la busqueda en la tabla
 	public void setResultadoBusqueda(List<Persona> listaResultado, boolean actualizar) {
 		this.tablaContribuyentes.setContribuyentes(listaResultado);
 		if(actualizar) {
@@ -212,13 +209,13 @@ public class PanelEmitirLicencia extends JPanel {
 		}
 	}
 
-//	Obtiene el parï¿½metro de bï¿½squeda, realiza la busqueda a traves del gestor de BD y por ï¿½ltimo actualiza la tabla
+//	Obtiene el parametro de busqueda, realiza la busqueda a traves del gestor de BD y por ultimo actualiza la tabla
 	public void buscarContribuyentes() {
 
-		//Validaciï¿½n para que el texto ingresado no sea vacï¿½o. Lo pongo acï¿½ por ahora, creo que hay que moverlo para que no estï¿½ en la interfaz.
+		//Validacion para que el texto ingresado no sea vacio. Lo pongo aca por ahora, creo que hay que moverlo para que no este en la interfaz.
 
 		if (this.txtDNI.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, "Ingrese algï¿½n DNI.", "Error", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(null, "Ingrese algún DNI.", "Error", JOptionPane.OK_OPTION);
 			return;
 		}
 		else try {
