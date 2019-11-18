@@ -44,10 +44,10 @@ public class PanelDarAltaTitular extends JPanel{
 	private JLabel lblDNI;
 	private JTextField txtDNI;
 	private JLabel lblNacimiento;
+	private JTextField txtNacimiento;
 	private JLabel lblDireccion;
 	private JTextField txtDireccion;
 	private JLabel lblGrupoSanguineo;
-	private JLabel lblFactorRH;
 	private JLabel lblDonante;
 	private JLabel lblClaseSolicitada;
 	
@@ -55,36 +55,19 @@ public class PanelDarAltaTitular extends JPanel{
 	private JComboBox cmbGrupoSanguineo;
 	
 	private JButton btnSiguiente;
-	private JButton btnCancelar;
+	private JButton btnVolver;
 	
 	private JCheckBox chkDonante;
 	
-	private GestorBaseDeDatos gestorBD;
 	private GestorDeLicencia gestorLicencia = new GestorDeLicencia();
 	
 	private int dni;
 	private Date fdn;
 	
-	private JPanel anterior;
-	private JFrame padre;
-	private Rectangle boundsAnterior;
-	
-	private Dimension medidasPanel=new Dimension(1000,600);
-	
-	
 	public PanelDarAltaTitular() {
 		this.setLayout(new GridBagLayout());
 		this.construir();
-		this.gestorBD = new GestorBaseDeDatos();
 	}
-//	
-//	public PanelDarAltaTitular(Clase clase, Persona persona) {
-//		
-//		this.setSize(medidasPanel);
-//		this.setLayout(new GridBagLayout());
-//		this.construir();
-//		
-//	}
 	
 	private void construir() {
 		
@@ -101,7 +84,6 @@ public class PanelDarAltaTitular extends JPanel{
 		this.add(lblNombre, gridConst);
 		
 		gridConst.anchor = GridBagConstraints.LINE_START;
-		gridConst.fill = GridBagConstraints.BOTH;
 		
 		lblTitulo = new JLabel("Dar de Alta un Titular");
 		lblTitulo.setFont(new Font(Font.DIALOG, Font.BOLD, 16));
@@ -110,98 +92,107 @@ public class PanelDarAltaTitular extends JPanel{
 		gridConst.insets = new Insets(15, 5, 20, 5);
 		this.add(lblTitulo, gridConst);
 		
-		lblApellido = new JLabel("Apellido:");
+		lblApellido = new JLabel("Apellido: ");
 		gridConst.gridwidth = 1;
 		gridConst.gridy = 2;		
-		gridConst.insets = new Insets(0, 5, 15, 0);
+		gridConst.insets = new Insets(0, 5, 15, 5);
 		this.add(lblApellido, gridConst);
-		
-		txtApellido = new JTextField(20);
+
+		txtApellido = new JTextField();
+		txtApellido.setColumns(15);
 		gridConst.gridx = 1;
 		gridConst.insets = new Insets(0, 0, 15, 5);
 		this.add(txtApellido, gridConst);
-		
+
 		lblNombreTitular = new JLabel("Nombre:");
 		gridConst.gridx = 2;
-		gridConst.insets = new Insets(0, 5, 15, 5);
+		gridConst.insets = new Insets(0, 0, 15, 5);
 		this.add(lblNombreTitular, gridConst);
-		
+
 		txtNombreTitular = new JTextField(20);
+		txtNombreTitular.setColumns(15);
 		gridConst.gridx = 3;
 		gridConst.insets = new Insets(0, 0, 15, 5);
 		this.add(txtNombreTitular, gridConst);
-		
+
 		lblDNI = new JLabel("DNI:");
 		gridConst.gridy = 3;
 		gridConst.gridx = 0;
 		gridConst.insets = new Insets(0, 5, 15, 5);
 		this.add(lblDNI, gridConst);
-		
+
 		txtDNI = new JTextField(9);
+		txtDNI.setColumns(15);
 		gridConst.gridx = 1;
 		gridConst.insets = new Insets(0, 0, 15, 5);
 		this.add(txtDNI, gridConst);
-		
+
 		lblNacimiento = new JLabel("Fecha de Nacimiento:");
 		gridConst.gridx = 2;
-		gridConst.insets = new Insets(0, 5, 15, 5);
+		gridConst.insets = new Insets(0, 0, 15, 5);
 		this.add(lblNacimiento, gridConst);
 		
-		//Faltan los campos para ingresar la fecha de nacimiento, no me acuerdo como habíamos decidido hacerlo -- Facu
-		
-		lblDireccion = new JLabel("Dirección:");
+		txtNacimiento = new JTextField(15);
+		gridConst.gridx = 3;
+		gridConst.insets = new Insets(0, 0, 15, 5);
+		this.add(txtNacimiento, gridConst);
+
+		lblDireccion = new JLabel("Domicilio:");
 		gridConst.gridy = 4;
 		gridConst.gridx = 0;
 		gridConst.insets = new Insets(0, 5, 15, 5);
 		this.add(lblDireccion, gridConst);
-		
-		txtDireccion = new JTextField(20);
+
+		txtDireccion = new JTextField(25);
 		gridConst.gridx = 1;
 		gridConst.gridwidth = 3;
 		gridConst.insets = new Insets(0, 0, 15, 5);
 		this.add(txtDireccion, gridConst);
-		
+
 		lblGrupoSanguineo = new JLabel("Grupo Sanguíneo:");
 		gridConst.gridy = 5;
 		gridConst.gridx = 0;
 		gridConst.gridwidth = 1;
 		gridConst.insets = new Insets(0, 5, 15, 5);
 		this.add(lblGrupoSanguineo, gridConst);
-		
+
 		cmbGrupoSanguineo = new JComboBox(Grupo_sanguineo.values());
 		cmbGrupoSanguineo.setEditable(false);
 		cmbGrupoSanguineo.setPreferredSize(new Dimension(140, 20));
 		gridConst.gridx = 1;
+		gridConst.insets = new Insets(0, 0, 15, 5);
 		this.add(cmbGrupoSanguineo, gridConst);
+
+		gridConst.anchor = GridBagConstraints.LINE_END;
 		
-		lblDonante = new JLabel("Donante:");
+		lblDonante = new JLabel("Donante de órganos:");
 		gridConst.gridx = 2;
-		gridConst.insets = new Insets(0, 5, 15, 5);
 		this.add(lblDonante, gridConst);
 		
+		gridConst.anchor = GridBagConstraints.LINE_START;
+
 		chkDonante = new JCheckBox();
 		gridConst.gridx = 3;
-		gridConst.insets = new Insets(0, 5, 15, 5);
+		gridConst.insets = new Insets(0, 0, 15, 5);
 		this.add(chkDonante, gridConst);
-		
-		lblClaseSolicitada = new JLabel("ClaseSolicitada:");
+
+		lblClaseSolicitada = new JLabel("Clase Solicitada:");
 		gridConst.gridy = 6;
 		gridConst.gridx = 0;
 		gridConst.insets = new Insets(0, 5, 15, 5);
 		this.add(lblClaseSolicitada, gridConst);
-		
+
 		cmbClase = new JComboBox(Clase.values());
 		cmbClase.setEditable(false);
 		cmbClase.setPreferredSize(new Dimension(100, 20));
 		gridConst.gridx = 1;
 		gridConst.gridwidth = 2;
+		gridConst.insets = new Insets(0, 0, 15, 5);
 		this.add(cmbClase, gridConst);
 		
-		gridConst.anchor = GridBagConstraints.LINE_END;
-		
-		btnSiguiente = new JButton("Siguiente");
+		btnSiguiente = new JButton("Dar de alta");
 		gridConst.gridy = 7;
-		gridConst.gridx = 3;
+		gridConst.gridx = 2;
 		gridConst.gridwidth = 1;
 		this.add(btnSiguiente, gridConst);
 		
@@ -212,9 +203,16 @@ public class PanelDarAltaTitular extends JPanel{
 			try {
 				Titular titular = _altaTitular();
 				gestorLicencia.darDeAltaNuevoTitular((Clase)cmbClase.getSelectedItem(), titular);
-				removerPanel();
+
 				String Alerta="Se cargo con exito el titular "+titular.getApellido()+" "+titular.getNombre();
-				JOptionPane.showMessageDialog(null, Alerta, "Error", JOptionPane.OK_OPTION);
+				
+				JOptionPane.showMessageDialog(null, Alerta, "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);
+				
+				JOptionPane.showMessageDialog(null, "Licencia asignada con éxito", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+				
+				JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
+				frame.dispose();
+
 			}
 			
 			catch(Exception ex) {
@@ -223,11 +221,12 @@ public class PanelDarAltaTitular extends JPanel{
 			}
 		});
 		
-		btnCancelar = new JButton("Cancelar");
+		gridConst.anchor = GridBagConstraints.LINE_END;
+		
+		btnVolver = new JButton("Volver");
 		gridConst.gridy = 7;
-		gridConst.gridx = 2;
-		gridConst.gridwidth = 1;
-		btnCancelar.addActionListener(e -> {
+		gridConst.gridx = 1;
+		btnVolver.addActionListener(e -> {
 			
 			EmitirLicencia panelCards = (EmitirLicencia) SwingUtilities.getAncestorOfClass(JPanel.class, this);
 			CardLayout cl = (CardLayout) panelCards.getLayout();
@@ -235,7 +234,7 @@ public class PanelDarAltaTitular extends JPanel{
 			cl.show(panelCards, EmitirLicencia.EMITIRPANEL);
 			
 		});
-		this.add(btnCancelar, gridConst);
+		this.add(btnVolver, gridConst);
 		
 	}
 	
@@ -256,33 +255,11 @@ public class PanelDarAltaTitular extends JPanel{
 		return titular;
 	}
 	
-	public JFrame getPadre() {
-		return padre;
-	}
-
-	public void setPadre(JFrame padre) {
-		this.padre = padre;
-	}
-	
-	public void removerPanel() {
-		padre.remove(this);
-		padre.setContentPane(anterior);
-		padre.setBounds(boundsAnterior);
-		padre.setLocationRelativeTo(null);
-	}
-
-	public void setAnterior(JPanel anterior) {
-		this.anterior = anterior;
-	}
-
-	public void setBoundsAnterior(Rectangle bounds) {
-		this.boundsAnterior=bounds;
-		
-	}
-	
 	public void cargarDatos(Persona contribuyente, Clase clase) {
 		
 		Date fecha_de_nacimiento = contribuyente.getFecha_de_nacimiento();
+		fdn = fecha_de_nacimiento;
+		dni = contribuyente.getDni();
 		
 		this.txtNombreTitular.setText(contribuyente.getNombre());
 		this.txtNombreTitular.setEditable(false);
@@ -294,7 +271,8 @@ public class PanelDarAltaTitular extends JPanel{
 		this.txtDNI.setEditable(false);
 		
 		//FALTA DARLE FORMATO
-		this.lblNacimiento.setText("Fecha de Nacimiento:"+fecha_de_nacimiento.toString());
+		this.txtNacimiento.setText(fecha_de_nacimiento.toString());
+		this.txtNacimiento.setEditable(false);
 		
 		this.cmbClase.setSelectedItem(clase);
 		this.cmbClase.setEditable(false);

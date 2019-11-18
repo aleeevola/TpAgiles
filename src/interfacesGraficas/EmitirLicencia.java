@@ -4,6 +4,8 @@ import java.awt.CardLayout;
 
 import javax.swing.JPanel;
 
+// Esta clase se utiliza como un gestor de paneles. Con este tipo de Layout resulta mucho mas simple el manejo de pantallas.
+
 public class EmitirLicencia extends JPanel{
 	
 	public final static String EMITIRPANEL = "Card con Panel Emitir";

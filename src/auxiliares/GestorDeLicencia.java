@@ -1,5 +1,4 @@
 package auxiliares;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -8,8 +7,6 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.WindowConstants;
-
 import clases.Clase;
 import clases.Licencia;
 import clases.Persona;
@@ -40,6 +37,7 @@ public class GestorDeLicencia {
 	public int emitirLicencia(Clase clase, Persona persona) {
 		
 		int dni=persona.getDni();
+		System.out.println(dni);
 		Date fecha_de_nacimiento=persona.getFecha_de_nacimiento();
 		String nombre=persona.getNombre();
 		String apellido=persona.getApellido();
