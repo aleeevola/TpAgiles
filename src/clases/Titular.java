@@ -1,9 +1,17 @@
 package clases;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +26,9 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.engine.jdbc.BlobProxy;
+
+
 
 @Entity
 public class Titular {
@@ -48,6 +59,9 @@ public class Titular {
 	@JoinColumn(name = "titular_id")
 	private List<Licencia> licencias=new ArrayList<>();
 
+	@Column(name = "foto")
+	private Blob foto;
+	//private byte[] foto;
 
 	public int getId() {
 		return id;
@@ -142,5 +156,40 @@ public class Titular {
 		this.licencias.add(licencia);
 		System.out.println("agregada");
 	}
+
+
+	public Blob _getFoto(){
+		return foto;
+	}
+	
+	public void _setFoto(Blob foto) {
+		this.foto = foto;
+	}
+	
+	public File getFoto() throws SQLException {
+		File file2 = new File("fotoLicencia.jpg");
+	      try(FileOutputStream outputStream = new FileOutputStream(file2)) {
+	         BufferedImage bufferedImage = ImageIO.read(foto.getBinaryStream());
+	         ImageIO.write(bufferedImage, "jpg", outputStream);
+	         System.out.println("Image file location: "+file2.getCanonicalPath());
+	         return file2;
+	      } catch (IOException e) {
+	         e.printStackTrace();
+	      }
+		return null;
+	}
+
+	public void setFoto(File file) {
+		try {
+            BufferedImage bufferedImage=ImageIO.read(file);
+            ByteArrayOutputStream byteOutStream=new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "jpg", byteOutStream);
+            Blob fotito= (Blob) BlobProxy.generateProxy(byteOutStream.toByteArray());
+            _setFoto(fotito);
+         } catch (IOException e) {
+            e.printStackTrace();
+         }
+	}
+	
 	
 }
