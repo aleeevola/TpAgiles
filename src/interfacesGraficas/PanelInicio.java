@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -121,6 +122,11 @@ public class PanelInicio extends JPanel {
 		
 		PanelTareas tareas = new PanelTareas();
 		frame.setContentPane(tareas);
+		
+		frame.pack();
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation(dim.width/2- frame.getSize().width/2, dim.height/2- frame.getSize().height/2);
 		
 	}
 }

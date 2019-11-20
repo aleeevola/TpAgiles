@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -198,7 +199,14 @@ public class PanelEmitirLicencia extends JPanel {
 		cl.show(panelCards, EmitirLicencia.ALTAPANEL);
 
 		panelCards.cardAlta.cargarDatos(persona, (Clase)cmbClase.getSelectedItem());
-
+		
+		JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
+	
+		frame.setSize(new Dimension(900, 400));
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation(dim.width/2- frame.getSize().width/2, dim.height/2- frame.getSize().height/2);
+		
 	}
 
 //	Setea el resultado de la busqueda en la tabla
