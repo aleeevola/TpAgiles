@@ -44,13 +44,20 @@ public class testLicenciasBAnteriores {
 		licencia4.setClase(Clase.B);
 		licencia4.setNumero_de_copias(0);
 		licencia4.setFecha_de_vencimiento(new GregorianCalendar(2020, Calendar.JULY, 17).getTime());
-		licencia4.setFecha_de_emision(new GregorianCalendar(2018, Calendar.NOVEMBER, 13).getTime());
+		licencia4.setFecha_de_emision(new GregorianCalendar(2018, Calendar.NOVEMBER, 12).getTime());
 		
-		//historialLicencias.add(licencia);
-		//historialLicencias.add(licencia1);
-		//historialLicencias.add(licencia2);
-		//historialLicencias.add(licencia3);
+		Licencia licencia5 = new Licencia();
+		licencia5.setClase(Clase.B);
+		licencia5.setNumero_de_copias(0);
+		licencia5.setFecha_de_vencimiento(new GregorianCalendar(2020, Calendar.JULY, 17).getTime());
+		licencia5.setFecha_de_emision(new GregorianCalendar(2018, Calendar.NOVEMBER, 13).getTime());
+		
+		historialLicencias.add(licencia);
+		historialLicencias.add(licencia1);
+		historialLicencias.add(licencia2);
+		historialLicencias.add(licencia3);
 		historialLicencias.add(licencia4);
+		historialLicencias.add(licencia5);
 		
 		if(gl._licenciaB1año(historialLicencias)) System.out.println("DEVOLVIO TRUE");
 		

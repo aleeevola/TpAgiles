@@ -73,6 +73,11 @@ public class GestorDeLicencia {
 		else {
 			System.out.println("existe");
 			Titular titular=titulares.get(0);
+			if(_tieneLicencia(titular.getLicencias(),clase)) {
+				/* Si ya tiene una licencia de la clase solicitada debe hacer el tramite de renovacion de licencia, no emision. */
+				return -1;  
+			}
+			else {
 
 			if(clase==Clase.C || clase==Clase.D || clase==Clase.E){
 					if((20<edad && edad<66) && _licenciaB1año(titular.getLicencias())) {
@@ -116,6 +121,7 @@ public class GestorDeLicencia {
 			return 0;
 			}	
 		}
+		}
 		} else { /* Es menor de 17 años, no puede obtener ninguna licencia */
 			return -1;
 			//IMPRIMIR MENSAJE DE ERROR
@@ -123,6 +129,16 @@ public class GestorDeLicencia {
 	}
 	
 	
+
+	private boolean _tieneLicencia(List<Licencia> licencias, Clase clase) {
+		for(Licencia l : licencias) {
+			if(l.getClase()==clase) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 	public boolean _licenciaB1año(List<Licencia> licencias) {
 		if(licencias.isEmpty()) { //NO SE SI ESTA VALIDACION ESTA BIEN, PORQUE SI EXISTE EL TITULAR NUNCA DEBERIA ESTAR VACIA LA LISTA PERO NO SE
