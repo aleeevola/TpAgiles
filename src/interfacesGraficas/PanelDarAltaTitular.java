@@ -76,6 +76,7 @@ public class PanelDarAltaTitular extends JPanel{
 
 	private int dni;
 	private Date fdn;
+	private Clase clase;
 
 	private JButton btnAgregarFoto;
 	private JLabel LabelFoto;
@@ -268,7 +269,7 @@ public class PanelDarAltaTitular extends JPanel{
 			 * */
 			try {
 				Titular titular = _altaTitular();
-				gestorLicencia.darDeAltaNuevoTitular((Clase)cmbClase.getSelectedItem(), titular);
+				gestorLicencia.darDeAltaNuevoTitular(clase, titular);
 
 				String Alerta="El titular "+titular.getApellido()+", "+titular.getNombre()+" fue creado con éxito";
 
@@ -364,6 +365,7 @@ public class PanelDarAltaTitular extends JPanel{
 		this.txtNacimiento.setEditable(false);
 
 		this.lblClaseAsignada.setText(clase.toString());
+		this.clase=clase;
 
 		txtDireccion.setText(contribuyente.getDireccion());
 		txtDireccion.setEditable(false);
