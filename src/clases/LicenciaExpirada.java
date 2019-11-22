@@ -14,30 +14,31 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
-public class Licencia {
+@Table(name = "licencia")
+public class LicenciaExpirada {
+	/*
+	 * Esta clase solo sirve para cargar la lista de licencias expiradas
+	 * Es una clase axiliar que solo se usa para mostrar en tablas cuando no queres cargar todos los datos
+	 * */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 	@Column(name = "fecha_de_vencimiento")
 	private Date fecha_de_vencimiento;
-	@Column(name = "numero_de_copias")
-	private int numero_de_copias;
-	@Column(name = "fecha_de_emision")
-	private Date fecha_de_emision;
 	
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "clase")
 	private Clase clase;
 	
-	//JOSE
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "emitidoPor")
-	private UsuarioAdministrador emitidoPor;
 	
+	@ManyToOne
+    @JoinColumn(name = "titular_id")
+    private TitularExpirada titular;
 
 	public int getId() {
 		return id;
@@ -55,21 +56,7 @@ public class Licencia {
 		this.fecha_de_vencimiento = fecha_de_vencimiento;
 	}
 	
-	public Date getFecha_de_emision() {
-		return fecha_de_emision;
-	}
 
-	public void setFecha_de_emision(Date fecha_de_emision) {
-		this.fecha_de_emision = fecha_de_emision;
-	}
-
-	public int getNumero_de_copias() {
-		return numero_de_copias;
-	}
-
-	public void setNumero_de_copias(int numero_de_copias) {
-		this.numero_de_copias = numero_de_copias;
-	}
 
 	public Clase getClase() {
 		return clase;
@@ -79,19 +66,45 @@ public class Licencia {
 		this.clase = clase;
 	}
 
-	public UsuarioAdministrador getEmitidoPor() {
-		return emitidoPor;
+
+	public TitularExpirada getTitular() {
+		return titular;
 	}
 
-	public void setEmitidoPor(UsuarioAdministrador emitidoPor) {
-		this.emitidoPor = emitidoPor;
+	public void setTitular(TitularExpirada titular) {
+		this.titular = titular;
 	}
+	
 
 	@Override
 	public String toString() {
-		return "Licencia [id=" + id + ", fecha_de_vencimiento=" + fecha_de_vencimiento + ", numero_de_copias="
-				+ numero_de_copias + ", fecha_de_emision=" + fecha_de_emision + ", clase=" + clase + "]";
+		return "LicenciaExpirada [id=" + id + ", fecha_de_vencimiento=" + fecha_de_vencimiento + ", clase=" + clase
+				+ ", titular=" + titular + "]";
 	}
-	
+
+
+/*
+ * Metodos get y set del el titular
+ * */
+	public int getIdTitular() {
+		return titular.getId();
+	}
+
+
+	public int getDni() {
+		return titular.getDni();
+	}
+
+
+	public String getApellido() {
+		return titular.getApellido();
+	}
+
+
+
+	public String getNombre() {
+		return titular.getNombre();
+	}
+
 	
 }

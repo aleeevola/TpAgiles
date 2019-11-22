@@ -2,14 +2,21 @@ package auxiliares;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
+
 import java.util.ArrayList;
+import java.util.Date;
 
 import clases.Licencia;
+import clases.LicenciaExpirada;
 import clases.Persona;
 import clases.Titular;
 import clases.UsuarioAdministrador;
@@ -189,6 +196,49 @@ public class GestorBaseDeDatos {
 
 		factory.close();
 		return (ArrayList<Titular>) titulares;
+		
+		}
+	
+	
+	public ArrayList<LicenciaExpirada> getLicenciasExpiradas() {
+
+		Date fecha_sistema=new Date();
+		// crear objeto factory
+		
+		SessionFactory factory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(LicenciaExpirada.class)
+				.buildSessionFactory();
+
+		// crear sesión
+		//factory.openSession();
+
+		Session session = factory.getCurrentSession();
+
+		// usar el objeto session
+		session.beginTransaction();
+		
+		
+		Query q = session.createQuery("select l from LicenciaExpirada l where l.fecha_de_vencimiento < :fecha_sistema ");
+		//.fecha_de_vencimiento, l.id, l.clase
+		//+ "left outer join Titular t ON l.titular_id=t.id"
+		q.setParameter("fecha_sistema", fecha_sistema);
+		List<LicenciaExpirada> licenciasExpliradas = q.list();
+		
+		
+		/*
+		String queryStr =   "select NEW package.LicenciaExpirada("
+				+ " a.field1, b.field2, c.field3, c.field4) from a left outer join b "
+				+ "	on a.id=b.fk left outer join c on b.id=c.fk";
+
+			TypedQuery<LicenciaExpirada> query = session.createQuery(queryStr, LicenciaExpirada.class);
+
+			List<LicenciaExpirada> results = query.getResultList();*/
+		
+		
+		session.getTransaction().commit();
+		session.close();
+
+		factory.close();
+		return  (ArrayList<LicenciaExpirada>) licenciasExpliradas;
 		
 		}
 }

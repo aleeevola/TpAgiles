@@ -29,7 +29,8 @@
  		<mapping class="clases.Titular"/>
  		<mapping class="clases.Licencia"/>
  		<mapping class="clases.UsuarioAdministrador"/>
- 		
+ 		<mapping class="clases.TitularExpirada"/>
+ 		<mapping class="clases.LicenciaExpirada"/>
     </session-factory>	
 
 </hibernate-configuration>  
