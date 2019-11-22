@@ -1,4 +1,4 @@
-package clases;
+package auxiliares;
 
 import java.util.Date;
 
@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import clases.Clase;
 
 @Entity
 @Table(name = "licencia")

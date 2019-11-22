@@ -17,10 +17,10 @@ import org.hibernate.engine.jdbc.BlobProxy;
 
 
 import auxiliares.GestorBaseDeDatos;
+import auxiliares.LicenciaExpirada;
 import clases.Clase;
 import clases.Grupo_sanguineo;
 import clases.Licencia;
-import clases.LicenciaExpirada;
 import clases.Titular;
 import clases.UsuarioAdministrador;
 
@@ -84,19 +84,7 @@ public class test {
 		ArrayList vencidas=(ArrayList) bd.getLicenciasExpiradas();
 		System.out.println(vencidas.toString());
 		
-		/*ArrayList<Titular> asd=bd.getTitular(40450769, "Vola", "Alejandro");
-		Titular t2=asd.get(0);
 		
-		
-		
-		File file2 = new File("output.jpg");
-	      try(FileOutputStream outputStream = new FileOutputStream(file2)) {
-	         BufferedImage bufferedImage = ImageIO.read(t2._getFoto().getBinaryStream());
-	         ImageIO.write(bufferedImage, "jpg", outputStream);
-	         System.out.println("Image file location: "+file2.getCanonicalPath());
-	      } catch (IOException e) {
-	         e.printStackTrace();
-	      }*/
       
 	}
 

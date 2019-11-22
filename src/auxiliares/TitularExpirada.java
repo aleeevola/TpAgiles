@@ -1,6 +1,6 @@
-package clases;
+package auxiliares;
 
-import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,9 +23,6 @@ public class TitularExpirada {
 	private String apellido;
 	@Column(name = "nombre")
 	private String nombre;
-	
-//	@Column(name = "fecha_de_nacimiento")
-//	private Date fecha_de_nacimiento;
 
 
 	public int getId() {
