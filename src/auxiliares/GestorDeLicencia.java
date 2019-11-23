@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import clases.Clase;
 import clases.Licencia;
@@ -56,7 +57,7 @@ public class GestorDeLicencia {
 		if(titulares.isEmpty()) {
 			System.out.println("No existe");
 			
-			if(clase==Clase.A || clase==Clase.B || clase==Clase.G) { //ACA NO HAY QUE AGREGAR TAMBIEN LA CLASE F??
+			if(clase==Clase.A || clase==Clase.B || clase==Clase.F || clase==Clase.G) { 
 					
 					
 					System.out.println("retorna 1");
@@ -64,7 +65,8 @@ public class GestorDeLicencia {
 					return 1;
 			} else { 
 				/* No existe el titular en la base de datos, por lo que si solicitó licencia C/D/E no cumple el requisito "tener una licencia clase B de al menos un año" */
-				//IMPRIMIR MENSAJE DE ERROR
+				JOptionPane.showMessageDialog(null, "Debe tener una licencia clase B de al menos un año para solicitar clase"+clase, "Error", JOptionPane.OK_OPTION);
+
 				return -1;
 				} 
 			
@@ -74,6 +76,7 @@ public class GestorDeLicencia {
 			System.out.println("existe");
 			Titular titular=titulares.get(0);
 			if(_tieneLicencia(titular.getLicencias(),clase)) {
+				JOptionPane.showMessageDialog(null, "Ya posee una licencia, debe hacer el tramite de renovación", "Error", JOptionPane.OK_OPTION);
 				/* Si ya tiene una licencia de la clase solicitada debe hacer el tramite de renovacion de licencia, no emision. */
 				return -1;  
 			}
@@ -97,7 +100,8 @@ public class GestorDeLicencia {
 					}else { 
 						
 						/* Se solicito una clase C/D/E pero no cumple requisitos de edad y/o de licencias anteriores, retorna false */
-						//IMPRIMIR MENSAJE DE ERROR 
+						JOptionPane.showMessageDialog(null, "Para solicitar una licencia clase "+clase+" debe tener entre 21 y 65 años, y tener una licencia B de al menos un año.", "Error", JOptionPane.OK_OPTION);
+					
 						return -1;
 					}
 				
@@ -123,8 +127,8 @@ public class GestorDeLicencia {
 		}
 		}
 		} else { /* Es menor de 17 años, no puede obtener ninguna licencia */
+			JOptionPane.showMessageDialog(null, "Debe tener al menos 17 años para solicitar una licencia.", "Error", JOptionPane.OK_OPTION);
 			return -1;
-			//IMPRIMIR MENSAJE DE ERROR
 			}
 	}
 	
