@@ -3,15 +3,24 @@ package interfacesGraficas;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 public class Principal {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 
+		/*
+		 * CARGA EL ESTILO POR DEFECTO DEL SISTEMA
+		 * + INFO https://docs.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+		 * */
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				createAndShowGUI();
+				
 			}
 		});
 	}
