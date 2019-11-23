@@ -122,11 +122,12 @@ public class PanelInicio extends JPanel {
 		
 		PanelTareas tareas = new PanelTareas();
 		frame.setContentPane(tareas);
-		
+
 		frame.pack();
 		
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(dim.width/2- frame.getSize().width/2, dim.height/2- frame.getSize().height/2);
+        
 		
 	}
 }

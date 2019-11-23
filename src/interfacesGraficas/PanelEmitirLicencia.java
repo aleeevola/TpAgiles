@@ -29,6 +29,7 @@ import auxiliares.GestorDeLicencia;
 import auxiliares.TablaContribuyentes;
 import clases.Clase;
 import clases.Persona;
+import clases.Titular;
 
 public class PanelEmitirLicencia extends JPanel {
 
@@ -174,6 +175,8 @@ public class PanelEmitirLicencia extends JPanel {
 			if(seEmitioLaLicencia==0) {
 
 				JOptionPane.showMessageDialog(null, "Licencia asignada con éxito", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+				
+				this.imprimirLicencia(persona);
 
 			}else if (seEmitioLaLicencia==-1){
 
@@ -237,5 +240,21 @@ public class PanelEmitirLicencia extends JPanel {
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, "No se encontraron resultados", "Error", JOptionPane.OK_OPTION);
 		}
+	}
+	
+	public void imprimirLicencia(Persona persona) throws Exception {
+		
+		JFrame newFrame = new JFrame();
+		PanelEmitirLicencia licenciaImpresa = new PanelEmitirLicencia();
+		
+		newFrame.setSize(750, 500);
+		newFrame.setVisible(true);
+		
+//		licenciaImpresa.cargarImagen((Clase)cmbClase.getSelectedItem(), persona);
+
+		newFrame.setContentPane(licenciaImpresa);
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
 	}
 }

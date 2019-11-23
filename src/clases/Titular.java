@@ -178,7 +178,19 @@ public class Titular {
 	      }
 		return null;
 	}
-
+	
+	public BufferedImage getBufferedFoto() throws SQLException {
+		File file2 = new File("fotoLicencia.jpg");
+	      try(FileOutputStream outputStream = new FileOutputStream(file2)) {
+	         BufferedImage bufferedImage = ImageIO.read(foto.getBinaryStream());
+	         ImageIO.write(bufferedImage, "jpg", outputStream);
+	         return bufferedImage;
+	      } catch (IOException e) {
+	         e.printStackTrace();
+	      }
+		return null;
+	}
+	
 	public void setFoto(File file) {
 		try {
             BufferedImage bufferedImage=ImageIO.read(file);

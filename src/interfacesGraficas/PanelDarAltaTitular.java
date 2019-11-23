@@ -279,7 +279,9 @@ public class PanelDarAltaTitular extends JPanel{
 
 				JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
 				frame.dispose();
-
+				
+				this.imprimirLicencia(titular);
+				
 			}
 
 			catch(Exception ex) {
@@ -370,5 +372,21 @@ public class PanelDarAltaTitular extends JPanel{
 		txtDireccion.setText(contribuyente.getDireccion());
 		txtDireccion.setEditable(false);
 
+	}
+	
+	public void imprimirLicencia(Titular titular) throws Exception {
+	
+		JFrame newFrame = new JFrame();
+		PanelImprimirLicencia licenciaImpresa = new PanelImprimirLicencia();
+		
+		newFrame.setSize(750, 500);
+		newFrame.setVisible(true);
+		
+		licenciaImpresa.cargarImagen(this.clase, titular);
+
+		newFrame.setContentPane(licenciaImpresa);
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
 	}
 }
