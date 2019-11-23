@@ -58,7 +58,10 @@ public class PanelImprimirLicencia extends JPanel {
 	    g.drawString(String.valueOf(titular.getDni()), 368, 120);
 	    g.drawString(titular.getApellido(), 368, 148);
 	    g.drawString(titular.getNombre(), 368, 170);
-	    g.drawString(String.valueOf(titular.getFecha_de_nacimiento()), 368, 198);
+	    
+	    String fechaNacimiento = formatFecha.format(titular.getFecha_de_nacimiento());
+	    g.drawString(fechaNacimiento, 368, 198);
+	    
 	    g.drawString(titular.getDireccion(), 368, 222);
 	    g.drawString("23/11/2019", 368, 291);
 	    g.drawString("ORIGINAL", 368, 319);

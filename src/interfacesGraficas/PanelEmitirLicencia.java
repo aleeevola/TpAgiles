@@ -182,7 +182,7 @@ public class PanelEmitirLicencia extends JPanel {
 
 				JOptionPane.showMessageDialog(null, "Licencia asignada con éxito", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
 				
-				this.imprimirLicencia(persona);
+//				this.imprimirLicencia(persona);
 
 			}else if (seEmitioLaLicencia==-1){
 
