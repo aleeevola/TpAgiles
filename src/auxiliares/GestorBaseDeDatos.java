@@ -2,12 +2,18 @@ package auxiliares;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
+
 import java.util.ArrayList;
+import java.util.Date;
 
 import clases.Licencia;
 import clases.Persona;
@@ -189,6 +195,38 @@ public class GestorBaseDeDatos {
 
 		factory.close();
 		return (ArrayList<Titular>) titulares;
+		
+		}
+	
+	
+	public List<LicenciaExpirada> getLicenciasExpiradas() {
+
+		Date fecha_sistema=new Date();
+		// crear objeto factory
+		
+		SessionFactory factory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(LicenciaExpirada.class)
+				.buildSessionFactory();
+
+		// crear sesión
+		//factory.openSession();
+
+		Session session = factory.getCurrentSession();
+
+		// usar el objeto session
+		session.beginTransaction();
+		
+		
+		Query q = session.createQuery("select l from LicenciaExpirada l where l.fecha_de_vencimiento < :fecha_sistema ");
+		
+		q.setParameter("fecha_sistema", fecha_sistema);
+		List<LicenciaExpirada> licenciasExpliradas = q.list();
+		
+	
+		session.getTransaction().commit();
+		session.close();
+
+		factory.close();
+		return licenciasExpliradas;
 		
 		}
 }

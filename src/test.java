@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -16,6 +17,7 @@ import org.hibernate.engine.jdbc.BlobProxy;
 
 
 import auxiliares.GestorBaseDeDatos;
+import auxiliares.LicenciaExpirada;
 import clases.Clase;
 import clases.Grupo_sanguineo;
 import clases.Licencia;
@@ -30,11 +32,11 @@ public class test {
 		GestorBaseDeDatos bd=new GestorBaseDeDatos();
 		
 		Titular t=new Titular();
-		t.setApellido("Vola");
-		t.setNombre("Alejandro");
-		t.setDireccion("Norte");
+		t.setApellido("Pedro");
+		t.setNombre("Alfonso");
+		t.setDireccion("Sur");
 		t.setDni(40450769);
-		t.setSangre(Grupo_sanguineo.A_NEGATIVO);
+		t.setSangre(Grupo_sanguineo.CERO_NEGATIVO);
 		t.setDonante_de_organos(true);
 		
 		//save image into database
@@ -54,25 +56,35 @@ public class test {
 		
 		UsuarioAdministrador u=new UsuarioAdministrador();
 		u.setUsuario("aleeevola");
+		
+		Licencia l1=new Licencia();
+		l1.setClase(Clase.A);
+		l1.setEmitidoPor(u);
+		l1.setFecha_de_emision(fn);
+		Date ayer = new GregorianCalendar(2018, Calendar.FEBRUARY, 3).getTime();
+		l1.setFecha_de_vencimiento(ayer);
+		l1.setNumero_de_copias(0);
+		t.addLicencia(l1);
+		
+		Licencia l2=new Licencia();
+		l2.setClase(Clase.H);
+		l2.setEmitidoPor(u);
+		l2.setFecha_de_emision(fn);
+		Date asd = new GregorianCalendar(2018, Calendar.FEBRUARY, 3).getTime();
+		l2.setFecha_de_vencimiento(asd);
+		l2.setNumero_de_copias(0);
+		t.addLicencia(l2);
 		//ATENCION    ahre
 		//Si el usuario no esta cargado en la BD antes hay que agregarlo con el comando de abajo
 		//int oo=bd.guardarUsuarioAdministrador(u);
 		
-				
+		//GUARDO TITULAR	
 		//int o=bd.guardarTitular(t);
-		ArrayList<Titular> asd=bd.getTitular(40450769, "Vola", "Alejandro");
-		Titular t2=asd.get(0);
+		//OBTENGO VENCIDAS
+		ArrayList vencidas=(ArrayList) bd.getLicenciasExpiradas();
+		System.out.println(vencidas.toString());
 		
 		
-		
-		File file2 = new File("output.jpg");
-	      try(FileOutputStream outputStream = new FileOutputStream(file2)) {
-	         BufferedImage bufferedImage = ImageIO.read(t2._getFoto().getBinaryStream());
-	         ImageIO.write(bufferedImage, "jpg", outputStream);
-	         System.out.println("Image file location: "+file2.getCanonicalPath());
-	      } catch (IOException e) {
-	         e.printStackTrace();
-	      }
       
 	}
 
