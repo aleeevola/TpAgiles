@@ -49,7 +49,6 @@ public class PanelRenovarLicencia extends JPanel {
 	private JTable tabla;
 	private TablaLicencias tablaLicencias = new TablaLicencias();
 	private JLabel lblClase;
-	private JComboBox cmbClase;
 	private JButton btnSiguiente;
 	private GestorBaseDeDatos gestorBD;
 	private GestorDeLicencia gestorLicencia;
@@ -138,22 +137,11 @@ public class PanelRenovarLicencia extends JPanel {
 			}
 		});
 
-		gridConst.anchor = GridBagConstraints.LINE_END;
-
-		lblClase = new JLabel("Clase:");
-		gridConst.gridy = 4;
-		gridConst.gridwidth = 1;
-		this.add(lblClase, gridConst);
+		
 
 		gridConst.anchor = GridBagConstraints.LINE_START;
 
-		cmbClase = new JComboBox(Clase.values());
-		cmbClase.setEditable(false);
-		cmbClase.setPreferredSize(new Dimension(200, 20));
-		gridConst.gridx = 1;
-		gridConst.gridwidth = 2;
-		this.add(cmbClase, gridConst);
-
+		
 		btnSiguiente = new JButton("Renovar");
 		gridConst.gridy = 5;
 		gridConst.gridx = 2;
