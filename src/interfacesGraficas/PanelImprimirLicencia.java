@@ -8,15 +8,13 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import clases.Clase;
-import clases.Persona;
+import clases.Licencia;
 import clases.Titular;
 
 public class PanelImprimirLicencia extends JPanel {
@@ -48,7 +46,7 @@ public class PanelImprimirLicencia extends JPanel {
 		g.dispose();
 	}
 	
-	public void cargarImagen(Clase clase, Titular titular) throws Exception{
+	public void cargarImagen(Licencia licencia, Titular titular) throws Exception{
 		
 		Graphics g = imagenLicencia.getGraphics();
 		
@@ -59,14 +57,20 @@ public class PanelImprimirLicencia extends JPanel {
 	    g.drawString(titular.getApellido(), 368, 148);
 	    g.drawString(titular.getNombre(), 368, 170);
 	    
-	    String fechaNacimiento = formatFecha.format(titular.getFecha_de_nacimiento());
-	    g.drawString(fechaNacimiento, 368, 198);
+	    String fechaFormato = formatFecha.format(titular.getFecha_de_nacimiento());
+	    g.drawString(fechaFormato, 368, 198);
 	    
 	    g.drawString(titular.getDireccion(), 368, 222);
-	    g.drawString("23/11/2019", 368, 291);
+	    
+	    fechaFormato = formatFecha.format(licencia.getFecha_de_emision());
+	    g.drawString(fechaFormato, 368, 291);
+	    
 	    g.drawString("ORIGINAL", 368, 319);
-	    g.drawString(clase.toString(), 368, 343);
-	    g.drawString("23/11/2024", 586, 330);
+	    g.drawString(licencia.getClase().toString(), 368, 343);
+	    
+	    fechaFormato = formatFecha.format(licencia.getFecha_de_vencimiento());
+	    g.drawString(fechaFormato, 586, 330);
+	    
 	    
 	    Graphics2D g2d = imagenLicencia.createGraphics();
 	    

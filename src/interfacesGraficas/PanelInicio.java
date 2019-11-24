@@ -39,7 +39,6 @@ public class PanelInicio extends JPanel {
 	private JLabel lblLogo;
 	
 	public PanelInicio() {
-		//this.setLayout(new GridBagLayout());
 		this.setLayout(new BorderLayout());
 		this.setBackground(Color.WHITE);
 		

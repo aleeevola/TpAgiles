@@ -147,7 +147,6 @@ public class Titular {
 		return licencias;
 	}
 
-
 	public void setLicencias(List<Licencia> licencias) {
 		this.licencias = licencias;
 	}

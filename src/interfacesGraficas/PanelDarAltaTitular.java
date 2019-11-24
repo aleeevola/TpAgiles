@@ -12,6 +12,7 @@ import java.awt.Toolkit;
 import java.awt.image.ImageFilter;
 import java.io.File;
 import java.io.FileFilter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,6 +48,8 @@ import clases.Titular;
 
 public class PanelDarAltaTitular extends JPanel{
 
+	private static SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy");
+	
 	private JLabel lblTitulo;
 	private JLabel lblNombre;
 	private JLabel lblNombreTitular;
@@ -63,7 +66,6 @@ public class PanelDarAltaTitular extends JPanel{
 	private JLabel lblDonante;
 	private JLabel lblClaseSolicitada;
 
-	private JComboBox cmbClase;
 	private JLabel lblClaseAsignada;
 	private JComboBox cmbGrupoSanguineo;
 
@@ -86,13 +88,6 @@ public class PanelDarAltaTitular extends JPanel{
 	public PanelDarAltaTitular() {
 		this.setLayout(new GridBagLayout());
 		this.construir();
-	}
-
-	private String formatoFecha(Date fecha_de_nacimiento) {
-		GregorianCalendar fecha=new GregorianCalendar();
-		fecha.setTime(fecha_de_nacimiento);
-		String formatoFecha=fecha.get(Calendar.DAY_OF_MONTH)+"/"+(fecha.get(Calendar.MONTH)+1)+"/"+fecha.get(Calendar.YEAR);
-		return formatoFecha;
 	}
 
 	private void construir() {
@@ -271,19 +266,10 @@ public class PanelDarAltaTitular extends JPanel{
 				Titular titular = _altaTitular();
 				gestorLicencia.darDeAltaNuevoTitular(clase, titular);
 
-				String Alerta="El titular "+titular.getApellido()+", "+titular.getNombre()+" fue creado con éxito";
-
-				JOptionPane.showMessageDialog(null, Alerta, "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);
-
-				JOptionPane.showMessageDialog(null, "Licencia asignada con éxito", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
-
 				JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
 				frame.dispose();
 				
-				this.imprimirLicencia(titular);
-				
 			}
-
 			catch(Exception ex) {
 				ex.printStackTrace();
 				JOptionPane.showMessageDialog(null, "No se pudo cargar el nuevo titular", "Error", JOptionPane.OK_OPTION);
@@ -361,9 +347,9 @@ public class PanelDarAltaTitular extends JPanel{
 
 		this.txtDNI.setText(String.valueOf(contribuyente.getDni()));
 		this.txtDNI.setEditable(false);
-
-		//FALTA DARLE FORMATO
-		this.txtNacimiento.setText(fecha_de_nacimiento.toString());
+		
+		String fechaNacimiento = formatFecha.format(fdn);
+		this.txtNacimiento.setText(fechaNacimiento);
 		this.txtNacimiento.setEditable(false);
 
 		this.lblClaseAsignada.setText(clase.toString());
@@ -372,21 +358,5 @@ public class PanelDarAltaTitular extends JPanel{
 		txtDireccion.setText(contribuyente.getDireccion());
 		txtDireccion.setEditable(false);
 
-	}
-	
-	public void imprimirLicencia(Titular titular) throws Exception {
-	
-		JFrame newFrame = new JFrame();
-		PanelImprimirLicencia licenciaImpresa = new PanelImprimirLicencia();
-		
-		newFrame.setSize(750, 500);
-		newFrame.setVisible(true);
-		
-		licenciaImpresa.cargarImagen(this.clase, titular);
-
-		newFrame.setContentPane(licenciaImpresa);
-		
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
 	}
 }

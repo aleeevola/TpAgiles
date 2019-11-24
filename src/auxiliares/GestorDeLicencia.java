@@ -1,4 +1,7 @@
 package auxiliares;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -6,18 +9,18 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import clases.Clase;
 import clases.Licencia;
 import clases.Persona;
 import clases.Titular;
+import interfacesGraficas.PanelImprimirLicencia;
 
 
 
 public class GestorDeLicencia {
 
-	private JFrame frame;
-	private JPanel contentPane;
 	private GestorBaseDeDatos bd= new GestorBaseDeDatos();
 	
 	Date fechaActual = new Date();
@@ -36,8 +39,8 @@ public class GestorDeLicencia {
 	 **/
 	public int emitirLicencia(Clase clase, Persona persona) {
 		
+		//Datos titular
 		int dni=persona.getDni();
-		System.out.println(dni);
 		Date fecha_de_nacimiento=persona.getFecha_de_nacimiento();
 		String nombre=persona.getNombre();
 		String apellido=persona.getApellido();
@@ -58,7 +61,6 @@ public class GestorDeLicencia {
 			
 			if(clase==Clase.A || clase==Clase.B || clase==Clase.G) { //ACA NO HAY QUE AGREGAR TAMBIEN LA CLASE F??
 					
-					
 					System.out.println("retorna 1");
 					
 					return 1;
@@ -67,8 +69,6 @@ public class GestorDeLicencia {
 				//IMPRIMIR MENSAJE DE ERROR
 				return -1;
 				} 
-			
-			
 		}
 		else {
 			System.out.println("existe");
@@ -92,6 +92,14 @@ public class GestorDeLicencia {
 						titular.addLicencia(licencia);
 						
 						bd.updateTitular(titular);
+						
+						JOptionPane.showMessageDialog(null, "Licencia asignada con éxito", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+						
+						try {
+							this.imprimirLicencia(titular, licencia);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 						
 						return 0;
 					}else { 
@@ -117,6 +125,14 @@ public class GestorDeLicencia {
 			titular.addLicencia(licencia);
 			
 			bd.updateTitular(titular);
+			
+			JOptionPane.showMessageDialog(null, "Licencia asignada con éxito", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+			
+			try {
+				this.imprimirLicencia(titular, licencia);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			
 			return 0;
 			}	
@@ -239,16 +255,50 @@ public class GestorDeLicencia {
 	
 	public void darDeAltaNuevoTitular(Clase clase,Titular titular) {
 		
-		Date fecha_de_vencimiento=this.calcularVigencia(titular.getFecha_de_nacimiento(), 0);
-		
 		Licencia licencia = new Licencia();
-		licencia.setClase(clase);
-		licencia.setNumero_de_copias(0);
-		licencia.setFecha_de_vencimiento(fecha_de_vencimiento);
-		licencia.setFecha_de_emision(fechaActual);
 		
-		titular.addLicencia(licencia);
+		try { 
+			
+			Date fecha_de_vencimiento=this.calcularVigencia(titular.getFecha_de_nacimiento(), 0);
+			licencia.setClase(clase);
+			licencia.setNumero_de_copias(0);
+			licencia.setFecha_de_vencimiento(fecha_de_vencimiento);
+			licencia.setFecha_de_emision(fechaActual);
+			
+			titular.addLicencia(licencia);
+			
+			bd.guardarTitular(titular);
+	
+			String Alerta="El titular "+titular.getApellido()+", "+titular.getNombre()+" fue creado con éxito";
+	
+			JOptionPane.showMessageDialog(null, Alerta, "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);
+	
+			JOptionPane.showMessageDialog(null, "Licencia asignada con éxito", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+			
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, "No se pudo emitir la licencia", "Licencia Emitida", JOptionPane.OK_OPTION);
+		}
 		
-		bd.guardarTitular(titular);
+		try {
+			this.imprimirLicencia(titular, licencia);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void imprimirLicencia(Titular titular, Licencia licencia) throws Exception {
+		
+		JFrame newFrame = new JFrame();
+		PanelImprimirLicencia licenciaImpresa = new PanelImprimirLicencia();
+		
+		newFrame.setSize(750, 500);
+		newFrame.setVisible(true);
+		
+		licenciaImpresa.cargarImagen(licencia, titular);
+
+		newFrame.setContentPane(licenciaImpresa);
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
 	}
 }

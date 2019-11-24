@@ -1,7 +1,6 @@
 package interfacesGraficas;
 
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -14,7 +13,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -26,15 +24,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import auxiliares.GestorBaseDeDatos;
 import auxiliares.GestorDeLicencia;
 import auxiliares.TablaContribuyentes;
 import clases.Clase;
 import clases.Persona;
-import clases.Titular;
 
 public class PanelEmitirLicencia extends JPanel {
 
@@ -180,10 +174,9 @@ public class PanelEmitirLicencia extends JPanel {
 
 			if(seEmitioLaLicencia==0) {
 
-				JOptionPane.showMessageDialog(null, "Licencia asignada con éxito", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+				JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
+				frame.dispose();
 				
-//				this.imprimirLicencia(persona);
-
 			}else if (seEmitioLaLicencia==-1){
 
 				JOptionPane.showMessageDialog(null, "No se puede emitir una licencia", "Error", JOptionPane.OK_OPTION);
@@ -229,7 +222,7 @@ public class PanelEmitirLicencia extends JPanel {
 //	Obtiene el parametro de busqueda, realiza la busqueda a traves del gestor de BD y por ultimo actualiza la tabla
 	public void buscarContribuyentes() {
 
-		//Validacion para que el texto ingresado no sea vacio. Lo pongo aca por ahora, creo que hay que moverlo para que no este en la interfaz.
+		//Validacion para que el texto ingresado no sea vacio
 
 		if (this.txtDNI.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, "Ingrese algún DNI.", "Error", JOptionPane.OK_OPTION);
