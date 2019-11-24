@@ -1,4 +1,5 @@
 package auxiliares;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ public class TablaLicenciasExpiradas extends AbstractTableModel{
 //	Clase utilizada para representar el formato de tabla que visualiza todos los contribuyentes.
 //	Los contribuyentes provienen de la base de datos externa al sistema y se representan como "Personas".
 	
+	private static SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy");
 	
 	private List<LicenciaExpirada> licenciasExpiradas=new ArrayList();
 	private String[] columnas = {"DNI", "Nombre", "Apellido", "Clase", "Fecha de vencimiento"};
@@ -25,12 +27,10 @@ public class TablaLicenciasExpiradas extends AbstractTableModel{
 		this.licenciasExpiradas = licenciasExpiradas;
 	}
 	
-	
 	public String getColumnName(int indice) {
 		return this.columnas[indice];
 	}
 	
-
 	@Override 
 	public int getColumnCount() {
 		return this.columnas.length;
@@ -60,7 +60,8 @@ public class TablaLicenciasExpiradas extends AbstractTableModel{
 			valor = this.licenciasExpiradas.get(rowIndex).getClase();
 			break;
 		case 4:
-			valor = this.licenciasExpiradas.get(rowIndex).getFecha_de_vencimiento();
+			String fechaVencimiento = formatFecha.format(this.licenciasExpiradas.get(rowIndex).getFecha_de_vencimiento());
+			valor = fechaVencimiento;
 			break;
 		default:
 			break;

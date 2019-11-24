@@ -179,8 +179,9 @@ public class PanelEmitirLicencia extends JPanel {
 
 			if(seEmitioLaLicencia==0) {
 
-				JOptionPane.showMessageDialog(null, "Licencia asignada con éxito", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
-
+				JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
+				frame.dispose();
+				
 			}else if (seEmitioLaLicencia==-1){
 
 				JOptionPane.showMessageDialog(null, "No se puede emitir una licencia", "Error", JOptionPane.OK_OPTION);
@@ -226,7 +227,7 @@ public class PanelEmitirLicencia extends JPanel {
 //	Obtiene el parametro de busqueda, realiza la busqueda a traves del gestor de BD y por ultimo actualiza la tabla
 	public void buscarContribuyentes() {
 
-		//Validacion para que el texto ingresado no sea vacio. Lo pongo aca por ahora, creo que hay que moverlo para que no este en la interfaz.
+		//Validacion para que el texto ingresado no sea vacio
 
 		if (this.txtDNI.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, "Ingrese algún DNI.", "Error", JOptionPane.OK_OPTION);
@@ -243,5 +244,21 @@ public class PanelEmitirLicencia extends JPanel {
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, "No se encontraron resultados", "Error", JOptionPane.OK_OPTION);
 		}
+	}
+	
+	public void imprimirLicencia(Persona persona) throws Exception {
+		
+		JFrame newFrame = new JFrame();
+		PanelEmitirLicencia licenciaImpresa = new PanelEmitirLicencia();
+		
+		newFrame.setSize(750, 500);
+		newFrame.setVisible(true);
+		
+//		licenciaImpresa.cargarImagen((Clase)cmbClase.getSelectedItem(), persona);
+
+		newFrame.setContentPane(licenciaImpresa);
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
 	}
 }

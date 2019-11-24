@@ -1,4 +1,7 @@
 package auxiliares;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,13 +15,13 @@ import clases.Clase;
 import clases.Licencia;
 import clases.Persona;
 import clases.Titular;
+import interfacesGraficas.FrameImprimirComprobante;
+import interfacesGraficas.PanelImprimirLicencia;
 
 
 
 public class GestorDeLicencia {
 
-	private JFrame frame;
-	private JPanel contentPane;
 	private GestorBaseDeDatos bd= new GestorBaseDeDatos();
 	
 	Date fechaActual = new Date();
@@ -37,8 +40,8 @@ public class GestorDeLicencia {
 	 **/
 	public int emitirLicencia(Clase clase, Persona persona) {
 		
+		//Datos titular
 		int dni=persona.getDni();
-		System.out.println(dni);
 		Date fecha_de_nacimiento=persona.getFecha_de_nacimiento();
 		String nombre=persona.getNombre();
 		String apellido=persona.getApellido();
@@ -59,7 +62,6 @@ public class GestorDeLicencia {
 			
 			if(clase==Clase.A || clase==Clase.B || clase==Clase.F || clase==Clase.G) { 
 					
-					
 					System.out.println("retorna 1");
 					
 					return 1;
@@ -69,8 +71,6 @@ public class GestorDeLicencia {
 
 				return -1;
 				} 
-			
-			
 		}
 		else {
 			System.out.println("existe");
@@ -95,6 +95,15 @@ public class GestorDeLicencia {
 						titular.addLicencia(licencia);
 						
 						bd.updateTitular(titular);
+						
+						JOptionPane.showMessageDialog(null, "Licencia asignada con éxito. Su licencia y comprobante se están imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+						
+						try {
+							this.imprimirLicencia(titular, licencia);
+							this.imprimirComprobante(titular, licencia);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 						
 						return 0;
 					}else { 
@@ -121,6 +130,15 @@ public class GestorDeLicencia {
 			titular.addLicencia(licencia);
 			
 			bd.updateTitular(titular);
+			
+			JOptionPane.showMessageDialog(null, "Licencia asignada con éxito. Su licencia y comprobante se están imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+			
+			try {
+				this.imprimirLicencia(titular, licencia);
+				this.imprimirComprobante(titular, licencia);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			
 			return 0;
 			}	
@@ -243,16 +261,119 @@ public class GestorDeLicencia {
 	
 	public void darDeAltaNuevoTitular(Clase clase,Titular titular) {
 		
-		Date fecha_de_vencimiento=this.calcularVigencia(titular.getFecha_de_nacimiento(), 0);
-		
 		Licencia licencia = new Licencia();
-		licencia.setClase(clase);
-		licencia.setNumero_de_copias(0);
-		licencia.setFecha_de_vencimiento(fecha_de_vencimiento);
-		licencia.setFecha_de_emision(fechaActual);
 		
-		titular.addLicencia(licencia);
+		try { 
+			
+			Date fecha_de_vencimiento=this.calcularVigencia(titular.getFecha_de_nacimiento(), 0);
+			licencia.setClase(clase);
+			licencia.setNumero_de_copias(0);
+			licencia.setFecha_de_vencimiento(fecha_de_vencimiento);
+			licencia.setFecha_de_emision(fechaActual);
+			
+			titular.addLicencia(licencia);
+			
+			bd.guardarTitular(titular);
+	
+			String Alerta="El titular "+titular.getApellido()+", "+titular.getNombre()+" fue creado con éxito";
+	
+			JOptionPane.showMessageDialog(null, Alerta, "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);
+	
+			JOptionPane.showMessageDialog(null, "Licencia asignada con éxito. Su licencia y comprobante se están imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+			
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, "No se pudo emitir la licencia", "Licencia Emitida", JOptionPane.OK_OPTION);
+		}
 		
-		bd.guardarTitular(titular);
+		try {
+			this.imprimirLicencia(titular, licencia);
+			this.imprimirComprobante(titular, licencia);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void imprimirLicencia(Titular titular, Licencia licencia) throws Exception {
+		
+		 // Imprime la licencia
+		JFrame newFrame = new JFrame();
+		PanelImprimirLicencia licenciaImpresa = new PanelImprimirLicencia();
+		
+		newFrame.setSize(750, 500);
+		newFrame.setVisible(true);
+		
+		licenciaImpresa.cargarImagen(licencia, titular);
+
+		newFrame.setContentPane(licenciaImpresa);
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
+	}
+	
+	public void imprimirComprobante(Titular titular, Licencia licencia) {
+		
+        // Imprime el comprobante
+        FrameImprimirComprobante comprobante = new FrameImprimirComprobante();
+        
+        Double costoLicencia = this._calcularCostoLicencia(licencia);
+        
+        comprobante.cargarDatos(titular, licencia, costoLicencia);
+        
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        comprobante.setLocation(dim.width/2- comprobante.getSize().width/2, dim.height/2- comprobante.getSize().height/2);
+	}
+	
+	public Double _calcularCostoLicencia(Licencia licencia) {
+		
+		Double costo;
+		
+		int anioEmision = licencia.getFecha_de_emision().getYear();
+		int anioVencimiento = licencia.getFecha_de_vencimiento().getYear();
+		int vigencia = anioVencimiento-anioEmision;
+		
+		Clase clase = licencia.getClase();
+		
+		switch(clase) {
+		
+		case A:
+		case B:
+		case G:
+			if(vigencia == 5) {
+				costo = 40.0;
+			} else if(vigencia == 4) {
+				costo = 30.0;
+			} else if(vigencia == 3) {
+				costo = 25.0;
+			} else {
+				costo = 20.0;
+			}
+			break;
+		case C:
+			if(vigencia == 5) {
+				costo = 47.0;
+			} else if(vigencia == 4) {
+				costo = 35.0;
+			} else if(vigencia == 3) {
+				costo = 30.0;
+			} else {
+				costo = 23.0;
+			}
+			break;
+		case E:
+			if(vigencia == 5) {
+				costo = 59.0;
+			} else if(vigencia == 4) {
+				costo = 44.0;
+			} else if(vigencia == 3) {
+				costo = 39.0;
+			} else {
+				costo = 29.0;
+			}
+			break;
+		default:
+			costo = 0.0;
+			break;
+		}
+		return costo;
 	}
 }
