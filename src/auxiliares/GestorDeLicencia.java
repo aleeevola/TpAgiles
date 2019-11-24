@@ -15,6 +15,7 @@ import clases.Clase;
 import clases.Licencia;
 import clases.Persona;
 import clases.Titular;
+import interfacesGraficas.FrameImprimirComprobante;
 import interfacesGraficas.PanelImprimirLicencia;
 
 
@@ -95,10 +96,11 @@ public class GestorDeLicencia {
 						
 						bd.updateTitular(titular);
 						
-						JOptionPane.showMessageDialog(null, "Licencia asignada con éxito", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Licencia asignada con éxito. Su licencia y comprobante se están imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
 						
 						try {
 							this.imprimirLicencia(titular, licencia);
+							this.imprimirComprobante(titular, licencia);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -129,10 +131,11 @@ public class GestorDeLicencia {
 			
 			bd.updateTitular(titular);
 			
-			JOptionPane.showMessageDialog(null, "Licencia asignada con éxito", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Licencia asignada con éxito. Su licencia y comprobante se están imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
 			
 			try {
 				this.imprimirLicencia(titular, licencia);
+				this.imprimirComprobante(titular, licencia);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -276,7 +279,7 @@ public class GestorDeLicencia {
 	
 			JOptionPane.showMessageDialog(null, Alerta, "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);
 	
-			JOptionPane.showMessageDialog(null, "Licencia asignada con éxito", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Licencia asignada con éxito. Su licencia y comprobante se están imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
 			
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "No se pudo emitir la licencia", "Licencia Emitida", JOptionPane.OK_OPTION);
@@ -284,6 +287,7 @@ public class GestorDeLicencia {
 		
 		try {
 			this.imprimirLicencia(titular, licencia);
+			this.imprimirComprobante(titular, licencia);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -291,6 +295,7 @@ public class GestorDeLicencia {
 	
 	public void imprimirLicencia(Titular titular, Licencia licencia) throws Exception {
 		
+		 // Imprime la licencia
 		JFrame newFrame = new JFrame();
 		PanelImprimirLicencia licenciaImpresa = new PanelImprimirLicencia();
 		
@@ -303,5 +308,72 @@ public class GestorDeLicencia {
 		
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
+	}
+	
+	public void imprimirComprobante(Titular titular, Licencia licencia) {
+		
+        // Imprime el comprobante
+        FrameImprimirComprobante comprobante = new FrameImprimirComprobante();
+        
+        Double costoLicencia = this._calcularCostoLicencia(licencia);
+        
+        comprobante.cargarDatos(titular, licencia, costoLicencia);
+        
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        comprobante.setLocation(dim.width/2- comprobante.getSize().width/2, dim.height/2- comprobante.getSize().height/2);
+	}
+	
+	public Double _calcularCostoLicencia(Licencia licencia) {
+		
+		Double costo;
+		
+		int anioEmision = licencia.getFecha_de_emision().getYear();
+		int anioVencimiento = licencia.getFecha_de_vencimiento().getYear();
+		int vigencia = anioVencimiento-anioEmision;
+		
+		Clase clase = licencia.getClase();
+		
+		switch(clase) {
+		
+		case A:
+		case B:
+		case G:
+			if(vigencia == 5) {
+				costo = 40.0;
+			} else if(vigencia == 4) {
+				costo = 30.0;
+			} else if(vigencia == 3) {
+				costo = 25.0;
+			} else {
+				costo = 20.0;
+			}
+			break;
+		case C:
+			if(vigencia == 5) {
+				costo = 47.0;
+			} else if(vigencia == 4) {
+				costo = 35.0;
+			} else if(vigencia == 3) {
+				costo = 30.0;
+			} else {
+				costo = 23.0;
+			}
+			break;
+		case E:
+			if(vigencia == 5) {
+				costo = 59.0;
+			} else if(vigencia == 4) {
+				costo = 44.0;
+			} else if(vigencia == 3) {
+				costo = 39.0;
+			} else {
+				costo = 29.0;
+			}
+			break;
+		default:
+			costo = 0.0;
+			break;
+		}
+		return costo;
 	}
 }

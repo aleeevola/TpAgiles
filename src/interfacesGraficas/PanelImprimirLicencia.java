@@ -19,7 +19,7 @@ import clases.Titular;
 
 public class PanelImprimirLicencia extends JPanel {
 	
-	private static SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy");
+	private SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy");
 	
 	JLabel lblTitulo;
 	BufferedImage imagenLicencia;
@@ -65,7 +65,15 @@ public class PanelImprimirLicencia extends JPanel {
 	    fechaFormato = formatFecha.format(licencia.getFecha_de_emision());
 	    g.drawString(fechaFormato, 368, 291);
 	    
-	    g.drawString("ORIGINAL", 368, 319);
+	    int nroCopias = licencia.getNumero_de_copias();
+	    String otorgamiento = "";
+	    if(nroCopias == 0) {
+	    	otorgamiento = "ORIGINAL";
+	    } else {
+	    	otorgamiento = "RENOVADA ("+nroCopias+")";
+	    }
+	    g.drawString(otorgamiento, 368, 319);
+	    
 	    g.drawString(licencia.getClase().toString(), 368, 343);
 	    
 	    fechaFormato = formatFecha.format(licencia.getFecha_de_vencimiento());

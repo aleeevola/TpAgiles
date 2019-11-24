@@ -10,6 +10,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.MessageFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -18,7 +19,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
+import javax.swing.ProgressMonitor;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
@@ -88,7 +91,7 @@ public class PanelInicio extends JPanel {
 
 		GridBagConstraints gridConst =  new GridBagConstraints();
 
-		lblNombre = new JLabel("Sistema de Gestiï¿½n de Licencias de Conducir");
+		lblNombre = new JLabel("Sistema de Gestión de Licencias de Conducir");
 		lblNombre.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
 		lblNombre.setForeground(Color.WHITE);
 
@@ -118,14 +121,11 @@ public class PanelInicio extends JPanel {
 
 		gridConst.anchor = GridBagConstraints.CENTER;
 
-		//lblNombre = new JLabel("Sistema de Gestiï¿½n de Licencias de Conducir");
-		//lblNombre.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
 		gridConst.gridx = 1;
 		gridConst.gridy = 1;
 		gridConst.insets = new Insets(15, 5, 20, 5);
-		//panelCampos.add(lblNombre, gridConst);
 
-		lblTitulo = new JLabel("Inicio de Sesiï¿½n");
+		lblTitulo = new JLabel("Inicio de Sesión");
 		gridConst.gridy = 2;
 		gridConst.insets = new Insets(0, 5, 15, 5);
 		panelCampos.add(lblTitulo, gridConst);
@@ -139,7 +139,7 @@ public class PanelInicio extends JPanel {
 		gridConst.gridy = 4;
 		panelCampos.add(txtUsuario, gridConst);
 
-		lblPass = new JLabel("Contraseï¿½a");
+		lblPass = new JLabel("Contraseña");
 		gridConst.gridy = 5;
 		panelCampos.add(lblPass, gridConst);
 
@@ -175,7 +175,7 @@ public class PanelInicio extends JPanel {
 
 		JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
 		this.setVisible(false);
-
+		
 		String usuario = String.valueOf(txtUsuario.getText());
 		String pass = String.valueOf(txtPass.getPassword());
 
@@ -186,7 +186,7 @@ public class PanelInicio extends JPanel {
 
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(dim.width/2- frame.getSize().width/2, dim.height/2- frame.getSize().height/2);
-
+		
 
 	}
 }
