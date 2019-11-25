@@ -53,7 +53,7 @@ public class GestorDeLicencia {
 		
 		if (edad>=17) {
 		
-		ArrayList<Titular> titulares=bd.getTitular(dni, apellido, nombre);
+		ArrayList<Titular> titulares=bd.getTitular(dni, apellido, nombre,fecha_de_nacimiento);
 		
 		Date fecha_de_vencimiento = new Date();
 		

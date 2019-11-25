@@ -123,7 +123,7 @@ public class PanelDarAltaTitular extends JPanel{
 		
 		btnAgregarFoto = new JButton("Agregar Foto");
 		gridConst.insets = new Insets(0, 10, 5, 0);
-		gridConst.gridy = 2;
+		gridConst.gridy = 8;
 		gridConst.gridwidth = 1;
 		btnAgregarFoto.addActionListener(e -> {
 			this.agregarFoto();
@@ -140,8 +140,9 @@ public class PanelDarAltaTitular extends JPanel{
 	    lblDescripcionFoto = new JLabel("Foto Identidad");
 	    gridConst.insets = new Insets(0, 10, 5, 0);
 	    gridConst.gridheight = 1;
-	    gridConst.gridy = 8;
+	    gridConst.gridy = 2;
 	    this.add(lblDescripcionFoto, gridConst);
+	 
 	    
 	    //Columna 2 (x = 1)
 	    
@@ -418,6 +419,22 @@ public class PanelDarAltaTitular extends JPanel{
 				ex.printStackTrace();
 				JOptionPane.showMessageDialog(null, "No se pudo renovar", "Error", JOptionPane.OK_OPTION);
 			}
+		});
+        
+        btnVolver.addActionListener(e -> {
+
+			RenovarLicencia panelCards = (RenovarLicencia) SwingUtilities.getAncestorOfClass(JPanel.class, this);
+			CardLayout cl = (CardLayout) panelCards.getLayout();
+
+			cl.show(panelCards, RenovarLicencia.RENOVARPANEL);
+			
+			JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
+			
+			frame.pack();
+			
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+	        frame.setLocation(dim.width/2- frame.getSize().width/2, dim.height/2- frame.getSize().height/2);
+
 		});
 	}
 
