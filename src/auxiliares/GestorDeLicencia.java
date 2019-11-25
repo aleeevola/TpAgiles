@@ -376,4 +376,14 @@ public class GestorDeLicencia {
 		}
 		return costo;
 	}
+	
+	public void renovarLicencia(Titular titular, Licencia licencia) throws Exception {
+		Date fecha_vencimiento=this.calcularVigencia(titular.getFecha_de_nacimiento(), titular.getLicencias().size());
+		
+		licencia.setFecha_de_vencimiento(fecha_vencimiento);
+		bd.updateTitular(titular);
+		
+		imprimirLicencia(titular,licencia);
+		imprimirComprobante(titular,licencia);
+	}
 }

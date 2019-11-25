@@ -12,6 +12,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.ButtonModel;
@@ -147,7 +148,12 @@ public class PanelRenovarLicencia extends JPanel {
 		gridConst.gridx = 2;
 		gridConst.gridwidth = 1;
 		btnSiguiente.addActionListener(e -> {
-			this.renovarLicencia();
+			try {
+				this.renovarLicencia();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		});
 		this.add(btnSiguiente, gridConst);
 
@@ -164,16 +170,16 @@ public class PanelRenovarLicencia extends JPanel {
 	}
 
 
-	private void renovarLicencia() {
+	private void renovarLicencia() throws SQLException {
 
 		Licencia licencia = tablaLicencias.getLicencias().get(seleccion);
 
-		EmitirLicencia panelCards = (EmitirLicencia) SwingUtilities.getAncestorOfClass(JPanel.class, this);
+		RenovarLicencia panelCards = (RenovarLicencia) SwingUtilities.getAncestorOfClass(JPanel.class, this);
 		CardLayout cl = (CardLayout) panelCards.getLayout();
 
 		cl.show(panelCards, EmitirLicencia.ALTAPANEL);
 
-		//panelCards.cardAlta.cargarDatosRenovar(titular,licencia);
+		panelCards.cardAlta.cargarDatosRenovar(titular,licencia);
 		
 		JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
 	

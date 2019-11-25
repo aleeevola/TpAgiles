@@ -12,6 +12,7 @@ import java.awt.Toolkit;
 import java.awt.image.ImageFilter;
 import java.io.File;
 import java.io.FileFilter;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,6 +43,7 @@ import auxiliares.GestorDeLicencia;
 import auxiliares.TablaContribuyentes;
 import clases.Clase;
 import clases.Grupo_sanguineo;
+import clases.Licencia;
 import clases.Persona;
 import clases.Titular;
 
@@ -84,6 +86,8 @@ public class PanelDarAltaTitular extends JPanel{
 	private JLabel LabelFoto;
 	private JLabel lblDescripcionFoto;
 	private File foto;
+	
+	private Titular titularRenovar;
 
 	public PanelDarAltaTitular() {
 		this.setLayout(new GridBagLayout());
@@ -214,21 +218,7 @@ public class PanelDarAltaTitular extends JPanel{
 		gridConst.gridy = 9;
 		this.add(btnVolver, gridConst);
 		
-		btnVolver.addActionListener(e -> {
-
-			EmitirLicencia panelCards = (EmitirLicencia) SwingUtilities.getAncestorOfClass(JPanel.class, this);
-			CardLayout cl = (CardLayout) panelCards.getLayout();
-
-			cl.show(panelCards, EmitirLicencia.EMITIRPANEL);
-			
-			JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
-			
-			frame.pack();
-			
-			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-	        frame.setLocation(dim.width/2- frame.getSize().width/2, dim.height/2- frame.getSize().height/2);
-
-		});
+		
 		
 		
 		//Columna 5 (x = 4)
@@ -258,23 +248,7 @@ public class PanelDarAltaTitular extends JPanel{
 		gridConst.gridx = 4;
 		this.add(btnSiguiente, gridConst);
 
-		btnSiguiente.addActionListener(e -> {
-			/*
-			 * Cuando apreta el boton siguiente debe cerrarse y devolver el objeto titular
-			 * */
-			try {
-				Titular titular = _altaTitular();
-				gestorLicencia.darDeAltaNuevoTitular(clase, titular);
-
-				JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
-				frame.dispose();
-				
-			}
-			catch(Exception ex) {
-				ex.printStackTrace();
-				JOptionPane.showMessageDialog(null, "No se pudo cargar el nuevo titular", "Error", JOptionPane.OK_OPTION);
-			}
-		});
+		
 
 	}
 
@@ -358,5 +332,104 @@ public class PanelDarAltaTitular extends JPanel{
 		txtDireccion.setText(contribuyente.getDireccion());
 		txtDireccion.setEditable(false);
 
+		btnVolver.addActionListener(e -> {
+
+			EmitirLicencia panelCards = (EmitirLicencia) SwingUtilities.getAncestorOfClass(JPanel.class, this);
+			CardLayout cl = (CardLayout) panelCards.getLayout();
+
+			cl.show(panelCards, EmitirLicencia.EMITIRPANEL);
+			
+			JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
+			
+			frame.pack();
+			
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+	        frame.setLocation(dim.width/2- frame.getSize().width/2, dim.height/2- frame.getSize().height/2);
+
+		});
+		
+		btnSiguiente.addActionListener(e -> {
+			/*
+			 * Cuando apreta el boton siguiente debe cerrarse y devolver el objeto titular
+			 * */
+			try {
+				Titular titular = _altaTitular();
+				gestorLicencia.darDeAltaNuevoTitular(clase, titular);
+
+				JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
+				frame.dispose();
+				
+			}
+			catch(Exception ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(null, "No se pudo cargar el nuevo titular", "Error", JOptionPane.OK_OPTION);
+			}
+		});
+	}
+	
+	public void cargarDatosRenovar(Titular contribuyente, Licencia licencia) throws SQLException {
+
+		Date fecha_de_nacimiento = contribuyente.getFecha_de_nacimiento();
+		fdn = fecha_de_nacimiento;
+		dni = contribuyente.getDni();
+		titularRenovar=contribuyente;
+
+		this.txtNombreTitular.setText(contribuyente.getNombre());
+		
+
+		this.txtApellido.setText(contribuyente.getApellido());
+		
+
+		this.txtDNI.setText(String.valueOf(contribuyente.getDni()));
+		txtDNI.setEditable(false);
+		
+		String fechaNacimiento = formatFecha.format(fdn);
+		this.txtNacimiento.setText(fechaNacimiento);
+		this.txtNacimiento.setEditable(false);
+
+		this.lblClaseAsignada.setText(licencia.getClase().toString());
+		this.clase=licencia.getClase();
+
+		txtDireccion.setText(contribuyente.getDireccion());
+		
+		this.foto = contribuyente.getFoto();
+        String path = this.foto.getAbsolutePath();
+        LabelFoto.setIcon(reescalarImagen(path));
+        
+        cmbGrupoSanguineo.setSelectedItem(contribuyente.getSangre());
+        cmbGrupoSanguineo.setEnabled(false);
+        
+        chkDonante.setSelected(contribuyente.getDonante_de_organos());
+        
+        btnSiguiente.setText("Renovar");
+        btnSiguiente.addActionListener(e -> {
+			/*
+			 * Cuando apreta el boton siguiente imprimir la licencia y actualizar los datos en la bdd
+			 * Licencia actualizar fecha vigencia
+			 * */
+			try {
+				_renovarTitular();
+				gestorLicencia.renovarLicencia(titularRenovar, licencia);
+
+				JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
+				frame.dispose();
+			}
+			catch(Exception ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(null, "No se pudo renovar", "Error", JOptionPane.OK_OPTION);
+			}
+		});
+	}
+
+	private void _renovarTitular() {
+		this.titularRenovar.setApellido(txtApellido.getText());
+		this.titularRenovar.setNombre(txtNombreTitular.getText());
+		//this.titularRenovar.setDni(this.dni);
+		//this.titularRenovar.setFecha_de_nacimiento(fdn);
+		this.titularRenovar.setDireccion(txtDireccion.getText());
+		this.titularRenovar.setDonante_de_organos(chkDonante.isSelected());
+		//this.titularRenovar.setSangre((Grupo_sanguineo) cmbGrupoSanguineo.getSelectedItem());
+		this.titularRenovar.setFoto(foto);
+		
 	}
 }
