@@ -143,7 +143,7 @@ public class PanelTareas extends JPanel {
 			
 			EmitirLicencia panelCards = new EmitirLicencia();
 			
-			JFrame newFrame = new JFrame();
+			JFrame newFrame = new JFrame("Emitir Licencia");
 			
 			newFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			newFrame.setVisible(true);
@@ -156,6 +156,8 @@ public class PanelTareas extends JPanel {
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 	        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
 			
+	        ImageIcon img = new ImageIcon("imagenes/icono.png");
+	        newFrame.setIconImage(img.getImage());
 		});
 		
 		btnRenovarLicencia = new JButton();
@@ -171,7 +173,7 @@ public class PanelTareas extends JPanel {
 			
 			RenovarLicencia panelCards = new RenovarLicencia();
 			
-			JFrame newFrame = new JFrame();
+			JFrame newFrame = new JFrame("Renovar Licencia");
 			
 			newFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			newFrame.setVisible(true);
@@ -184,6 +186,8 @@ public class PanelTareas extends JPanel {
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 	        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
 			
+	        ImageIcon img = new ImageIcon("imagenes/icono.png");
+	        newFrame.setIconImage(img.getImage());
 		});
 		
 		
@@ -208,7 +212,7 @@ public class PanelTareas extends JPanel {
 			
 			PanelLicenciasExpiradas panelCards = new PanelLicenciasExpiradas();
 			
-			JFrame newFrame = new JFrame();
+			JFrame newFrame = new JFrame("Licencias expiradas");
 			
 			newFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			newFrame.setVisible(true);
@@ -221,6 +225,8 @@ public class PanelTareas extends JPanel {
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 	        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
 			
+	        ImageIcon img = new ImageIcon("imagenes/icono.png");
+	        newFrame.setIconImage(img.getImage());
 		});
 		gridConst.gridy = 3;
 		panelTareas.add(btnBuscar, gridConst);

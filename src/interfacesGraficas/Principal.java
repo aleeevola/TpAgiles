@@ -37,7 +37,7 @@ public class Principal {
 
 	private static void createAndShowGUI() {
 
-		JFrame frame = new JFrame();
+		JFrame frame = new JFrame("Sistema de Gestión de Licencias de Conducir");
 
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setVisible(true);
@@ -53,7 +53,9 @@ public class Principal {
 
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(dim.width/2- frame.getSize().width/2, dim.height/2- frame.getSize().height/2);
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/imagenes/LogoGobierno.png")));
+        
+        ImageIcon img = new ImageIcon("imagenes/icono.png");
+        frame.setIconImage(img.getImage());
         
 	}
 }
