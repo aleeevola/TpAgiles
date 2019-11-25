@@ -1,4 +1,5 @@
 package auxiliares;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class TablaTitulares extends AbstractTableModel{
 
 //	Clase utilizada para representar el formato de tabla que visualiza las clases.
 //	Las licencias provienen de unca clase titular "licencias".
-	
+	private static SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy");
 	
 	private List<Titular> titulares=new ArrayList();
 	private String[] columnas = {"DNI", "Apellido", "Nombre", "Fecha de nacimiento"};
@@ -57,7 +58,8 @@ public class TablaTitulares extends AbstractTableModel{
 			valor = this.titulares.get(rowIndex).getNombre();
 			break;
 		case 3:
-			valor = this.titulares.get(rowIndex).getFecha_de_nacimiento();
+			String fechaNacimiento = formatFecha.format(this.titulares.get(rowIndex).getFecha_de_nacimiento());
+			valor = fechaNacimiento;
 			break;
 		default:
 			break;

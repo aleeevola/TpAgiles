@@ -1,4 +1,5 @@
 package auxiliares;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class TablaLicencias extends AbstractTableModel{
 
 //	Clase utilizada para representar el formato de tabla que visualiza las clases.
 //	Las licencias provienen de unca clase titular "licencias".
-	
+	private static SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy");
 	
 	private List<Licencia> licencias=new ArrayList();
 	private String[] columnas = {"Clase", "Fecha de emision", "Fecha de vencimiento", "Numero de copias"};
@@ -50,10 +51,12 @@ public class TablaLicencias extends AbstractTableModel{
 			valor = this.licencias.get(rowIndex).getClase();
 			break;
 		case 1:
-			valor = this.licencias.get(rowIndex).getFecha_de_emision();
+			String fechaEmision = formatFecha.format(this.licencias.get(rowIndex).getFecha_de_emision());
+			valor = fechaEmision;
 			break;
 		case 2:
-			valor = this.licencias.get(rowIndex).getFecha_de_vencimiento();
+			String fechaVencimiento = formatFecha.format(this.licencias.get(rowIndex).getFecha_de_vencimiento());
+			valor = fechaVencimiento;
 			break;
 		case 3:
 			valor = this.licencias.get(rowIndex).getNumero_de_copias();
