@@ -1,5 +1,6 @@
 package interfacesGraficas;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,8 +13,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -32,10 +36,14 @@ import javax.swing.event.ChangeListener;
 import auxiliares.GestorBaseDeDatos;
 import auxiliares.GestorDeLicencia;
 import auxiliares.TablaContribuyentes;
+import auxiliares.TablaLicencias;
+import auxiliares.TablaTitulares;
 import clases.Clase;
+import clases.Licencia;
 import clases.Persona;
+import clases.Titular;
 
-public class PanelEmitirLicencia extends JPanel {
+public class PanelRenovarLicencia extends JPanel {
 
 	private JLabel lblNombre;
 	private JLabel lblTitulo;
@@ -43,16 +51,20 @@ public class PanelEmitirLicencia extends JPanel {
 	private JTextField txtDNI;
 	private JButton btnBuscar;
 	private JButton btnCancelar;
-	private JTable tabla;
-	private TablaContribuyentes tablaContribuyentes = new TablaContribuyentes();
+	private JTable tablaL;
+	private JTable tablaT;
+	private TablaLicencias tablaLicencias = new TablaLicencias();
+	private TablaTitulares tablaTitulares = new TablaTitulares();
 	private JLabel lblClase;
-	private JComboBox cmbClase;
 	private JButton btnSiguiente;
 	private GestorBaseDeDatos gestorBD;
 	private GestorDeLicencia gestorLicencia;
 	private int seleccion = -1;
+	private int seleccionT = -1;
+	
+	private Titular titular;
 
-	public PanelEmitirLicencia() {
+	public PanelRenovarLicencia() {
 		this.setLayout(new GridBagLayout());
 		this.construir();
 		this.gestorBD = new GestorBaseDeDatos();
@@ -62,9 +74,10 @@ public class PanelEmitirLicencia extends JPanel {
 	private void construir() {
 
 		GridBagConstraints gridConst =  new GridBagConstraints();
-
+		
 		gridConst.anchor = GridBagConstraints.CENTER;
 
+		
 		lblNombre = new JLabel("Sistema de Gestión de Licencias de Conducir");
 		lblNombre.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
 		gridConst.gridx = 0;
@@ -75,7 +88,7 @@ public class PanelEmitirLicencia extends JPanel {
 
 		gridConst.anchor = GridBagConstraints.LINE_START;
 
-		lblTitulo = new JLabel("Emitir Licencia");
+		lblTitulo = new JLabel("Renovar Licencia");
 		lblTitulo.setFont(new Font(Font.DIALOG, Font.BOLD, 16));
 		gridConst.gridy = 1;
 		gridConst.gridwidth = 1;
@@ -114,52 +127,86 @@ public class PanelEmitirLicencia extends JPanel {
 		this.add(btnBuscar, gridConst);
 		
 
-		tabla = new JTable(tablaContribuyentes);
+		
+		
+		
+		/*
+		 * Panel que tiene las tablas titulares y licencias
+		 * new BorderLayout()*/
+		JPanel tablas = new JPanel();
+		BoxLayout boxlayout = new BoxLayout(tablas, BoxLayout.Y_AXIS);
+        
+        // Set the Boxayout to be Y_AXIS from top to down
+        //BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.Y_AXIS);
+ 
+		tablas.setLayout(boxlayout);
 		gridConst.gridy = 3;
 		gridConst.gridx = 0;
 		gridConst.gridwidth = 3;
-		tabla.setFillsViewportHeight(true);
-		tabla.setRowSelectionAllowed(true);
-		tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		JScrollPane scrollPane = new JScrollPane(tabla);
+		
+		JLabel lblTitular = new JLabel("Seleccione un titular:");
+		tablas.add(lblTitular);
+		
+		tablaT = new JTable(tablaTitulares);
+		tablaT.setFillsViewportHeight(true);
+		tablaT.setRowSelectionAllowed(true);
+		tablaT.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tablaT.setPreferredScrollableViewportSize(new Dimension (500,50));
+		JScrollPane scrollPaneT = new JScrollPane(tablaT);
+		
+		tablas.add(scrollPaneT);
+		
+		JLabel lblRenovar = new JLabel("Seleccione la licencia a renovar:");
+		tablas.add(lblRenovar);
+		
+		tablaL = new JTable(tablaLicencias);
+		tablaL.setFillsViewportHeight(true);
+		tablaL.setRowSelectionAllowed(true);
+		tablaL.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tablaL.setPreferredScrollableViewportSize(new Dimension (500,200));
+		JScrollPane scrollPane = new JScrollPane(tablaL);
+		tablas.add(scrollPane);
+		
+		this.add(tablas,gridConst);
+		
 
-		this.add(scrollPane, gridConst);
-
-		tabla.addMouseListener(new MouseAdapter() {
+		tablaL.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				int r = tabla.rowAtPoint(e.getPoint());
+				int r = tablaL.rowAtPoint(e.getPoint());
 				seleccion = r;
 			}
 		});
 
-		gridConst.anchor = GridBagConstraints.LINE_END;
+		tablaT.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				int r = tablaT.rowAtPoint(e.getPoint());
+				seleccionT = r;
+				mostrarLicencias();
+			}
+		});
+		
 
-		lblClase = new JLabel("Clase:");
-		gridConst.gridy = 4;
-		gridConst.gridwidth = 1;
-		this.add(lblClase, gridConst);
+		//gridConst.anchor = GridBagConstraints.LINE_START;
 
-		gridConst.anchor = GridBagConstraints.LINE_START;
-
-		cmbClase = new JComboBox(Clase.values());
-		cmbClase.setEditable(false);
-		cmbClase.setPreferredSize(new Dimension(200, 20));
-		gridConst.gridx = 1;
-		gridConst.gridwidth = 2;
-		this.add(cmbClase, gridConst);
-
-		btnSiguiente = new JButton("Siguiente");
-		gridConst.gridy = 5;
+		
+		btnSiguiente = new JButton("Renovar");
+		gridConst.gridy = 8;
 		gridConst.gridx = 2;
 		gridConst.gridwidth = 1;
 		btnSiguiente.addActionListener(e -> {
-			this.emitirLicencia();
+			try {
+				this.renovarLicencia();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		});
 		this.add(btnSiguiente, gridConst);
 
 		btnCancelar = new JButton("Cancelar");
-		gridConst.gridy = 5;
+		gridConst.gridy = 8;
 		gridConst.gridx = 1;
 		gridConst.gridwidth = 1;
 		btnCancelar.addActionListener(e -> {
@@ -170,42 +217,17 @@ public class PanelEmitirLicencia extends JPanel {
 
 	}
 
-	private void emitirLicencia() {
 
-		try {
-			
-			Persona persona = tablaContribuyentes.getContribuyentes().get(seleccion);
-			int seEmitioLaLicencia = gestorLicencia.emitirLicencia((Clase)cmbClase.getSelectedItem(), persona);
+	private void renovarLicencia() throws SQLException {
 
-			if(seEmitioLaLicencia==0) {
+		Licencia licencia = tablaLicencias.getLicencias().get(seleccion);
 
-				JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
-				frame.dispose();
-				
-			}else if (seEmitioLaLicencia==-1){
-
-				JOptionPane.showMessageDialog(null, "No se puede emitir una licencia", "Error", JOptionPane.OK_OPTION);
-
-			}else if (seEmitioLaLicencia==1) {
-
-				_darDeAltaNuevoTitular(gestorLicencia,persona);
-
-			}
-
-		}catch(Exception ex){
-			ex.printStackTrace();
-			JOptionPane.showMessageDialog(null, "No se seleccionó ninguna persona", "Error", JOptionPane.OK_OPTION);
-		};
-	}
-
-	private void _darDeAltaNuevoTitular(GestorDeLicencia gestorLicencia, Persona persona) {
-
-		EmitirLicencia panelCards = (EmitirLicencia) SwingUtilities.getAncestorOfClass(JPanel.class, this);
+		RenovarLicencia panelCards = (RenovarLicencia) SwingUtilities.getAncestorOfClass(JPanel.class, this);
 		CardLayout cl = (CardLayout) panelCards.getLayout();
 
 		cl.show(panelCards, EmitirLicencia.ALTAPANEL);
 
-		panelCards.cardAlta.cargarDatos(persona, (Clase)cmbClase.getSelectedItem());
+		panelCards.cardAlta.cargarDatosRenovar(titular,licencia);
 		
 		JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
 	
@@ -216,18 +238,26 @@ public class PanelEmitirLicencia extends JPanel {
 		
 	}
 
-//	Setea el resultado de la busqueda en la tabla
-	public void setResultadoBusqueda(List<Persona> listaResultado, boolean actualizar) {
-		this.tablaContribuyentes.setContribuyentes(listaResultado);
+//	Setea el resultado de la busqueda en la tabla Licencias
+	public void setResultadoBusqueda(List<Licencia> listaResultado, boolean actualizar) {
+		this.tablaLicencias.setLicencias(listaResultado);
 		if(actualizar) {
-			this.tablaContribuyentes.fireTableDataChanged();
+			this.tablaLicencias.fireTableDataChanged();
+		}
+	}
+	
+//	Setea el resultado de la busqueda en la tabla Titulares
+	public void setResultadoBusquedaTitulares(List<Titular> listaResultado, boolean actualizar) {
+		this.tablaTitulares.setTitulares(listaResultado);
+		if(actualizar) {
+			this.tablaTitulares.fireTableDataChanged();
 		}
 	}
 
 //	Obtiene el parametro de busqueda, realiza la busqueda a traves del gestor de BD y por ultimo actualiza la tabla
 	public void buscarContribuyentes() {
 
-		//Validacion para que el texto ingresado no sea vacio
+		//Validacion para que el texto ingresado no sea vacio. Lo pongo aca por ahora, creo que hay que moverlo para que no este en la interfaz.
 
 		if (this.txtDNI.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, "Ingrese algún DNI.", "Error", JOptionPane.OK_OPTION);
@@ -236,9 +266,9 @@ public class PanelEmitirLicencia extends JPanel {
 		else try {
 
 			int dni = Integer.valueOf(this.txtDNI.getText());
-
-			List<Persona> resultados = gestorBD.getPersonas(dni);
-			this.setResultadoBusqueda(resultados, true);
+			List<Titular> resultados = gestorBD.getTitular(dni);
+			this.setResultadoBusquedaTitulares(resultados,true);
+			
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
@@ -246,19 +276,15 @@ public class PanelEmitirLicencia extends JPanel {
 		}
 	}
 	
-	public void imprimirLicencia(Persona persona) throws Exception {
-		
-		JFrame newFrame = new JFrame();
-		PanelEmitirLicencia licenciaImpresa = new PanelEmitirLicencia();
-		
-		newFrame.setSize(750, 500);
-		newFrame.setVisible(true);
-		
-//		licenciaImpresa.cargarImagen((Clase)cmbClase.getSelectedItem(), persona);
+	public void mostrarLicencias() {
+		try {
 
-		newFrame.setContentPane(licenciaImpresa);
-		
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
+			titular = tablaTitulares.getTitulares().get(seleccionT);
+			this.setResultadoBusqueda(titular.getLicencias(), true);
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "No se encontraron resultados", "Error", JOptionPane.OK_OPTION);
+		}
 	}
 }

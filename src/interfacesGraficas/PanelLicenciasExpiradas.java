@@ -1,43 +1,31 @@
 package interfacesGraficas;
 
-import java.awt.CardLayout;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Toolkit;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import auxiliares.GestorBaseDeDatos;
 import auxiliares.GestorDeLicencia;
 import auxiliares.LicenciaExpirada;
-import auxiliares.TablaContribuyentes;
 import auxiliares.TablaLicenciasExpiradas;
-import clases.Clase;
-import clases.Persona;
 
 public class PanelLicenciasExpiradas extends JPanel {
 
 	private JLabel lblNombre;
 	private JLabel lblTitulo;
-
-
 
 	private JButton btnCancelar;
 	private JTable tabla;

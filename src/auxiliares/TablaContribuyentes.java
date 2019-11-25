@@ -1,4 +1,5 @@
 package auxiliares;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class TablaContribuyentes extends AbstractTableModel{
 
 //	Clase utilizada para representar el formato de tabla que visualiza todos los contribuyentes.
 //	Los contribuyentes provienen de la base de datos externa al sistema y se representan como "Personas".
-	
+	private static SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy");
 	
 	private List<Persona> contribuyentes=new ArrayList();
 	private String[] columnas = {"DNI", "Nombre", "Apellido", "Fecha de Nacimiento", "Domicilio"};
@@ -55,7 +56,8 @@ public class TablaContribuyentes extends AbstractTableModel{
 			valor = this.contribuyentes.get(rowIndex).getApellido();
 			break;
 		case 3:
-			valor = this.contribuyentes.get(rowIndex).getFecha_de_nacimiento();
+			String fechaNacimiento = formatFecha.format(this.contribuyentes.get(rowIndex).getFecha_de_nacimiento());
+			valor = fechaNacimiento;
 			break;
 		case 4:
 			valor = this.contribuyentes.get(rowIndex).getDireccion();
