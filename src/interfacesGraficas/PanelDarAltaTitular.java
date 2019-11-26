@@ -89,6 +89,8 @@ public class PanelDarAltaTitular extends JPanel{
 
 	private Titular titularRenovar;
 
+	private Titular titularRenovar;
+
 	public PanelDarAltaTitular() {
 		this.setLayout(new GridBagLayout());
 		this.construir();
@@ -206,7 +208,7 @@ public class PanelDarAltaTitular extends JPanel{
 		gridConst.insets = new Insets(0, 0, 5, 5);
 		this.add(lblClaseSolicitada, gridConst);
 
-		lblDonante = new JLabel("Donante de �rganos:");
+		lblDonante = new JLabel("Donante de órganos:");
 		gridConst.gridy = 5;
 		this.add(lblDonante, gridConst);
 

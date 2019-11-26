@@ -61,7 +61,7 @@ public class PanelRenovarLicencia extends JPanel {
 	private GestorDeLicencia gestorLicencia;
 	private int seleccion = -1;
 	private int seleccionT = -1;
-	
+
 	private Titular titular;
 
 	public PanelRenovarLicencia() {
@@ -74,11 +74,11 @@ public class PanelRenovarLicencia extends JPanel {
 	private void construir() {
 
 		GridBagConstraints gridConst =  new GridBagConstraints();
-		
+
 		gridConst.anchor = GridBagConstraints.CENTER;
 
-		
-		lblNombre = new JLabel("Sistema de Gestión de Licencias de Conducir");
+
+		lblNombre = new JLabel("Sistema de GestiÃ³n de Licencias de Conducir");
 		lblNombre.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
 		gridConst.gridx = 0;
 		gridConst.gridy = 0;
@@ -125,37 +125,37 @@ public class PanelRenovarLicencia extends JPanel {
 			this.buscarContribuyentes();
 		});
 		this.add(btnBuscar, gridConst);
-		
-			
+
+
 		/*
 		 * Panel que tiene las tablas titulares y licencias
 		 * new BorderLayout()*/
 		JPanel tablas = new JPanel();
 		BoxLayout boxlayout = new BoxLayout(tablas, BoxLayout.Y_AXIS);
-        
+
         // Set the Boxayout to be Y_AXIS from top to down
         //BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.Y_AXIS);
- 
+
 		tablas.setLayout(boxlayout);
 		gridConst.gridy = 3;
 		gridConst.gridx = 0;
 		gridConst.gridwidth = 3;
-		
+
 		JLabel lblTitular = new JLabel("Seleccione un titular:");
 		tablas.add(lblTitular);
-		
+
 		tablaT = new JTable(tablaTitulares);
 		tablaT.setFillsViewportHeight(true);
 		tablaT.setRowSelectionAllowed(true);
 		tablaT.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablaT.setPreferredScrollableViewportSize(new Dimension (500,50));
 		JScrollPane scrollPaneT = new JScrollPane(tablaT);
-		
+
 		tablas.add(scrollPaneT);
-		
+
 		JLabel lblRenovar = new JLabel("Seleccione la licencia a renovar:");
 		tablas.add(lblRenovar);
-		
+
 		tablaL = new JTable(tablaLicencias);
 		tablaL.setFillsViewportHeight(true);
 		tablaL.setRowSelectionAllowed(true);
@@ -163,9 +163,9 @@ public class PanelRenovarLicencia extends JPanel {
 		tablaL.setPreferredScrollableViewportSize(new Dimension (500,200));
 		JScrollPane scrollPane = new JScrollPane(tablaL);
 		tablas.add(scrollPane);
-		
+
 		this.add(tablas,gridConst);
-		
+
 
 		tablaL.addMouseListener(new MouseAdapter() {
 			@Override
@@ -183,11 +183,11 @@ public class PanelRenovarLicencia extends JPanel {
 				mostrarLicencias();
 			}
 		});
-		
+
 
 		//gridConst.anchor = GridBagConstraints.LINE_START;
 
-		
+
 		btnSiguiente = new JButton("Renovar");
 		gridConst.gridy = 8;
 		gridConst.gridx = 2;
@@ -225,14 +225,14 @@ public class PanelRenovarLicencia extends JPanel {
 		cl.show(panelCards, EmitirLicencia.ALTAPANEL);
 
 		panelCards.cardAlta.cargarDatosRenovar(titular,licencia);
-		
+
 		JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
-	
+
 		frame.setSize(new Dimension(900, 400));
-		
+
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(dim.width/2- frame.getSize().width/2, dim.height/2- frame.getSize().height/2);
-		
+
 	}
 
 //	Setea el resultado de la busqueda en la tabla Licencias
@@ -242,7 +242,7 @@ public class PanelRenovarLicencia extends JPanel {
 			this.tablaLicencias.fireTableDataChanged();
 		}
 	}
-	
+
 //	Setea el resultado de la busqueda en la tabla Titulares
 	public void setResultadoBusquedaTitulares(List<Titular> listaResultado, boolean actualizar) {
 		this.tablaTitulares.setTitulares(listaResultado);
@@ -257,7 +257,7 @@ public class PanelRenovarLicencia extends JPanel {
 		//Validacion para que el texto ingresado no sea vacio. Lo pongo aca por ahora, creo que hay que moverlo para que no este en la interfaz.
 
 		if (this.txtDNI.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, "Ingrese algún DNI.", "Error", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(null, "Ingrese algÃºn DNI.", "Error", JOptionPane.OK_OPTION);
 			return;
 		}
 		else try {
@@ -265,17 +265,17 @@ public class PanelRenovarLicencia extends JPanel {
 			int dni = Integer.valueOf(this.txtDNI.getText());
 			List<Titular> resultados = gestorBD.getTitular(dni);
 			this.setResultadoBusquedaTitulares(resultados,true);
-			
+
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, "No se encontraron resultados", "Error", JOptionPane.OK_OPTION);
 		}
 	}
-	
+
 	public void mostrarLicencias() {
 		try {
-			
+
 			titular = tablaTitulares.getTitulares().get(seleccionT);
 			this.setResultadoBusqueda(titular.getLicencias(), true);
 		}

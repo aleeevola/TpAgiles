@@ -33,7 +33,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 
-
 public class PanelTareas extends JPanel {
 
 	private JLabel lblUsuario;
@@ -75,7 +74,7 @@ public class PanelTareas extends JPanel {
 
 		GridBagConstraints gridConst =  new GridBagConstraints();
 
-		JLabel lblNombre = new JLabel("Sistema de Gestión de Licencias de Conducir");
+		JLabel lblNombre = new JLabel("Sistema de GestiÃ³n de Licencias de Conducir");
 		lblNombre.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
 
 		lblLogo = new JLabel();
@@ -143,7 +142,7 @@ public class PanelTareas extends JPanel {
 
 			EmitirLicencia panelCards = new EmitirLicencia();
 
-			JFrame newFrame = new JFrame();
+			JFrame newFrame = new JFrame("Emitir Licencia");
 
 			newFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			newFrame.setVisible(true);
@@ -156,6 +155,8 @@ public class PanelTareas extends JPanel {
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 	        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
 
+	        ImageIcon img = new ImageIcon("imagenes/icono.png");
+	        newFrame.setIconImage(img.getImage());
 		});
 
 		btnRenovarLicencia = new JButton();
@@ -171,7 +172,7 @@ public class PanelTareas extends JPanel {
 
 			RenovarLicencia panelCards = new RenovarLicencia();
 
-			JFrame newFrame = new JFrame();
+			JFrame newFrame = new JFrame("Renovar Licencia");
 
 			newFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			newFrame.setVisible(true);
@@ -184,6 +185,8 @@ public class PanelTareas extends JPanel {
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 	        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
 
+	        ImageIcon img = new ImageIcon("imagenes/icono.png");
+	        newFrame.setIconImage(img.getImage());
 		});
 
 
@@ -207,7 +210,7 @@ public class PanelTareas extends JPanel {
 
 			PanelLicenciasExpiradas panelCards = new PanelLicenciasExpiradas();
 
-			JFrame newFrame = new JFrame();
+			JFrame newFrame = new JFrame("Licencias expiradas");
 
 			newFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			newFrame.setVisible(true);
@@ -220,6 +223,8 @@ public class PanelTareas extends JPanel {
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 	        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
 
+	        ImageIcon img = new ImageIcon("imagenes/icono.png");
+	        newFrame.setIconImage(img.getImage());
 		});
 		gridConst.gridy = 4;
 		this.add(btnBuscar, gridConst);

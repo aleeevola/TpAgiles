@@ -37,12 +37,14 @@ CREATE TABLE `licencia` (
   `numero_de_copias` int(11) DEFAULT NULL,
   `titular_id` int(11) DEFAULT NULL,
   `emitidoPor` varchar(30) DEFAULT NULL,
+  `fecha_de_emision` date DEFAULT NULL,
+  `observaciones` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `emitidoPor` (`emitidoPor`),
   KEY `titular_id` (`titular_id`),
   CONSTRAINT `licencia_ibfk_1` FOREIGN KEY (`emitidoPor`) REFERENCES `usuarioadministrador` (`usuario`),
   CONSTRAINT `licencia_ibfk_2` FOREIGN KEY (`titular_id`) REFERENCES `titular` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,7 +53,6 @@ CREATE TABLE `licencia` (
 
 LOCK TABLES `licencia` WRITE;
 /*!40000 ALTER TABLE `licencia` DISABLE KEYS */;
-INSERT INTO `licencia` VALUES (1,'D','1997-02-03',3,1,'aleeevola');
 /*!40000 ALTER TABLE `licencia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -71,8 +72,9 @@ CREATE TABLE `titular` (
   `direccion` varchar(40) DEFAULT NULL,
   `sangre` varchar(15) DEFAULT NULL,
   `donante_de_organos` tinyint(1) DEFAULT NULL,
+  `foto` longblob,
   PRIMARY KEY (`id`,`dni`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -81,7 +83,6 @@ CREATE TABLE `titular` (
 
 LOCK TABLES `titular` WRITE;
 /*!40000 ALTER TABLE `titular` DISABLE KEYS */;
-INSERT INTO `titular` VALUES (1,40450769,'Raviolo','Josefina','1997-02-03','SANTOKIO','A_NEGATIVO',1);
 /*!40000 ALTER TABLE `titular` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,7 +132,7 @@ CREATE TABLE `personas` (
   `fecha_de_nacimiento` date DEFAULT NULL,
   `direccion` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`id`,`dni`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -140,7 +141,7 @@ CREATE TABLE `personas` (
 
 LOCK TABLES `personas` WRITE;
 /*!40000 ALTER TABLE `personas` DISABLE KEYS */;
-INSERT INTO `personas` VALUES (1,40450769,'Vola','Alejandro Bruno','1997-06-07','Norte'),(2,40450769,'Perez','Esteban','2000-10-20','9 de julio 1720'),(3,180549123,'Rodiguez','Marcos','1978-12-24','Junin 1253');
+INSERT INTO `personas` VALUES (1,40450769,'Vola','Mayor 21','1997-06-07','Hernandarias 4533'),(2,40450769,'Rodriguez','Menor 21','1999-09-10','Buenos Aires 2011'),(3,2,'Perez','menor 17','2003-10-20','9 de julio 1720'),(4,1,'Acosta','mayor 65','1950-03-24','Junin 1253'),(5,1,'Sanchez','tiene 1 b vieja','1997-03-04','Junin 1253'),(6,3,'Fernandez','tine vencida','1997-03-04','Junin 1253'),(7,4,'Gomez','tine vencida','1997-03-04','Junin 1253');
 /*!40000 ALTER TABLE `personas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -153,4 +154,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-28  0:19:09
+-- Dump completed on 2019-11-25 19:50:19

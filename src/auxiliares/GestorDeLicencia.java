@@ -66,7 +66,7 @@ public class GestorDeLicencia {
 					return 1;
 			} else {
 				/* No existe el titular en la base de datos, por lo que si solicit� licencia C/D/E no cumple el requisito "tener una licencia clase B de al menos un a�o" */
-				JOptionPane.showMessageDialog(null, "Debe tener una licencia clase B de al menos un a�o para solicitar clase"+clase, "Error", JOptionPane.OK_OPTION);
+				JOptionPane.showMessageDialog(null, "Debe tener una licencia clase B de al menos un año para solicitar clase"+clase, "Error", JOptionPane.OK_OPTION);
 
 				return -1;
 				}
@@ -75,7 +75,7 @@ public class GestorDeLicencia {
 			System.out.println("existe");
 			Titular titular=titulares.get(0);
 			if(_tieneLicencia(titular.getLicencias(),clase)) {
-				JOptionPane.showMessageDialog(null, "Ya posee una licencia, debe hacer el tramite de renovaci�n", "Error", JOptionPane.OK_OPTION);
+				JOptionPane.showMessageDialog(null, "Ya posee una licencia, debe hacer el tramite de renovación", "Error", JOptionPane.OK_OPTION);
 				/* Si ya tiene una licencia de la clase solicitada debe hacer el tramite de renovacion de licencia, no emision. */
 				return -1;
 			}
@@ -95,7 +95,7 @@ public class GestorDeLicencia {
 
 						bd.updateTitular(titular);
 
-						JOptionPane.showMessageDialog(null, "Licencia asignada con �xito. Su licencia y comprobante se est�n imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Licencia asignada con éxito. Su licencia y comprobante se est�n imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
 
 						try {
 							this.imprimirLicencia(titular, licencia);
@@ -108,7 +108,7 @@ public class GestorDeLicencia {
 					}else {
 
 						/* Se solicito una clase C/D/E pero no cumple requisitos de edad y/o de licencias anteriores, retorna false */
-						JOptionPane.showMessageDialog(null, "Para solicitar una licencia clase "+clase+" debe tener entre 21 y 65 a�os, y tener una licencia B de al menos un a�o.", "Error", JOptionPane.OK_OPTION);
+						JOptionPane.showMessageDialog(null, "Para solicitar una licencia clase "+clase+" debe tener entre 21 y 65 a�os, y tener una licencia B de al menos un año.", "Error", JOptionPane.OK_OPTION);
 
 						return -1;
 					}
@@ -130,7 +130,7 @@ public class GestorDeLicencia {
 
 			bd.updateTitular(titular);
 
-			JOptionPane.showMessageDialog(null, "Licencia asignada con �xito. Su licencia y comprobante se est�n imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Licencia asignada con éxito. Su licencia y comprobante se est�n imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
 
 			try {
 				this.imprimirLicencia(titular, licencia);
@@ -144,7 +144,7 @@ public class GestorDeLicencia {
 		}
 		}
 		} else { /* Es menor de 17 a�os, no puede obtener ninguna licencia */
-			JOptionPane.showMessageDialog(null, "Debe tener al menos 17 a�os para solicitar una licencia.", "Error", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(null, "Debe tener al menos 17 años para solicitar una licencia.", "Error", JOptionPane.OK_OPTION);
 			return -1;
 			}
 	}
@@ -244,11 +244,11 @@ public class GestorDeLicencia {
 	        int mes = fechaActual.get(Calendar.MONTH) - fechaNacimiento.get(Calendar.MONTH);
 	        int dia = fechaActual.get(Calendar.DAY_OF_MONTH) - fechaNacimiento.get(Calendar.DAY_OF_MONTH);
 
-	        // Hay que comprobar si el dia de su cumplea�os es posterior
-	        // a la fecha actual, para restar 1 a la diferencia de a�os,
-	        // pues aun no ha sido su cumplea�os.
+	        // Hay que comprobar si el dia de su cumplea�os es posterior
+	        // a la fecha actual, para restar 1 a la diferencia de a�os,
+	        // pues aun no ha sido su cumplea�os.
 
-	        if(mes < 0 // Aun no es el mes de su cumplea�os
+	        if(mes < 0 // Aun no es el mes de su cumplea�os
 	           || (mes==0 && dia < 0)) { // o es el mes pero no ha llegado el dia.
 	            anio--;
 	        }
@@ -274,11 +274,11 @@ public class GestorDeLicencia {
 
 			bd.guardarTitular(titular);
 
-			String Alerta="El titular "+titular.getApellido()+", "+titular.getNombre()+" fue creado con �xito";
+			String Alerta="El titular "+titular.getApellido()+", "+titular.getNombre()+" fue creado con éxito";
 
-			JOptionPane.showMessageDialog(null, Alerta, "Operaci�n Exitosa", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, Alerta, "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);
 
-			JOptionPane.showMessageDialog(null, "Licencia asignada con �xito. Su licencia y comprobante se est�n imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Licencia asignada con éxito. Su licencia y comprobante se están imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
 
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "No se pudo emitir la licencia", "Licencia Emitida", JOptionPane.OK_OPTION);
