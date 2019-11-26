@@ -404,6 +404,7 @@ public class PanelDarAltaTitular extends JPanel{
 
 		this.lblClaseAsignada.setText(licencia.getClase().toString());
 		this.clase=licencia.getClase();
+		this.txtObservaciones.setText(licencia.getObservaciones());
 
 		txtDireccion.setText(contribuyente.getDireccion());
 		
