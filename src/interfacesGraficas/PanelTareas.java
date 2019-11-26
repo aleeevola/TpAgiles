@@ -35,7 +35,7 @@ import javax.swing.event.ChangeListener;
 
 
 public class PanelTareas extends JPanel {
-	
+
 	private JLabel lblUsuario;
 	private JLabel lblLogo;
 	private JButton btnNuevaLicencia;
@@ -43,11 +43,11 @@ public class PanelTareas extends JPanel {
 	private JButton btnEmitirCopiaLicencia;
 	private JButton btnBuscar;
 	private JButton btnSalir;
-	
+
 	private JPanel panelGobierno;
 	private JPanel panelTareas;
 	private JPanel panelUsuario;
-	
+
 	public PanelTareas() {
 		this.construirBanner();
 		this.contruirPanelUsuario();
@@ -61,7 +61,7 @@ public class PanelTareas extends JPanel {
 		this.add(panelGobierno, BorderLayout.NORTH);
 		this.add(panelTareas,BorderLayout.WEST);
 		this.add(panelUsuario,BorderLayout.EAST);
-		
+
 		Border b =BorderFactory.createLineBorder(Color.WHITE, 10);
 		panelTareas.setBorder(b);
 		//setBorder(BorderFactory.createEmptyBorder(top,left,bottom,right));
@@ -72,18 +72,18 @@ public class PanelTareas extends JPanel {
 		panelGobierno = new JPanel(new GridBagLayout());
 		panelGobierno.setBackground(new Color(255, 168, 0));
 		panelGobierno.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-		
+
 		GridBagConstraints gridConst =  new GridBagConstraints();
-		
-		JLabel lblNombre = new JLabel("Sistema de Gestión de Licencias de Conducir");
+
+		JLabel lblNombre = new JLabel("Sistema de Gestiï¿½n de Licencias de Conducir");
 		lblNombre.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
-		
+
 		lblLogo = new JLabel();
 		lblLogo.setIcon(new ImageIcon("imagenes/LogoGobierno.png"));
-		
+
 		lblLogo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNombre.setHorizontalAlignment(JLabel.RIGHT);
-		
+
 		gridConst.weighty = 1.0;
 		gridConst.weightx = 1.0;
 		gridConst.gridx = 0;
@@ -94,14 +94,14 @@ public class PanelTareas extends JPanel {
 		gridConst.gridwidth = 1;
 		gridConst.gridheight = 4;
 		panelGobierno.add(lblNombre,gridConst);
-	
+
 	}
 
 	private void contruirPanelUsuario() {
 		panelUsuario=new JPanel(new GridBagLayout());
 		panelUsuario.setBackground(Color.WHITE);
 		GridBagConstraints gridConst =  new GridBagConstraints();
-		
+
 		lblUsuario = new JLabel();
 		lblUsuario.setIcon(new ImageIcon("imagenes/lblUsuario.png"));
 		gridConst.weighty = 1.0;
@@ -109,7 +109,7 @@ public class PanelTareas extends JPanel {
 		gridConst.gridx = 0;
 		gridConst.gridy = 0;
 		panelUsuario.add(lblUsuario,gridConst);
-		
+
 		btnSalir = new JButton();
 		btnSalir.setIcon(new ImageIcon("imagenes/btnSalir.png"));
 		btnSalir.setRolloverIcon(new ImageIcon("imagenes/btnSalirPressed.png"));
@@ -120,14 +120,14 @@ public class PanelTareas extends JPanel {
 		gridConst.gridx = 0;
 		gridConst.gridy = 1;
 		panelUsuario.add(btnSalir,gridConst);
-		
+
 	}
 
 	private void construirPanelTareas() {
-				
+
 		panelTareas=new JPanel(new GridBagLayout());
 		GridBagConstraints gridConst =  new GridBagConstraints();
-		
+
 		btnNuevaLicencia = new JButton();
 		btnNuevaLicencia.setIcon(new ImageIcon("imagenes/btnEmitirLicencia.png"));
 		btnNuevaLicencia.setRolloverIcon(new ImageIcon("imagenes/btnEmitirLicenciaPressed.png"));
@@ -137,27 +137,27 @@ public class PanelTareas extends JPanel {
 		gridConst.gridx = 0;
 		gridConst.gridy = 0;
 		panelTareas.add(btnNuevaLicencia, gridConst);
-		
-		
+
+
 		btnNuevaLicencia.addActionListener(e -> {
-			
+
 			EmitirLicencia panelCards = new EmitirLicencia();
-			
+
 			JFrame newFrame = new JFrame();
-			
+
 			newFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			newFrame.setVisible(true);
 			newFrame.setSize(1000, 900);
 
 			newFrame.setContentPane(panelCards);
-			
+
 			newFrame.pack();
-			
+
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 	        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
-			
+
 		});
-		
+
 		btnRenovarLicencia = new JButton();
 		btnRenovarLicencia.setIcon(new ImageIcon("imagenes/btnRenovarLicencia.png"));
 		btnRenovarLicencia.setRolloverIcon(new ImageIcon("imagenes/btnRenovarLicenciaPressed.png"));
@@ -166,7 +166,7 @@ public class PanelTareas extends JPanel {
 		btnRenovarLicencia.setContentAreaFilled(false);
 		gridConst.gridy = 1;
 		panelTareas.add(btnRenovarLicencia, gridConst);
-		
+
 		btnEmitirCopiaLicencia = new JButton();
 		btnEmitirCopiaLicencia.setIcon(new ImageIcon("imagenes/btnEmitirCopia.png"));
 		btnEmitirCopiaLicencia.setRolloverIcon(new ImageIcon("imagenes/btnEmitirCopiaPressed.png"));
@@ -175,8 +175,8 @@ public class PanelTareas extends JPanel {
 		btnEmitirCopiaLicencia.setContentAreaFilled(false);
 		gridConst.gridy = 2;
 		panelTareas.add(btnEmitirCopiaLicencia, gridConst);
-		
-		
+
+
 		btnBuscar = new JButton();
 		btnBuscar.setIcon(new ImageIcon("imagenes/btnBuscarLicencias.png"));
 		btnBuscar.setRolloverIcon(new ImageIcon("imagenes/btnBuscarLicenciasPressed.png"));
@@ -184,37 +184,35 @@ public class PanelTareas extends JPanel {
 		btnBuscar.setOpaque(false);
 		btnBuscar.setContentAreaFilled(false);
 		btnBuscar.addActionListener(e -> {
-			
+
 			PanelLicenciasExpiradas panelCards = new PanelLicenciasExpiradas();
-			
+
 			JFrame newFrame = new JFrame();
-			
+
 			newFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			newFrame.setVisible(true);
 			newFrame.setSize(1000, 900);
 
 			newFrame.setContentPane(panelCards);
-			
+
 			newFrame.pack();
-			
+
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 	        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
-			
+
 		});
-		gridConst.gridy = 3;
-		panelTareas.add(btnBuscar, gridConst);
-	}
-	
-	public void efectoBotones() {
-		/*btnNuevaLicencia.getModel().addChangeListener(new ChangeListener() {
-		    public void stateChanged(ChangeEvent e) {
-		        ButtonModel model = (ButtonModel) e.getSource();
-		        if (model.isRollover()) {
-		        	btnNuevaLicencia.setIcon(new ImageIcon("imagenes/btnEmitirLicenciaPressed.png"));
-		        } else {
-		        	btnNuevaLicencia.setIcon(new ImageIcon("imagenes/btnEmitirLicencia.png"));
-		        }
-		    }
-		});*/
+		gridConst.gridy = 4;
+		this.add(btnBuscar, gridConst);
+
+		btnSalir = new JButton();
+		btnSalir.setIcon(new ImageIcon("imagenes/btnSalir.png"));
+		btnSalir.setPressedIcon(new ImageIcon("imagenes/btnSalirPressed.png"));
+		btnSalir.setBorderPainted(false);
+		btnSalir.setOpaque(false);
+		btnSalir.setContentAreaFilled(false);
+		gridConst.gridy = 5;
+		btnSalir.addActionListener(e->System.exit(99));
+		this.add(btnSalir, gridConst);
+
 	}
 }

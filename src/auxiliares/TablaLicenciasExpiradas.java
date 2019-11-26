@@ -11,14 +11,14 @@ public class TablaLicenciasExpiradas extends AbstractTableModel{
 
 //	Clase utilizada para representar el formato de tabla que visualiza todos los contribuyentes.
 //	Los contribuyentes provienen de la base de datos externa al sistema y se representan como "Personas".
-	
+
 	private static SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy");
-	
+
 	private List<LicenciaExpirada> licenciasExpiradas=new ArrayList();
 	private String[] columnas = {"DNI", "Nombre", "Apellido", "Clase", "Fecha de vencimiento"};
-	
+
 //	Getters y Setters
-	
+
 	public List<LicenciaExpirada> getLicenciasExpiradas() {
 		return licenciasExpiradas;
 	}
@@ -26,12 +26,12 @@ public class TablaLicenciasExpiradas extends AbstractTableModel{
 	public void setLicenciasExpiradas(List<LicenciaExpirada> licenciasExpiradas) {
 		this.licenciasExpiradas = licenciasExpiradas;
 	}
-	
+
 	public String getColumnName(int indice) {
 		return this.columnas[indice];
 	}
-	
-	@Override 
+
+	@Override
 	public int getColumnCount() {
 		return this.columnas.length;
 	}
@@ -43,9 +43,9 @@ public class TablaLicenciasExpiradas extends AbstractTableModel{
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		
+
 		Object valor = null;
-		
+
 		switch(columnIndex) {
 		case 0:
 			valor = this.licenciasExpiradas.get(rowIndex).getDni();
