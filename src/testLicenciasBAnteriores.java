@@ -59,7 +59,7 @@ public class testLicenciasBAnteriores {
 		historialLicencias.add(licencia4);
 		historialLicencias.add(licencia5);
 		
-		if(gl._licenciaB1año(historialLicencias)) System.out.println("DEVOLVIO TRUE");
+		if(gl._licenciaB1anio(historialLicencias)) System.out.println("DEVOLVIO TRUE");
 		
 
 	}

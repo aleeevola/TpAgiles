@@ -1,7 +1,7 @@
 package auxiliares;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,7 +10,6 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import clases.Clase;
 import clases.Licencia;
 import clases.Persona;
@@ -83,7 +82,7 @@ public class GestorDeLicencia {
 			else {
 
 			if(clase==Clase.C || clase==Clase.D || clase==Clase.E){
-					if((20<edad && edad<66) && _licenciaB1aï¿½o(titular.getLicencias())) {
+					if((20<edad && edad<66) && _licenciaB1anio(titular.getLicencias())) {
 						fecha_de_vencimiento=this.calcularVigencia(fecha_de_nacimiento, titular.getLicencias().size());
 
 						Licencia licencia = new Licencia();
@@ -162,7 +161,7 @@ public class GestorDeLicencia {
 	}
 
 
-	public boolean _licenciaB1aï¿½o(List<Licencia> licencias) {
+	public boolean _licenciaB1anio(List<Licencia> licencias) {
 		if(licencias.isEmpty()) { //NO SE SI ESTA VALIDACION ESTA BIEN, PORQUE SI EXISTE EL TITULAR NUNCA DEBERIA ESTAR VACIA LA LISTA PERO NO SE
 			return false;
 		}else {
@@ -240,17 +239,17 @@ public class GestorDeLicencia {
 		GregorianCalendar fechaActual = new GregorianCalendar();
 
 
-	        // Cï¿½lculo de las diferencias.
+	        // Caculo de las diferencias.
 	        int anio = fechaActual.get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
 	        int mes = fechaActual.get(Calendar.MONTH) - fechaNacimiento.get(Calendar.MONTH);
 	        int dia = fechaActual.get(Calendar.DAY_OF_MONTH) - fechaNacimiento.get(Calendar.DAY_OF_MONTH);
 
-	        // Hay que comprobar si el dï¿½a de su cumpleaï¿½os es posterior
-	        // a la fecha actual, para restar 1 a la diferencia de aï¿½os,
-	        // pues aï¿½n no ha sido su cumpleaï¿½os.
+	        // Hay que comprobar si el dia de su cumpleaños es posterior
+	        // a la fecha actual, para restar 1 a la diferencia de años,
+	        // pues aun no ha sido su cumpleaños.
 
-	        if(mes < 0 // Aï¿½n no es el mes de su cumpleaï¿½os
-	           || (mes==0 && dia < 0)) { // o es el mes pero no ha llegado el dï¿½a.
+	        if(mes < 0 // Aun no es el mes de su cumpleaños
+	           || (mes==0 && dia < 0)) { // o es el mes pero no ha llegado el dia.
 	            anio--;
 	        }
 

@@ -30,7 +30,6 @@ public class TablaLicencias extends AbstractTableModel{
 		return this.columnas[indice];
 	}
 	
-
 	@Override 
 	public int getColumnCount() {
 		return this.columnas.length;

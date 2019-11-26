@@ -126,10 +126,7 @@ public class PanelRenovarLicencia extends JPanel {
 		});
 		this.add(btnBuscar, gridConst);
 		
-
-		
-		
-		
+			
 		/*
 		 * Panel que tiene las tablas titulares y licencias
 		 * new BorderLayout()*/
@@ -278,7 +275,7 @@ public class PanelRenovarLicencia extends JPanel {
 	
 	public void mostrarLicencias() {
 		try {
-
+			
 			titular = tablaTitulares.getTitulares().get(seleccionT);
 			this.setResultadoBusqueda(titular.getLicencias(), true);
 		}
