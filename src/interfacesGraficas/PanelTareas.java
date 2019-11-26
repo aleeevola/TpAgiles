@@ -75,7 +75,7 @@ public class PanelTareas extends JPanel {
 
 		GridBagConstraints gridConst =  new GridBagConstraints();
 
-		JLabel lblNombre = new JLabel("Sistema de Gestión de Licencias de Conducir");
+		JLabel lblNombre = new JLabel("Sistema de Gestiï¿½n de Licencias de Conducir");
 		lblNombre.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
 
 		lblLogo = new JLabel();
@@ -166,6 +166,26 @@ public class PanelTareas extends JPanel {
 		btnRenovarLicencia.setContentAreaFilled(false);
 		gridConst.gridy = 1;
 		panelTareas.add(btnRenovarLicencia, gridConst);
+
+		btnRenovarLicencia.addActionListener(e -> {
+
+			RenovarLicencia panelCards = new RenovarLicencia();
+
+			JFrame newFrame = new JFrame();
+
+			newFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+			newFrame.setVisible(true);
+			newFrame.setSize(1000, 900);
+
+			newFrame.setContentPane(panelCards);
+
+			newFrame.pack();
+
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+	        newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
+
+		});
+
 
 		btnEmitirCopiaLicencia = new JButton();
 		btnEmitirCopiaLicencia.setIcon(new ImageIcon("imagenes/btnEmitirCopia.png"));
