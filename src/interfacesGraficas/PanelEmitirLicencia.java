@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
@@ -47,6 +48,8 @@ public class PanelEmitirLicencia extends JPanel {
 	private TablaContribuyentes tablaContribuyentes = new TablaContribuyentes();
 	private JLabel lblClase;
 	private JComboBox cmbClase;
+	private JLabel lblObs;
+	private JTextField txtObs;
 	private JButton btnSiguiente;
 	private GestorBaseDeDatos gestorBD;
 	private GestorDeLicencia gestorLicencia;
@@ -148,9 +151,25 @@ public class PanelEmitirLicencia extends JPanel {
 		gridConst.gridx = 1;
 		gridConst.gridwidth = 2;
 		this.add(cmbClase, gridConst);
+		
+		gridConst.anchor = GridBagConstraints.LINE_END;
+
+		lblObs = new JLabel("Observaciones:");
+		gridConst.gridy = 5;
+		gridConst.gridx = 0;
+		gridConst.gridwidth = 1;
+		this.add(lblObs, gridConst);
+		
+		gridConst.anchor = GridBagConstraints.LINE_START;
+
+		txtObs = new JTextField(24);
+		gridConst.gridx = 1;
+		gridConst.gridwidth = 2;
+		//gridConst.insets = new Insets(0, 5, 15, 5);	
+		this.add(txtObs, gridConst);
 
 		btnSiguiente = new JButton("Siguiente");
-		gridConst.gridy = 5;
+		gridConst.gridy = 6;
 		gridConst.gridx = 2;
 		gridConst.gridwidth = 1;
 		btnSiguiente.addActionListener(e -> {
@@ -158,8 +177,9 @@ public class PanelEmitirLicencia extends JPanel {
 		});
 		this.add(btnSiguiente, gridConst);
 
+		gridConst.anchor = GridBagConstraints.LINE_END;
 		btnCancelar = new JButton("Cancelar");
-		gridConst.gridy = 5;
+		gridConst.gridy = 6;
 		gridConst.gridx = 1;
 		gridConst.gridwidth = 1;
 		btnCancelar.addActionListener(e -> {
@@ -172,10 +192,13 @@ public class PanelEmitirLicencia extends JPanel {
 
 	private void emitirLicencia() {
 
+		String observaciones = txtObs.getText();
+		
 		try {
 			
 			Persona persona = tablaContribuyentes.getContribuyentes().get(seleccion);
-			int seEmitioLaLicencia = gestorLicencia.emitirLicencia((Clase)cmbClase.getSelectedItem(), persona);
+			
+			int seEmitioLaLicencia = gestorLicencia.emitirLicencia((Clase)cmbClase.getSelectedItem(), persona, observaciones);
 
 			if(seEmitioLaLicencia==0) {
 
@@ -188,7 +211,7 @@ public class PanelEmitirLicencia extends JPanel {
 
 			}else if (seEmitioLaLicencia==1) {
 
-				_darDeAltaNuevoTitular(gestorLicencia,persona);
+				_darDeAltaNuevoTitular(gestorLicencia,persona,observaciones);
 
 			}
 
@@ -198,14 +221,14 @@ public class PanelEmitirLicencia extends JPanel {
 		};
 	}
 
-	private void _darDeAltaNuevoTitular(GestorDeLicencia gestorLicencia, Persona persona) {
+	private void _darDeAltaNuevoTitular(GestorDeLicencia gestorLicencia, Persona persona, String observaciones) {
 
 		EmitirLicencia panelCards = (EmitirLicencia) SwingUtilities.getAncestorOfClass(JPanel.class, this);
 		CardLayout cl = (CardLayout) panelCards.getLayout();
 
 		cl.show(panelCards, EmitirLicencia.ALTAPANEL);
-
-		panelCards.cardAlta.cargarDatos(persona, (Clase)cmbClase.getSelectedItem());
+		
+		panelCards.cardAlta.cargarDatos(persona, (Clase)cmbClase.getSelectedItem(), observaciones);
 		
 		JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
 	

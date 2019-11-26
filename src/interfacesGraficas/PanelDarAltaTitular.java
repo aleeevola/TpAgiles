@@ -67,6 +67,8 @@ public class PanelDarAltaTitular extends JPanel{
 	private JLabel lblGrupoSanguineo;
 	private JLabel lblDonante;
 	private JLabel lblClaseSolicitada;
+	private JLabel lblObservaciones;
+	private JTextField txtObservaciones;
 
 	private JLabel lblClaseAsignada;
 	private JComboBox cmbGrupoSanguineo;
@@ -213,6 +215,10 @@ public class PanelDarAltaTitular extends JPanel{
 		lblGrupoSanguineo = new JLabel("Grupo Sanguíneo:");
 		gridConst.gridy = 6;
 		this.add(lblGrupoSanguineo, gridConst);
+		
+		lblObservaciones = new JLabel("Observaciones:");
+		gridConst.gridy = 7;
+		this.add(lblObservaciones, gridConst);
 
 		btnVolver = new JButton("Volver");
 		gridConst.insets = new Insets(10, 0, 10, 5);
@@ -242,6 +248,11 @@ public class PanelDarAltaTitular extends JPanel{
 		cmbGrupoSanguineo.setPreferredSize(new Dimension(140, 20));
 		gridConst.gridy = 6;
 		this.add(cmbGrupoSanguineo, gridConst);
+		
+		txtObservaciones = new JTextField(17);
+		gridConst.gridy = 7;
+		gridConst.insets = new Insets(0, 0, 5, 10);
+		this.add(txtObservaciones, gridConst);
 
 		btnSiguiente = new JButton("Dar de alta");
 		gridConst.insets = new Insets(10, 0, 10, 10);
@@ -308,8 +319,8 @@ public class PanelDarAltaTitular extends JPanel{
 		return titular;
 	}
 
-	public void cargarDatos(Persona contribuyente, Clase clase) {
-
+	public void cargarDatos(Persona contribuyente, Clase clase, String observaciones) {
+		
 		Date fecha_de_nacimiento = contribuyente.getFecha_de_nacimiento();
 		fdn = fecha_de_nacimiento;
 		dni = contribuyente.getDni();
@@ -332,6 +343,9 @@ public class PanelDarAltaTitular extends JPanel{
 
 		txtDireccion.setText(contribuyente.getDireccion());
 		txtDireccion.setEditable(false);
+		
+		txtObservaciones.setText(observaciones);
+		
 
 		btnVolver.addActionListener(e -> {
 
@@ -355,7 +369,7 @@ public class PanelDarAltaTitular extends JPanel{
 			 * */
 			try {
 				Titular titular = _altaTitular();
-				gestorLicencia.darDeAltaNuevoTitular(clase, titular);
+				gestorLicencia.darDeAltaNuevoTitular(clase, titular, txtObservaciones.getText());
 
 				JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
 				frame.dispose();
@@ -410,7 +424,7 @@ public class PanelDarAltaTitular extends JPanel{
 			 * */
 			try {
 				_renovarTitular();
-				gestorLicencia.renovarLicencia(titularRenovar, licencia);
+				gestorLicencia.renovarLicencia(titularRenovar, licencia, this.txtObservaciones.getText());
 
 				JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
 				frame.dispose();

@@ -38,7 +38,7 @@ public class GestorDeLicencia {
 	 * 0 si se cargo correctamente
 	 * 1 para llamar al panel dar de alta y usar el metodo darDeAltaNuevoTitular
 	 **/
-	public int emitirLicencia(Clase clase, Persona persona) {
+	public int emitirLicencia(Clase clase, Persona persona, String observaciones) {
 		
 		//Datos titular
 		int dni=persona.getDni();
@@ -91,6 +91,7 @@ public class GestorDeLicencia {
 						licencia.setNumero_de_copias(0);
 						licencia.setFecha_de_vencimiento(fecha_de_vencimiento);
 						licencia.setFecha_de_emision(fechaActual);
+						licencia.setObservaciones(observaciones);
 						
 						titular.addLicencia(licencia);
 						
@@ -126,6 +127,7 @@ public class GestorDeLicencia {
 			licencia.setNumero_de_copias(0);
 			licencia.setFecha_de_vencimiento(fecha_de_vencimiento);
 			licencia.setFecha_de_emision(fechaActual);
+			licencia.setObservaciones(observaciones);
 			
 			titular.addLicencia(licencia);
 			
@@ -259,7 +261,7 @@ public class GestorDeLicencia {
 	}
 
 	
-	public void darDeAltaNuevoTitular(Clase clase,Titular titular) {
+	public void darDeAltaNuevoTitular(Clase clase,Titular titular, String observaciones) {
 		
 		Licencia licencia = new Licencia();
 		
@@ -270,6 +272,7 @@ public class GestorDeLicencia {
 			licencia.setNumero_de_copias(0);
 			licencia.setFecha_de_vencimiento(fecha_de_vencimiento);
 			licencia.setFecha_de_emision(fechaActual);
+			licencia.setObservaciones(observaciones);
 			
 			titular.addLicencia(licencia);
 			
@@ -377,10 +380,11 @@ public class GestorDeLicencia {
 		return costo;
 	}
 	
-	public void renovarLicencia(Titular titular, Licencia licencia) throws Exception {
+	public void renovarLicencia(Titular titular, Licencia licencia, String observaciones) throws Exception {
 		Date fecha_vencimiento=this.calcularVigencia(titular.getFecha_de_nacimiento(), titular.getLicencias().size());
 		
 		licencia.setFecha_de_vencimiento(fecha_vencimiento);
+		licencia.setObservaciones(observaciones);
 		bd.updateTitular(titular);
 		
 		imprimirLicencia(titular,licencia);

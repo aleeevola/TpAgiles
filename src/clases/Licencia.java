@@ -27,8 +27,10 @@ public class Licencia {
 	private int numero_de_copias;
 	@Column(name = "fecha_de_emision")
 	private Date fecha_de_emision;
+	@Column(name= "observaciones")
+	private String observaciones;
 	
-	
+
 	@Enumerated(EnumType.STRING)
 	@Column(name = "clase")
 	private Clase clase;
@@ -87,6 +89,15 @@ public class Licencia {
 		this.emitidoPor = emitidoPor;
 	}
 
+	
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
+	}
+	
 	@Override
 	public String toString() {
 		return "Licencia [id=" + id + ", fecha_de_vencimiento=" + fecha_de_vencimiento + ", numero_de_copias="
