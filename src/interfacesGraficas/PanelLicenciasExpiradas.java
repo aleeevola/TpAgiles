@@ -48,7 +48,7 @@ public class PanelLicenciasExpiradas extends JPanel {
 
 		gridConst.anchor = GridBagConstraints.CENTER;
 
-		lblNombre = new JLabel("Sistema de Gestión de Licencias de Conducir");
+		lblNombre = new JLabel("Sistema de GestiÃ³n de Licencias de Conducir");
 		lblNombre.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
 		gridConst.gridx = 0;
 		gridConst.gridy = 0;
@@ -67,7 +67,7 @@ public class PanelLicenciasExpiradas extends JPanel {
 
 		gridConst.anchor = GridBagConstraints.LINE_END;
 
-		
+
 		tabla = new JTable(tablaLicenciasExpiradas);
 		gridConst.gridy = 3;
 		gridConst.gridx = 0;

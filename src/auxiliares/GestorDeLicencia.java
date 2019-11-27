@@ -1,7 +1,7 @@
 package auxiliares;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,7 +10,6 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import clases.Clase;
 import clases.Licencia;
 import clases.Persona;
@@ -23,15 +22,15 @@ import interfacesGraficas.PanelImprimirLicencia;
 public class GestorDeLicencia {
 
 	private GestorBaseDeDatos bd= new GestorBaseDeDatos();
-	
+
 	Date fechaActual = new Date();
-	
+
 	public GestorDeLicencia() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
+
 	/*
 	 * Este metodo devueve:
 	 * -1 si no se puede cargar la licencia
@@ -39,38 +38,38 @@ public class GestorDeLicencia {
 	 * 1 para llamar al panel dar de alta y usar el metodo darDeAltaNuevoTitular
 	 **/
 	public int emitirLicencia(Clase clase, Persona persona) {
-		
+
 		//Datos titular
 		int dni=persona.getDni();
 		Date fecha_de_nacimiento=persona.getFecha_de_nacimiento();
 		String nombre=persona.getNombre();
 		String apellido=persona.getApellido();
-		
+
 		GregorianCalendar CalendarFecha_de_nacimiento = new GregorianCalendar();
 		CalendarFecha_de_nacimiento.setTime(fecha_de_nacimiento);
-		
+
 		Integer edad=this._calcularEdad(CalendarFecha_de_nacimiento);
-		
+
 		if (edad>=17) {
-		
-		ArrayList<Titular> titulares=bd.getTitular(dni, apellido, nombre);
-		
+
+		ArrayList<Titular> titulares=bd.getTitular(dni, apellido, nombre,fecha_de_nacimiento);
+
 		Date fecha_de_vencimiento = new Date();
-		
+
 		if(titulares.isEmpty()) {
 			System.out.println("No existe");
-			
-			if(clase==Clase.A || clase==Clase.B || clase==Clase.F || clase==Clase.G) { 
-					
+
+			if(clase==Clase.A || clase==Clase.B || clase==Clase.F || clase==Clase.G) {
+
 					System.out.println("retorna 1");
-					
+
 					return 1;
-			} else { 
-				/* No existe el titular en la base de datos, por lo que si solicitó licencia C/D/E no cumple el requisito "tener una licencia clase B de al menos un año" */
+			} else {
+				/* No existe el titular en la base de datos, por lo que si solicitï¿½ licencia C/D/E no cumple el requisito "tener una licencia clase B de al menos un aï¿½o" */
 				JOptionPane.showMessageDialog(null, "Debe tener una licencia clase B de al menos un año para solicitar clase"+clase, "Error", JOptionPane.OK_OPTION);
 
 				return -1;
-				} 
+				}
 		}
 		else {
 			System.out.println("existe");
@@ -78,79 +77,79 @@ public class GestorDeLicencia {
 			if(_tieneLicencia(titular.getLicencias(),clase)) {
 				JOptionPane.showMessageDialog(null, "Ya posee una licencia, debe hacer el tramite de renovación", "Error", JOptionPane.OK_OPTION);
 				/* Si ya tiene una licencia de la clase solicitada debe hacer el tramite de renovacion de licencia, no emision. */
-				return -1;  
+				return -1;
 			}
 			else {
 
 			if(clase==Clase.C || clase==Clase.D || clase==Clase.E){
-					if((20<edad && edad<66) && _licenciaB1año(titular.getLicencias())) {
+					if((20<edad && edad<66) && _licenciaB1anio(titular.getLicencias())) {
 						fecha_de_vencimiento=this.calcularVigencia(fecha_de_nacimiento, titular.getLicencias().size());
-						
+
 						Licencia licencia = new Licencia();
 						licencia.setClase(clase);
 						licencia.setNumero_de_copias(0);
 						licencia.setFecha_de_vencimiento(fecha_de_vencimiento);
 						licencia.setFecha_de_emision(fechaActual);
-						
+
 						titular.addLicencia(licencia);
-						
+
 						bd.updateTitular(titular);
-						
+
 						JOptionPane.showMessageDialog(null, "Licencia asignada con éxito. Su licencia y comprobante se están imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
-						
+
 						try {
 							this.imprimirLicencia(titular, licencia);
 							this.imprimirComprobante(titular, licencia);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-						
+
 						return 0;
-					}else { 
-						
+					}else {
+
 						/* Se solicito una clase C/D/E pero no cumple requisitos de edad y/o de licencias anteriores, retorna false */
-						JOptionPane.showMessageDialog(null, "Para solicitar una licencia clase "+clase+" debe tener entre 21 y 65 años, y tener una licencia B de al menos un año.", "Error", JOptionPane.OK_OPTION);
-					
+						JOptionPane.showMessageDialog(null, "Para solicitar una licencia clase "+clase+" debe tener entre 21 y 65 años, y tener una licencia B de al menos un aÃ±o.", "Error", JOptionPane.OK_OPTION);
+
 						return -1;
 					}
-				
-				
+
+
 			}else {
-				/* Se solicito licencia A/B/F/G/H y tiene al menos 17 años --> se emite la licencia */
-			
-		
+				/* Se solicito licencia A/B/F/G/H y tiene al menos 17 aï¿½os --> se emite la licencia */
+
+
 			fecha_de_vencimiento=this.calcularVigencia(fecha_de_nacimiento, titular.getLicencias().size());
-			
+
 			Licencia licencia = new Licencia();
 			licencia.setClase(clase);
 			licencia.setNumero_de_copias(0);
 			licencia.setFecha_de_vencimiento(fecha_de_vencimiento);
 			licencia.setFecha_de_emision(fechaActual);
-			
+
 			titular.addLicencia(licencia);
-			
+
 			bd.updateTitular(titular);
-			
+
 			JOptionPane.showMessageDialog(null, "Licencia asignada con éxito. Su licencia y comprobante se están imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
-			
+
 			try {
 				this.imprimirLicencia(titular, licencia);
 				this.imprimirComprobante(titular, licencia);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			return 0;
-			}	
+			}
 		}
 		}
-		} else { /* Es menor de 17 años, no puede obtener ninguna licencia */
+		} else { /* Es menor de 17 aï¿½os, no puede obtener ninguna licencia */
 			JOptionPane.showMessageDialog(null, "Debe tener al menos 17 años para solicitar una licencia.", "Error", JOptionPane.OK_OPTION);
 			return -1;
 			}
 	}
-	
-	
+
+
 
 	private boolean _tieneLicencia(List<Licencia> licencias, Clase clase) {
 		for(Licencia l : licencias) {
@@ -162,13 +161,13 @@ public class GestorDeLicencia {
 	}
 
 
-	public boolean _licenciaB1año(List<Licencia> licencias) {
+	public boolean _licenciaB1anio(List<Licencia> licencias) {
 		if(licencias.isEmpty()) { //NO SE SI ESTA VALIDACION ESTA BIEN, PORQUE SI EXISTE EL TITULAR NUNCA DEBERIA ESTAR VACIA LA LISTA PERO NO SE
 			return false;
 		}else {
 			Date fechaMin = new Date();
 			fechaMin.setYear(((new GregorianCalendar().get(Calendar.YEAR)) - 1901));
-			
+
 			for(Licencia l : licencias) {
 				if(l.getClase()==Clase.B && (l.getFecha_de_emision().before(fechaMin))) {
 					return true;
@@ -191,13 +190,13 @@ public class GestorDeLicencia {
 		if (edad < 21) {
 			if (cantLicencias==0) {
 				/*
-				 * Menores de 21 años: si obtienen por primera vez, vigencia 1 año.
+				 * Menores de 21 aï¿½os: si obtienen por primera vez, vigencia 1 aï¿½o.
 				 */
 				vigencia = 1;
 
 			} else {
 				/*
-				 * Menores de 21 años: si ya obtuvieron otras licencias, vigencia 3 años.
+				 * Menores de 21 aï¿½os: si ya obtuvieron otras licencias, vigencia 3 aï¿½os.
 				 */
 				vigencia = 3;
 
@@ -206,25 +205,25 @@ public class GestorDeLicencia {
 		else {
 			if (edad <= 46) {
 				/*
-				 * Hasta 46 años: vigencia 5 años.
+				 * Hasta 46 aï¿½os: vigencia 5 aï¿½os.
 				 */
 				vigencia = 5;
 
 			} else {
 				if (edad <= 60) {
 					/*
-					 * Hasta 60 años: vigencia 4 años.
+					 * Hasta 60 aï¿½os: vigencia 4 aï¿½os.
 					 */
 					vigencia = 4;
 				} else {
 					if (edad <= 70) {
 						/*
-						 * Hasta 70 años: vigencia 3 años.
+						 * Hasta 70 aï¿½os: vigencia 3 aï¿½os.
 						 */
 						vigencia = 3;
 					} else {
 						/*
-						 * Mayores de 70 años: vigencia 1 año.
+						 * Mayores de 70 aï¿½os: vigencia 1 aï¿½o.
 						 */
 						vigencia = 1;
 					}
@@ -238,53 +237,53 @@ public class GestorDeLicencia {
 
 	private Integer _calcularEdad(GregorianCalendar fechaNacimiento) {
 		GregorianCalendar fechaActual = new GregorianCalendar();
-		
-	 
-	        // Cálculo de las diferencias.
+
+
+	        // Caculo de las diferencias.
 	        int anio = fechaActual.get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
 	        int mes = fechaActual.get(Calendar.MONTH) - fechaNacimiento.get(Calendar.MONTH);
 	        int dia = fechaActual.get(Calendar.DAY_OF_MONTH) - fechaNacimiento.get(Calendar.DAY_OF_MONTH);
-	 
-	        // Hay que comprobar si el día de su cumpleaños es posterior
-	        // a la fecha actual, para restar 1 a la diferencia de años,
-	        // pues aún no ha sido su cumpleaños.
-	 
-	        if(mes < 0 // Aún no es el mes de su cumpleaños
-	           || (mes==0 && dia < 0)) { // o es el mes pero no ha llegado el día.
+
+	        // Hay que comprobar si el dia de su cumpleaï¿½os es posterior
+	        // a la fecha actual, para restar 1 a la diferencia de aï¿½os,
+	        // pues aun no ha sido su cumpleaï¿½os.
+
+	        if(mes < 0 // Aun no es el mes de su cumpleaï¿½os
+	           || (mes==0 && dia < 0)) { // o es el mes pero no ha llegado el dia.
 	            anio--;
 	        }
-	        
+
 	        System.out.println("EDAD "+anio);
 	        return anio;
 	}
 
-	
+
 	public void darDeAltaNuevoTitular(Clase clase,Titular titular) {
-		
+
 		Licencia licencia = new Licencia();
-		
-		try { 
-			
+
+		try {
+
 			Date fecha_de_vencimiento=this.calcularVigencia(titular.getFecha_de_nacimiento(), 0);
 			licencia.setClase(clase);
 			licencia.setNumero_de_copias(0);
 			licencia.setFecha_de_vencimiento(fecha_de_vencimiento);
 			licencia.setFecha_de_emision(fechaActual);
-			
+
 			titular.addLicencia(licencia);
-			
+
 			bd.guardarTitular(titular);
-	
+
 			String Alerta="El titular "+titular.getApellido()+", "+titular.getNombre()+" fue creado con éxito";
-	
+
 			JOptionPane.showMessageDialog(null, Alerta, "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);
-	
+
 			JOptionPane.showMessageDialog(null, "Licencia asignada con éxito. Su licencia y comprobante se están imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
-			
+
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "No se pudo emitir la licencia", "Licencia Emitida", JOptionPane.OK_OPTION);
 		}
-		
+
 		try {
 			this.imprimirLicencia(titular, licencia);
 			this.imprimirComprobante(titular, licencia);
@@ -292,49 +291,49 @@ public class GestorDeLicencia {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void imprimirLicencia(Titular titular, Licencia licencia) throws Exception {
-		
+
 		 // Imprime la licencia
 		JFrame newFrame = new JFrame();
 		PanelImprimirLicencia licenciaImpresa = new PanelImprimirLicencia();
-		
+
 		newFrame.setSize(750, 500);
 		newFrame.setVisible(true);
-		
+
 		licenciaImpresa.cargarImagen(licencia, titular);
 
 		newFrame.setContentPane(licenciaImpresa);
-		
+
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
 	}
-	
+
 	public void imprimirComprobante(Titular titular, Licencia licencia) {
-		
+
         // Imprime el comprobante
         FrameImprimirComprobante comprobante = new FrameImprimirComprobante();
-        
+
         Double costoLicencia = this._calcularCostoLicencia(licencia);
-        
+
         comprobante.cargarDatos(titular, licencia, costoLicencia);
-        
+
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         comprobante.setLocation(dim.width/2- comprobante.getSize().width/2, dim.height/2- comprobante.getSize().height/2);
 	}
-	
+
 	public Double _calcularCostoLicencia(Licencia licencia) {
-		
+
 		Double costo;
-		
+
 		int anioEmision = licencia.getFecha_de_emision().getYear();
 		int anioVencimiento = licencia.getFecha_de_vencimiento().getYear();
 		int vigencia = anioVencimiento-anioEmision;
-		
+
 		Clase clase = licencia.getClase();
-		
+
 		switch(clase) {
-		
+
 		case A:
 		case B:
 		case G:
@@ -375,5 +374,15 @@ public class GestorDeLicencia {
 			break;
 		}
 		return costo;
+	}
+
+	public void renovarLicencia(Titular titular, Licencia licencia) throws Exception {
+		Date fecha_vencimiento=this.calcularVigencia(titular.getFecha_de_nacimiento(), titular.getLicencias().size());
+
+		licencia.setFecha_de_vencimiento(fecha_vencimiento);
+		bd.updateTitular(titular);
+
+		imprimirLicencia(titular,licencia);
+		imprimirComprobante(titular,licencia);
 	}
 }
