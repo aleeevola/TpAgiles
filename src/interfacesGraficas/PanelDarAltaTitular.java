@@ -89,6 +89,8 @@ public class PanelDarAltaTitular extends JPanel{
 
 	private Titular titularRenovar;
 
+	private Titular titularRenovar;
+
 	public PanelDarAltaTitular() {
 		this.setLayout(new GridBagLayout());
 		this.construir();
@@ -100,7 +102,7 @@ public class PanelDarAltaTitular extends JPanel{
 
 		gridConst.anchor = GridBagConstraints.CENTER;
 
-		lblNombre = new JLabel("Sistema de Gestión de Licencias de Conducir");
+		lblNombre = new JLabel("Sistema de GestiÃ³n de Licencias de Conducir");
 		lblNombre.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
 		gridConst.gridx = 0;
 		gridConst.gridy = 0;
@@ -206,11 +208,11 @@ public class PanelDarAltaTitular extends JPanel{
 		gridConst.insets = new Insets(0, 0, 5, 5);
 		this.add(lblClaseSolicitada, gridConst);
 
-		lblDonante = new JLabel("Donante de órganos:");
+		lblDonante = new JLabel("Donante de Ã³rganos:");
 		gridConst.gridy = 5;
 		this.add(lblDonante, gridConst);
 
-		lblGrupoSanguineo = new JLabel("Grupo Sanguíneo:");
+		lblGrupoSanguineo = new JLabel("Grupo SanguÃ­neo:");
 		gridConst.gridy = 6;
 		this.add(lblGrupoSanguineo, gridConst);
 

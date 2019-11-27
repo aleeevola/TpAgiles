@@ -74,7 +74,7 @@ public class PanelTareas extends JPanel {
 
 		GridBagConstraints gridConst =  new GridBagConstraints();
 
-		JLabel lblNombre = new JLabel("Sistema de Gestión de Licencias de Conducir");
+		JLabel lblNombre = new JLabel("Sistema de GestiÃ³n de Licencias de Conducir");
 		lblNombre.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
 
 		lblLogo = new JLabel();

@@ -78,7 +78,7 @@ public class PanelRenovarLicencia extends JPanel {
 		gridConst.anchor = GridBagConstraints.CENTER;
 
 
-		lblNombre = new JLabel("Sistema de Gestión de Licencias de Conducir");
+		lblNombre = new JLabel("Sistema de GestiÃ³n de Licencias de Conducir");
 		lblNombre.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
 		gridConst.gridx = 0;
 		gridConst.gridy = 0;
@@ -257,7 +257,7 @@ public class PanelRenovarLicencia extends JPanel {
 		//Validacion para que el texto ingresado no sea vacio. Lo pongo aca por ahora, creo que hay que moverlo para que no este en la interfaz.
 
 		if (this.txtDNI.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, "Ingrese algún DNI.", "Error", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(null, "Ingrese algÃºn DNI.", "Error", JOptionPane.OK_OPTION);
 			return;
 		}
 		else try {

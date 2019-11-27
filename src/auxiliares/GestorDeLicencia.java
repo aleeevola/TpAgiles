@@ -66,7 +66,7 @@ public class GestorDeLicencia {
 					return 1;
 			} else {
 				/* No existe el titular en la base de datos, por lo que si solicitï¿½ licencia C/D/E no cumple el requisito "tener una licencia clase B de al menos un aï¿½o" */
-				JOptionPane.showMessageDialog(null, "Debe tener una licencia clase B de al menos un año para solicitar clase"+clase, "Error", JOptionPane.OK_OPTION);
+				JOptionPane.showMessageDialog(null, "Debe tener una licencia clase B de al menos un aÃ±o para solicitar clase"+clase, "Error", JOptionPane.OK_OPTION);
 
 				return -1;
 				}
@@ -75,7 +75,7 @@ public class GestorDeLicencia {
 			System.out.println("existe");
 			Titular titular=titulares.get(0);
 			if(_tieneLicencia(titular.getLicencias(),clase)) {
-				JOptionPane.showMessageDialog(null, "Ya posee una licencia, debe hacer el tramite de renovación", "Error", JOptionPane.OK_OPTION);
+				JOptionPane.showMessageDialog(null, "Ya posee una licencia, debe hacer el tramite de renovaciÃ³n", "Error", JOptionPane.OK_OPTION);
 				/* Si ya tiene una licencia de la clase solicitada debe hacer el tramite de renovacion de licencia, no emision. */
 				return -1;
 			}
@@ -95,7 +95,7 @@ public class GestorDeLicencia {
 
 						bd.updateTitular(titular);
 
-						JOptionPane.showMessageDialog(null, "Licencia asignada con éxito. Su licencia y comprobante se están imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Licencia asignada con Ã©xito. Su licencia y comprobante se estï¿½n imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
 
 						try {
 							this.imprimirLicencia(titular, licencia);
@@ -108,7 +108,7 @@ public class GestorDeLicencia {
 					}else {
 
 						/* Se solicito una clase C/D/E pero no cumple requisitos de edad y/o de licencias anteriores, retorna false */
-						JOptionPane.showMessageDialog(null, "Para solicitar una licencia clase "+clase+" debe tener entre 21 y 65 años, y tener una licencia B de al menos un aÃ±o.", "Error", JOptionPane.OK_OPTION);
+						JOptionPane.showMessageDialog(null, "Para solicitar una licencia clase "+clase+" debe tener entre 21 y 65 aÃ±os, y tener una licencia B de al menos un aÃ±o.", "Error", JOptionPane.OK_OPTION);
 
 						return -1;
 					}
@@ -130,7 +130,7 @@ public class GestorDeLicencia {
 
 			bd.updateTitular(titular);
 
-			JOptionPane.showMessageDialog(null, "Licencia asignada con éxito. Su licencia y comprobante se están imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Licencia asignada con Ã©xito. Su licencia y comprobante se estÃ¡n imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
 
 			try {
 				this.imprimirLicencia(titular, licencia);
@@ -144,7 +144,7 @@ public class GestorDeLicencia {
 		}
 		}
 		} else { /* Es menor de 17 aï¿½os, no puede obtener ninguna licencia */
-			JOptionPane.showMessageDialog(null, "Debe tener al menos 17 años para solicitar una licencia.", "Error", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(null, "Debe tener al menos 17 aÃ±os para solicitar una licencia.", "Error", JOptionPane.OK_OPTION);
 			return -1;
 			}
 	}
@@ -274,11 +274,11 @@ public class GestorDeLicencia {
 
 			bd.guardarTitular(titular);
 
-			String Alerta="El titular "+titular.getApellido()+", "+titular.getNombre()+" fue creado con éxito";
+			String Alerta="El titular "+titular.getApellido()+", "+titular.getNombre()+" fue creado con Ã©xito";
 
-			JOptionPane.showMessageDialog(null, Alerta, "Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, Alerta, "OperaciÃ³n Exitosa", JOptionPane.INFORMATION_MESSAGE);
 
-			JOptionPane.showMessageDialog(null, "Licencia asignada con éxito. Su licencia y comprobante se están imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Licencia asignada con Ã©xito. Su licencia y comprobante se estÃ¡n imprimiendo...", "Licencia Emitida", JOptionPane.INFORMATION_MESSAGE);
 
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "No se pudo emitir la licencia", "Licencia Emitida", JOptionPane.OK_OPTION);

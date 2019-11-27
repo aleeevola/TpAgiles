@@ -13,7 +13,7 @@ public class TablaLicencias extends AbstractTableModel{
 //	Las licencias provienen de unca clase titular "licencias".
 	private static SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy");
 
-	private List<Licencia> licencias = new ArrayList<Licencia>();
+	private List<Licencia> licencias=new ArrayList();
 	private String[] columnas = {"Clase", "Fecha de emision", "Fecha de vencimiento", "Numero de copias"};
 
 //	Getters y Setters
