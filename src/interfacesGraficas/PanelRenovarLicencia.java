@@ -5,6 +5,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -63,6 +64,7 @@ public class PanelRenovarLicencia extends JPanel {
 	private int seleccionT = -1;
 	
 	private Titular titular;
+	private JFrame framePadre;
 
 	public PanelRenovarLicencia() {
 		this.setLayout(new GridBagLayout());
@@ -219,8 +221,9 @@ public class PanelRenovarLicencia extends JPanel {
 
 
 	private void renovarLicencia() throws SQLException {
-
 		Licencia licencia = tablaLicencias.getLicencias().get(seleccion);
+
+		/*
 
 		RenovarLicencia panelCards = (RenovarLicencia) SwingUtilities.getAncestorOfClass(JPanel.class, this);
 		CardLayout cl = (CardLayout) panelCards.getLayout();
@@ -235,7 +238,11 @@ public class PanelRenovarLicencia extends JPanel {
 		
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(dim.width/2- frame.getSize().width/2, dim.height/2- frame.getSize().height/2);
-		
+		*/
+		PanelDarAltaTitular darAlta=new PanelDarAltaTitular(framePadre);
+		darAlta.setLocationRelativeTo(null);
+		darAlta.cargarDatosRenovar(titular,licencia);
+		darAlta.setVisible(true);
 	}
 
 //	Setea el resultado de la busqueda en la tabla Licencias
@@ -287,4 +294,13 @@ public class PanelRenovarLicencia extends JPanel {
 			JOptionPane.showMessageDialog(null, "No se encontraron resultados", "Error", JOptionPane.OK_OPTION);
 		}
 	}
+
+	public JFrame getFramePadre() {
+		return framePadre;
+	}
+
+	public void setFramePadre(JFrame framePadre) {
+		this.framePadre = framePadre;
+	}
+	
 }

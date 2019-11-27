@@ -3,6 +3,7 @@ package interfacesGraficas;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -26,6 +27,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -48,7 +50,7 @@ import clases.Persona;
 import clases.Titular;
 
 
-public class PanelDarAltaTitular extends JPanel{
+public class PanelDarAltaTitular extends JDialog{
 
 	private static SimpleDateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy");
 	
@@ -74,7 +76,7 @@ public class PanelDarAltaTitular extends JPanel{
 	private JComboBox cmbGrupoSanguineo;
 
 	private JButton btnSiguiente;
-	private JButton btnVolver;
+	public JButton btnVolver;
 
 	private JCheckBox chkDonante;
 
@@ -91,7 +93,11 @@ public class PanelDarAltaTitular extends JPanel{
 	
 	private Titular titularRenovar;
 
-	public PanelDarAltaTitular() {
+	public PanelDarAltaTitular(Frame panelPadre) {
+		super(panelPadre, true);
+		this.setTitle(panelPadre.getTitle());
+				
+		this.setSize(new Dimension(900, 400));
 		this.setLayout(new GridBagLayout());
 		this.construir();
 	}
@@ -260,7 +266,9 @@ public class PanelDarAltaTitular extends JPanel{
 		gridConst.gridx = 4;
 		this.add(btnSiguiente, gridConst);
 
-		
+		btnVolver.addActionListener(e -> {
+			this.setVisible(false);
+		});
 
 	}
 
@@ -346,7 +354,7 @@ public class PanelDarAltaTitular extends JPanel{
 		
 		txtObservaciones.setText(observaciones);
 		
-
+/*
 		btnVolver.addActionListener(e -> {
 
 			EmitirLicencia panelCards = (EmitirLicencia) SwingUtilities.getAncestorOfClass(JPanel.class, this);
@@ -357,11 +365,11 @@ public class PanelDarAltaTitular extends JPanel{
 			JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
 			
 			frame.pack();
-			
+			this.remove(this);
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 	        frame.setLocation(dim.width/2- frame.getSize().width/2, dim.height/2- frame.getSize().height/2);
 
-		});
+		});*/
 		
 		btnSiguiente.addActionListener(e -> {
 			/*
@@ -429,6 +437,8 @@ public class PanelDarAltaTitular extends JPanel{
 
 				JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this);
 				frame.dispose();
+				//this.dispose();
+				//this.setVisible(false);
 			}
 			catch(Exception ex) {
 				ex.printStackTrace();
@@ -436,6 +446,7 @@ public class PanelDarAltaTitular extends JPanel{
 			}
 		});
         
+        /*
         btnVolver.addActionListener(e -> {
 
 			RenovarLicencia panelCards = (RenovarLicencia) SwingUtilities.getAncestorOfClass(JPanel.class, this);
@@ -450,17 +461,14 @@ public class PanelDarAltaTitular extends JPanel{
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 	        frame.setLocation(dim.width/2- frame.getSize().width/2, dim.height/2- frame.getSize().height/2);
 
-		});
+		});*/
 	}
 
 	private void _renovarTitular() {
 		this.titularRenovar.setApellido(txtApellido.getText());
 		this.titularRenovar.setNombre(txtNombreTitular.getText());
-		//this.titularRenovar.setDni(this.dni);
-		//this.titularRenovar.setFecha_de_nacimiento(fdn);
 		this.titularRenovar.setDireccion(txtDireccion.getText());
 		this.titularRenovar.setDonante_de_organos(chkDonante.isSelected());
-		//this.titularRenovar.setSangre((Grupo_sanguineo) cmbGrupoSanguineo.getSelectedItem());
 		this.titularRenovar.setFoto(foto);
 		
 	}

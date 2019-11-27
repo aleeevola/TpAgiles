@@ -2,8 +2,10 @@ package interfacesGraficas;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -17,6 +19,7 @@ import java.util.List;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -54,7 +57,9 @@ public class PanelEmitirLicencia extends JPanel {
 	private GestorBaseDeDatos gestorBD;
 	private GestorDeLicencia gestorLicencia;
 	private int seleccion = -1;
-
+	
+	private Frame framePadre;
+	
 	public PanelEmitirLicencia() {
 		this.setLayout(new GridBagLayout());
 		this.construir();
@@ -190,7 +195,7 @@ public class PanelEmitirLicencia extends JPanel {
 
 	}
 
-	private void emitirLicencia() {
+	public void emitirLicencia() {
 
 		String observaciones = txtObs.getText();
 		
@@ -223,6 +228,7 @@ public class PanelEmitirLicencia extends JPanel {
 
 	private void _darDeAltaNuevoTitular(GestorDeLicencia gestorLicencia, Persona persona, String observaciones) {
 
+		/*
 		EmitirLicencia panelCards = (EmitirLicencia) SwingUtilities.getAncestorOfClass(JPanel.class, this);
 		CardLayout cl = (CardLayout) panelCards.getLayout();
 
@@ -236,6 +242,11 @@ public class PanelEmitirLicencia extends JPanel {
 		
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(dim.width/2- frame.getSize().width/2, dim.height/2- frame.getSize().height/2);
+		*/
+		PanelDarAltaTitular darAlta=new PanelDarAltaTitular(framePadre);
+		darAlta.setLocationRelativeTo(null);
+		darAlta.cargarDatos(persona, (Clase)cmbClase.getSelectedItem(), observaciones);
+		darAlta.setVisible(true);
 		
 	}
 
@@ -284,4 +295,15 @@ public class PanelEmitirLicencia extends JPanel {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         newFrame.setLocation(dim.width/2- newFrame.getSize().width/2, dim.height/2- newFrame.getSize().height/2);
 	}
+
+	public Frame getFramePadre() {
+		return framePadre;
+	}
+
+	public void setFramePadre(Frame framePadre) {
+		this.framePadre = framePadre;
+	}
+
+
+	
 }

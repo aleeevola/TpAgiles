@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 // Esta clase se utiliza como un gestor de paneles. Con este tipo de Layout resulta mucho mas simple el manejo de pantallas.
 
 public class RenovarLicencia extends JPanel{
-	
+	/*
 	public final static String RENOVARPANEL = "Card con Panel Renovar";
 	public final static String ALTAPANEL = "Card con Panel Dar de Alta";
 	//	cards
@@ -27,5 +27,5 @@ public class RenovarLicencia extends JPanel{
 	
 	public JPanel construirCardEmitir() {
 		return null;
-	}
+	}*/
 }

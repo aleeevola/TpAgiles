@@ -141,9 +141,10 @@ public class PanelTareas extends JPanel {
 		
 		btnNuevaLicencia.addActionListener(e -> {
 			
-			EmitirLicencia panelCards = new EmitirLicencia();
+			PanelEmitirLicencia panelCards = new PanelEmitirLicencia();
 			
 			JFrame newFrame = new JFrame("Emitir Licencia");
+			panelCards.setFramePadre(newFrame);
 			
 			newFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			newFrame.setVisible(true);
@@ -171,9 +172,10 @@ public class PanelTareas extends JPanel {
 		
 		btnRenovarLicencia.addActionListener(e -> {
 			
-			RenovarLicencia panelCards = new RenovarLicencia();
+			PanelRenovarLicencia panelCards = new PanelRenovarLicencia();
 			
 			JFrame newFrame = new JFrame("Renovar Licencia");
+			panelCards.setFramePadre(newFrame);
 			
 			newFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			newFrame.setVisible(true);
