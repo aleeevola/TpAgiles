@@ -31,8 +31,8 @@ public class PanelImprimirLicencia extends JPanel {
 	private void construir() {
 		
 		try {
-			imagenLicencia = ImageIO.read(new File("imagenes/template-licencia.jpg"));
-			imagenLicencia = this.resize(imagenLicencia, 731, 455);
+			imagenLicencia = ImageIO.read(new File("imagenes/template-licencia-con-reverso.jpg"));
+			imagenLicencia = this.resize(imagenLicencia, 731, 880);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -75,6 +75,16 @@ public class PanelImprimirLicencia extends JPanel {
 	    g.drawString(otorgamiento, 368, 319);
 	    
 	    g.drawString(licencia.getClase().toString(), 368, 343);
+	    
+	    g.drawString(titular.getSangre().toString(), 446, 721);
+	    
+	    if(titular.getDonante_de_organos().equals(true)) {
+		    g.drawString("Si", 209, 721);
+	    } else {
+	    	g.drawString("No", 209, 721);
+	    }
+	    
+	    g.drawString(licencia.getObservaciones(), 271, 524);
 	    
 	    fechaFormato = formatFecha.format(licencia.getFecha_de_vencimiento());
 	    g.drawString(fechaFormato, 586, 330);

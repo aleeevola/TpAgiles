@@ -302,7 +302,7 @@ public class GestorDeLicencia {
 		JFrame newFrame = new JFrame();
 		PanelImprimirLicencia licenciaImpresa = new PanelImprimirLicencia();
 		
-		newFrame.setSize(750, 500);
+		newFrame.setSize(750, 920);
 		newFrame.setVisible(true);
 		
 		licenciaImpresa.cargarImagen(licencia, titular);
