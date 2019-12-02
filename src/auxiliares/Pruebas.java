@@ -6,8 +6,6 @@ import clases.Licencia;
 
 import static org.junit.Assert.*;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -87,7 +85,7 @@ public class Pruebas {
 	}
 	
 	@Test
-	public void testLicenciaB1Año02() { //se prueba el método _licenciaB1año() con un titular que no tiene licencias
+	public void testLicenciaB1Año02() { //se prueba el método _licenciaB1año() con una persona que no tiene licencias
 		GestorDeLicencia gestorL = new GestorDeLicencia();
 		List<Licencia> licencias = new ArrayList<Licencia>();
 		boolean tieneLicenciaCalculada = gestorL._licenciaB1año(licencias);
