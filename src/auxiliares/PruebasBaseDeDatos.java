@@ -33,6 +33,7 @@ public class PruebasBaseDeDatos {
 		licencia.setFecha_de_vencimiento(fechaVencimiento);
 		List<Licencia> licencias = new ArrayList<Licencia>();
 		licencias.add(licencia);
+		gestorDB.guardarLicencia(licencia);
 		
 		Titular titular = new Titular();
 		titular.setNombre("Franco");
@@ -46,7 +47,6 @@ public class PruebasBaseDeDatos {
 		titular.setLicencias(licencias);
 		
 		gestorDB.guardarTitular(titular);
-		gestorDB.guardarLicencia(licencia);
 		
 		List<Titular> titularRetornado = gestorDB.getTitular(39630386);
 		List<Licencia> licenciasRetornadas = titularRetornado.get(0).getLicencias();
@@ -65,7 +65,6 @@ public class PruebasBaseDeDatos {
 		persona.setApellido("Barbosa");
 		persona.setDireccion("Belgrano 2011");
 		persona.setDni(36976206);
-		persona.setId(9);
 		
 		gestorDB.guardarPersona(persona);
 		
