@@ -23,8 +23,9 @@ public class PruebasBaseDeDatos {
 		user.setUsuario("aleeevola");
 		
 		Licencia licencia = new Licencia();
-		Date fechaEmision = new GregorianCalendar(2019,05,19).getTime();
-		Date fechaVencimiento = new GregorianCalendar(2024,05,19).getTime();
+		Date fechaEmision = new GregorianCalendar(2019,5,19).getTime();
+		
+		Date fechaVencimiento = new GregorianCalendar(2024,5,19).getTime();
 		licencia.setEmitidoPor(user);
 		licencia.setClase(Clase.B);
 		licencia.setNumero_de_copias(0);
@@ -41,19 +42,31 @@ public class PruebasBaseDeDatos {
 		titular.setDni(39630386);
 		titular.setDonante_de_organos(false);
 		titular.setDireccion("Cullen 923");
-		Date fechaNacimiento = new GregorianCalendar(1997,05,19).getTime();
+		Date fechaNacimiento = new GregorianCalendar(1997,5,19).getTime();
 		titular.setFecha_de_nacimiento(fechaNacimiento);
 		titular.setSangre(Grupo_sanguineo.A_POSITIVO);
 		titular.setLicencias(licencias);
 		
 		gestorDB.guardarTitular(titular);
 		
-		List<Titular> titularRetornado = gestorDB.getTitular(39630386);
-		List<Licencia> licenciasRetornadas = titularRetornado.get(0).getLicencias();
+		List<Titular> titularesRetornados = gestorDB.getTitular(39630386);
+		Titular titularRetornado = titularesRetornados.get(0);
+		List<Licencia> licenciasRetornadas = titularRetornado.getLicencias();
 		Licencia licenciaRetornada = licenciasRetornadas.get(0);
 		
-		assertEquals(titularRetornado, titular);
-		assertEquals(licenciaRetornada, licencia);
+		assertEquals(titularRetornado.getApellido(), titular.getApellido());
+		assertEquals(titularRetornado.getNombre(), titular.getNombre());
+		assertEquals(titularRetornado.getDireccion(), titular.getDireccion());
+		assertEquals(titularRetornado.getDni(), titular.getDni());
+		assertEquals(titularRetornado.getFecha_de_nacimiento().getYear(), titular.getFecha_de_nacimiento().getYear());
+		assertEquals(titularRetornado.getFecha_de_nacimiento().getMonth(), titular.getFecha_de_nacimiento().getMonth());
+		assertEquals(titularRetornado.getFecha_de_nacimiento().getDay(), titular.getFecha_de_nacimiento().getDay());
+		assertEquals(titularRetornado.getApellido(), titular.getSangre());
+		assertFalse(titularRetornado.getDonante_de_organos());
+		assertEquals(licenciaRetornada.getClase(), licencia.getClase());
+		assertEquals(licenciaRetornada.getFecha_de_emision(), licencia.getFecha_de_emision());
+		assertEquals(licenciaRetornada.getFecha_de_vencimiento(), licencia.getFecha_de_vencimiento());
+		assertEquals(licenciaRetornada.getNumero_de_copias(), licencia.getNumero_de_copias());
 	}
 	
 	@Test
@@ -70,7 +83,10 @@ public class PruebasBaseDeDatos {
 		
 		List<Persona> personasBuscadas= gestorDB.getPersonas(36976206);
 		Persona personaBuscada = personasBuscadas.get(0);
-		assertEquals(persona, personaBuscada);
+		assertEquals(persona.getNombre(), personaBuscada.getNombre());
+		assertEquals(persona.getApellido(), personaBuscada.getApellido());
+		assertEquals(persona.getDni(), personaBuscada.getDni());
+		assertEquals(persona.getDireccion(), personaBuscada.getDireccion());
 	}
 
 
