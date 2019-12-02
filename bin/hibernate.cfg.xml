@@ -10,27 +10,6 @@
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="connection.url">jdbc:mysql://127.0.0.1:3306/licencias</property>
         <property name="connection.username">root</property>
-        <property name="connection.password">root</property>
-
-		
-        <!-- JDBC connection pool settings ... using built-in test pool -->
-        <property name="connection.pool_size">80</property>
-
-        <!-- Select our SQL dialect -->
-        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
-
-        <!-- Echo the SQL to stdout -->
-        <property name="show_sql">true</property>
-
-		<!-- Set the current session context -->
-		<property name="current_session_context_class">thread</property>
-		
-			
- 		<mapping class="clases.Titular"/>
- 		<mapping class="clases.Licencia"/>
- 		<mapping class="clases.UsuarioAdministrador"/>
- 		<mapping class="auxiliares.TitularExpirada"/>
- 		<mapping class="auxiliares.LicenciaExpirada"/>
-    </session-factory>	
+        <property name="connection.password">lPMsp0tbL8g</session-factory>	
 
 </hibernate-configuration>  
