@@ -373,6 +373,8 @@ public class GestorDeLicencia {
 				costo = 29.0;
 			}
 			break;
+		case D:
+		case F:
 		default:
 			costo = 0.0;
 			break;
