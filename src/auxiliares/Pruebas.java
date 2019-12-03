@@ -148,6 +148,4 @@ public class Pruebas {
 		assertEquals(costoLicencia, costoLicenciaCalculado);
 	}
 	
-	
-	
 }

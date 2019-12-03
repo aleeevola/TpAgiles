@@ -24,7 +24,6 @@ public class PruebasBaseDeDatos {
 		
 		Licencia licencia = new Licencia();
 		Date fechaEmision = new GregorianCalendar(2019,5,19).getTime();
-		
 		Date fechaVencimiento = new GregorianCalendar(2024,5,19).getTime();
 		licencia.setEmitidoPor(user);
 		licencia.setClase(Clase.B);
@@ -88,6 +87,33 @@ public class PruebasBaseDeDatos {
 		assertEquals(persona.getDni(), personaBuscada.getDni());
 		assertEquals(persona.getDireccion(), personaBuscada.getDireccion());
 	}
-
+	
+	@Test
+	public void testLicenciasExpiradas() {
+		GestorBaseDeDatos gestorDB = new GestorBaseDeDatos();
+		
+		UsuarioAdministrador user = new UsuarioAdministrador();
+		user.setUsuario("aleeevola");
+		
+		Licencia licencia = new Licencia();
+		Date fechaEmision = new GregorianCalendar(2014,5,19).getTime();
+		Date fechaVencimiento = new GregorianCalendar(2019,5,18).getTime();
+		licencia.setEmitidoPor(user);
+		licencia.setClase(Clase.B);
+		licencia.setNumero_de_copias(0);
+		licencia.setId(1);
+		licencia.setFecha_de_emision(fechaEmision);
+		licencia.setFecha_de_vencimiento(fechaVencimiento);
+		List<Licencia> licencias = new ArrayList<Licencia>();
+		licencias.add(licencia);
+		gestorDB.guardarLicencia(licencia);
+		
+		List<LicenciaExpirada> expiradasRetornadas = gestorDB.getLicenciasExpiradas();
+		LicenciaExpirada licenciaExpirada = expiradasRetornadas.get(0);
+		assertEquals(licencia.getClase(), licenciaExpirada.getClase());
+		assertEquals(licencia.getFecha_de_vencimiento().getYear(), licenciaExpirada.getFecha_de_vencimiento().getYear());
+		assertEquals(licencia.getFecha_de_vencimiento().getMonth(), licenciaExpirada.getFecha_de_vencimiento().getMonth());
+		assertEquals(licencia.getFecha_de_vencimiento().getDay(), licenciaExpirada.getFecha_de_vencimiento().getDay());
+	}
 
 }
